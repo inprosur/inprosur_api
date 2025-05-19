@@ -1,4 +1,4 @@
-export interface Role_Permission { 
+export interface RolePermission { 
     id: number;
-    permission_id: number;
+    permissionId: number;
 }

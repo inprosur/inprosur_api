@@ -4,6 +4,6 @@ export interface Student {
     phone: string;
     address: string;
     fingerprint: string;
-    user_id: number;
-    created_at: Date;
+    userId: number;
+    createdAt: Date;
 }

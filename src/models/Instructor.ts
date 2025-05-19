@@ -3,5 +3,5 @@ export interface Instructor {
     name: string;
     biography: string;
     phone: string;
-    user_id: number;
+    userId: number;
 }
