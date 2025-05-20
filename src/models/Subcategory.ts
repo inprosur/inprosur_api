@@ -1,5 +1,5 @@
 export interface Subcategory {
-    id: number;
+    id?: number;
     categoryId: number;
     name: string;
 }

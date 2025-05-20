@@ -1,5 +1,5 @@
 export interface Degree {
-  id: number;
+  id?: number;
   name: string;
   description: string;
 }
