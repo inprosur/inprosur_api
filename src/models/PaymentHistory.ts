@@ -1,9 +1,9 @@
 export interface PaymentHistory {
-    id: number;
+    id?: number;
     studentId: number;
-    courseId: number;
-    videoId: number;
-    documentId: number;
+    courseId?: number;
+    videoId?: number;
+    documentId?: number;
     amount: number;
     paymentDate: Date;
 }
