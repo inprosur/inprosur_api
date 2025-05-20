@@ -1,5 +1,5 @@
 export interface CourseRating {
-    id: number;
+    id?: number;
     studentId: number;
     courseId: number;
     rating: number;
