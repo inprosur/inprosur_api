@@ -1,13 +1,13 @@
 export interface Course {
-    id: number;
+    id?: number;
     title: string;
     description: string;
     instructorId: number;
-    categoryId: number;
-    subcategoryId: number;
+    categoryId?: number;
+    subcategoryId?: number;
     price: number;
     isPublished: boolean;
     duration: number;
     thumbnailUrl: string;
-    creation_date: Date;
+    creation_date?: Date;
 }
