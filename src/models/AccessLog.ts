@@ -1,7 +1,9 @@
 export interface AccessLog {
-    id: number;
+    id?: number;
     studentId: number;
     itemType: 'course' | 'video' | 'document';
-    itemId: number;
+    courseId?: number;
+    courseVideoId?: number;
+    courseDocumentId?: number;
     accessTime: Date;
 }
