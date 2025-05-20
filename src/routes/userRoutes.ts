@@ -6,5 +6,7 @@ const router = Router();
 // Define la ruta para obtener todos los usuarios
 // GET /api/users
 router.get('/', UserController.getAllUsers);
+router.get('/:id', UserController.getUserById);
+router.post('/', UserController.creareUser);
 
 export default router;
