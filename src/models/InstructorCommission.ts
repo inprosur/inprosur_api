@@ -1,10 +1,10 @@
 export interface InstructorCommission {
-    id: number;
+    id?: number;
     instructorId: number;
-    courseId: number;
-    videoId: number;
-    documentId: number;
+    courseId?: number;
+    videoId?: number;
+    documentId?: number;
     commissionPercentage: number;
     commissionAmount: number;
-    paymentDate: Date;
+    paymentDate?: Date;
 }
