@@ -41,7 +41,7 @@ export const creareUser = async (req: Request, res: Response) => {
         res.status(400).json({ error: 'Missing requiered fields' });
     } else {
         try {
-            const newUser = await UserService.createUser({ username, email, password });
+            const newUser = await UserService.createUser({ username, email, password, createdAt: new Date() });
             res.status(201).json(newUser);
         } catch (error) {
             console.error('Error creating user:', error);
