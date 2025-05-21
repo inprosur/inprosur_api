@@ -35,10 +35,14 @@ export const getUserById = async (req: Request, res: Response) => {
 }
 
 // Función para crear un nuevo usuario usando el servicio de usuario. Se espera que el cuerpo de las solicitud contenga los campos username, email y password. Se maneja un error 400 si faltan campos requeridos.
-export const creareUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
+    if (!req.body) {
+        res.status(400).json({ error: 'Request body is missing. Make sure to use express.json() middleware.' });
+        return;
+    }
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
-        res.status(400).json({ error: 'Missing requiered fields' });
+        res.status(400).json({ error: 'Missing required fields' });
     } else {
         try {
             const newUser = await UserService.createUser({ username, email, password, createdAt: new Date() });
