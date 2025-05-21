@@ -1,0 +1,220 @@
+@startuml
+
+' *************** USUARIOS, ROLES Y PERMISOS ***************
+class Users {
+  + id: Integer [pk]
+  + username: Text
+  + email: Text
+  + password: Text
+  + createdAt: Text
+}
+
+class Roles {
+  + id: Integer [pk]
+  + name: Text
+  + description: Text
+}
+
+class Permissions {
+  + id: Integer [pk]
+  + name: Text
+  + description: Text
+}
+
+class UserRoles {
+  + userId: Integer [pk]
+  + roleId: Integer [pk]
+}
+
+UserRoles --> Users : userId
+UserRoles --> Roles : roleId
+
+class RolePermissions {
+  + roleId: Integer [pk]
+  + permissionId: Integer [pk]
+}
+
+RolePermissions --> Roles : roleId
+RolePermissions --> Permissions : permissionId
+
+' *************** INSTRUCTORES Y ESTUDIANTES ***************
+class Instructors {
+  + id: Integer [pk]
+  + name: Text
+  + biography: Text
+  + phone: Text
+  + createdAt: Text
+  + userId: Integer
+}
+
+Instructors --> Users : userId
+
+class Students {
+  + id: Integer [pk]
+  + name: Text
+  + phone: Text
+  + address: Text
+  + createdAt: Text
+  + fingerprint: Text
+  + userId: Integer
+}
+
+Students --> Users : userId
+
+' *************** GRADOS, CATEGORÍAS Y SUBCATEGORÍAS ***************
+class Degrees {
+  + id: Integer [pk]
+  + name: Text
+  + description: Text
+}
+
+class Categories {
+  + id: Integer [pk]
+  + name: Text
+  + degreeId: Integer
+}
+
+Categories --> Degrees : degreeId
+
+class Subcategories {
+  + id: Integer [pk]
+  + categoryId: Integer
+  + name: Text
+}
+
+Subcategories --> Categories : categoryId
+
+' *************** CURSOS ***************
+class Courses {
+  + id: Integer [pk]
+  + title: Text
+  + description: Text
+  + creationDate: Text
+  + price: Real
+  + isPublished: Boolean
+  + duration: Integer
+  + thumbnailUrl: Text
+  + instructorId: Integer
+  + categoryId: Integer
+  + subcategoryId: Integer
+}
+
+Courses --> Instructors : instructorId
+Courses --> Categories : categoryId
+Courses --> Subcategories : subcategoryId
+
+class CourseVideos {
+  + id: Integer [pk]
+  + courseId: Integer
+  + title: Text
+  + description: Text
+  + url: Text
+  + duration: Integer
+  + price: Real
+  + thumbnailUrl: Text
+}
+
+CourseVideos --> Courses : courseId
+
+' *************** MATRÍCULAS ***************
+class Enrollments {
+  + id: Integer [pk]
+  + studentId: Integer
+  + courseId: Integer
+  + enrollmentDate: Text
+  + amount: Real
+  + paymentDate: Text
+  + status: Boolean
+}
+
+Enrollments --> Students : studentId
+Enrollments --> Courses : courseId
+
+' *************** PROMOCIONES ***************
+class Promotions {
+  + id: Integer [pk]
+  + courseId: Integer
+  + startDate: Text
+  + endDate: Text
+  + discountPercentage: Real
+  + status: Boolean
+}
+
+Promotions --> Courses : courseId
+
+' *************** VALORACIONES ***************
+class CourseRatings {
+  + id: Integer [pk]
+  + studentId: Integer
+  + courseId: Integer
+  + rating: Integer
+}
+
+CourseRatings --> Students : studentId
+CourseRatings --> Courses : courseId
+
+' *************** HISTORIAL DE PAGOS ***************
+class PaymentHistory {
+  + id: Integer [pk]
+  + studentId: Integer
+  + courseId: Integer
+  + videoId: Integer
+  + amount: Real
+  + paymentDate: Text
+}
+
+PaymentHistory --> Students : studentId
+PaymentHistory "0..1" --> "*" Courses : courseId
+PaymentHistory "0..1" --> "*" CourseVideos : videoId
+
+' *************** COMISIONES DE INSTRUCTORES ***************
+class InstructorCommissions {
+  + id: Integer [pk]
+  + instructorId: Integer
+  + courseId: Integer
+  + videoId: Integer
+  + commissionPercentage: Real
+  + commissionAmount: Real
+  + paymentDate: Text
+}
+
+InstructorCommissions --> Instructors : instructorId
+InstructorCommissions "0..1" --> "*" Courses : courseId
+InstructorCommissions "0..1" --> "*" CourseVideos : videoId
+
+' *************** DOCUMENTOS DE CURSO ***************
+class CourseDocument {
+  + id: Integer [pk]
+  + title: Text
+  + description: Text
+  + fileUrl: Text
+  + price: Real
+  + courseId: Integer
+  + createdAt: Date
+}
+
+CourseDocument --> Courses : courseId
+
+' *************** REGISTRO DE ACCESOS ***************
+class AccessLog {
+  + id: Integer [pk]
+  + studentId: Integer
+  + itemType: String <<"course | video | document">>
+  + courseId: Integer {optional}
+  + courseVideoId: Integer {optional}
+  + courseDocumentId: Integer {optional}
+  + accessTime: Date
+}
+
+AccessLog --> Students : studentId
+AccessLog "0..1" --> "0..1" Courses : courseId
+AccessLog "0..1" --> "0..1" CourseVideos : courseVideoId
+
+' *************** COMISIONES ***************
+class Commission {
+  + instructorId: Integer [pk]
+  + percentage: Real
+}
+
+Commission ||--o| Instructors : "1 a 1"
+@enduml
