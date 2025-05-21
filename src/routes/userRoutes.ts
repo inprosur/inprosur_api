@@ -7,6 +7,6 @@ const router = Router();
 // GET /api/users
 router.get('/', UserController.getAllUsers);
 router.get('/:id', UserController.getUserById);
-router.post('/', UserController.creareUser);
+router.post('/newUser', UserController.createUser);
 
 export default router;
