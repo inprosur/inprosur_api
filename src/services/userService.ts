@@ -21,10 +21,8 @@ export const getUserById = async (id: number): Promise<User | null> => {
 
 // Función para crear un nuevo usuario, se conecta a la base de datos y devuelve el usuario creado
 export const createUser = async (user: User): Promise<User> => {
-    const date = new Date();
-    const createdAt = date.toISOString().slice(0, 19).replace('T', ' ');
-    const result = await db.execute('INSERT INTO users (username, email, password, createdAt) VALUES (?,?,?,?)', [user.username, user.email, user.password, createdAt]);
+    const result = await db.execute('INSERT INTO users (username, email, password, createdAt) VALUES (?,?,?,?)', [user.username, user.email, user.password, user.createdAt]);
     const rows = Array.isArray(result) ? result[0] : result.rows;
-    const newUser = { ...user, id: rows.insertId, createdAt: new Date() };
+    const newUser = { ...user, id: rows.insertId};
     return newUser;
 }
