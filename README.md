@@ -13,7 +13,8 @@ Breve descripción sobre qué hace la API y su propósito.
 ## 📌 Ejecución
 ```bash
 pnpm run dev
-
+```
+## 🔗Endpoints
 ### 🔍 Obtener todos los usuarios
 **GET** `/api/users`
 ### 🔍 Obtener Usuario por ID
@@ -21,4 +22,3 @@ pnpm run dev
 
 ### ➕ Crear una nueva suscripción
 **POST** `/api/subscriptions`
-
