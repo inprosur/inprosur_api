@@ -20,7 +20,7 @@ export const getAllPermissions = async (): Promise<Permission[]> => {
 export const getPermissionById = async (id: number): Promise<Permission | null> => {
     const result = await db.execute('SELECT * FROM Permissions WHERE id = ?', [id]);
     const rows = Array.isArray(result) ? result[0] : result.rows;
-    if (rows.length > 0) {
+    if (rows.length === 1) {
         return rows[0] as Permission;
     } else {
         return null;
