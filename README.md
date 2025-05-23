@@ -22,3 +22,22 @@ pnpm run dev
 
 ### ➕ Crear una nueva suscripción
 **POST** `/api/subscriptions`
+
+### 🎓 Obtener todos los grados académicos
+**GET** `/api/degrees`
+
+### 🎓 Crear grado académico
+**POST** `/api/degrees`
+
+### 📚 Obtener todas las categorías
+**GET** `/api/categories`
+
+### 📚 Crear categoría
+**POST** `/api/categories`
+
+### 📚 Obtener todas las subcategorías
+**GET** `/api/subcategories`
+
+### 📚 Crear subcategoría
+**POST** `/api/subcategories`
+
