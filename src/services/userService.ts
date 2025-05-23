@@ -25,10 +25,10 @@ export const createUser = async (user: User): Promise<User> => {
     "INSERT INTO Users (username, email, password, createdAt) VALUES (?,?,?,?)",
     [user.username, user.email, user.password, user.createdAt.toISOString()]
   );
-  console.log("result:", result.rows);
-  const rows = Array.isArray(result) ? result[0] : result.rows;
-  const newUser = { ...user, id: rows.insertId };
-  return newUser;
+  const id = result.lastInsertRowid;
+  const row = {
+    ...user,
+    id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
+  };
+  return row as User;
 };
-
-// Función para obtener un usuario por su nombre de usuario, se conecta a la base de datos y devuelve un usuario o null si no
