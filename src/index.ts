@@ -1,7 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import userRoutes from './routes/userRoutes';
-import permissionRoutes from './routes/permissionRoutes';;
+import permissionRoutes from './routes/permissionRoutes';
+import degressRoutes from './routes/degreeRoutes';
 
 
 dotenv.config();
@@ -10,6 +11,7 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/permissions', permissionRoutes);
+app.use('/api/degrees', degressRoutes);
 
 const PORT = process.env.PORT || 3000;
 
