@@ -7,9 +7,12 @@ export const createRole = async (role: Role): Promise<Role> => {
     "INSERT INTO Roles (name, description) VALUES (?, ?)",
     [role.name, role.description]
   );
-  const rows = Array.isArray(result) ? result[0] : result.rows;
-  const newRole = { ...role, id: rows.insertId };
-  return newRole;
+  const id = result.lastInsertRowid;
+  const row = {
+    ...role,
+    id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
+  };
+  return row as Role;
 };
 
 // Función para obtener todos los roles, se conecta a la base de datos y devuelve un array con todos los roles.
