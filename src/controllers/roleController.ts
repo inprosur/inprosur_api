@@ -77,3 +77,37 @@ export const getAllRoles = async (_req: Request, res: Response) => {
     });
   }
 };
+
+export const getRoleById = async (req: Request, res: Response) => {
+  try {
+    const roleId = Number(req.params.id);
+    if (!Number.isInteger(roleId) || roleId <= 0) {
+      res.status(400).json({
+        error: "Invalid role ID",
+        message: "Role ID must be a positive integer.",
+      });
+      return;
+    }
+
+    const role = await RoleService.getRoleById(roleId);
+    if (!role) {
+      res.status(404).json({
+        error: "Role not found",
+        message: `No role found with ID ${roleId}.`,
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: role,
+      message: "Role retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error retrieving role:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to retrieve role.",
+    });
+  }
+};
