@@ -22,20 +22,20 @@ pnpm run dev
 
 ### 🎖 Roles data
 
-Agregar un nuevo rol
-➕**POST** `/api/roles/newRole`
-Obtener todos los roles
-🔍**GET** `/api/roles`
-Obtener role por su ID
-🔍**GET** `/api/roles/:id`
+-Agregar un nuevo rol
+#➕**POST** `/api/roles/newRole`
+-Obtener todos los roles
+#🔍**GET** `/api/roles`
+-Obtener role por su ID
+#🔍**GET** `/api/roles/:id`
 
 ### 🧑 Users data
 
-Obtener todos los usuarios
+-Obtener todos los usuarios
 🔍**GET** `/api/users`
-Obtener usuario por su ID
+-Obtener usuario por su ID
 🔍**GET** `/api/users/:id`
-Agregar un nuevo usaurio
+-Agregar un nuevo usaurio
 ➕**POST** `/api/users/newUser`
 
 ### 🛑 Permissions data
