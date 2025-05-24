@@ -69,29 +69,29 @@ export const getAllStudents = async (_req: Request, res: Response) => {
 };
 
 export const getStudentById = async (req: Request, res: Response) => {
-  const studentId = parseInt(req.params.id);
-  if (!studentId) {
-    res.status(400).json({
-      error: "Bad request",
-      message: "Student ID is required.",
-    });
-    return;
-  }
-
   try {
-    const student = await StudentService.getStudentById(studentId);
-    if (student) {
-      res.status(200).json({
-        success: true,
-        data: student,
-        message: "Student retrieved successfully.",
+    const studentId = parseInt(req.params.id);
+    if (!studentId) {
+      res.status(400).json({
+        error: "Bad request",
+        message: "Student ID is required.",
       });
-    } else {
+      return;
+    }
+
+    const student = StudentService.getStudentById(studentId);
+    if (!student) {
       res.status(404).json({
         error: "Not found",
         message: "Student not found.",
       });
+      return;
     }
+    res.status(200).json({
+      success: true,
+      data: student,
+      message: "Student retrieved successfully.",
+    });
   } catch (error) {
     console.error("Error fetching student:", error);
     res.status(500).json({
