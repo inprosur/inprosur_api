@@ -5,8 +5,14 @@ export const createInstructor = async (
   instructor: Instructor
 ): Promise<Instructor> => {
   const result = await db.execute(
-    "INSERT INTO Instructors (name, biography, phone, userId) VALUES",
-    [instructor.name, instructor.biography, instructor.phone, instructor.userId]
+    "INSERT INTO Instructors (name, biography, phone, createdAt, userId) VALUES(?, ?, ?, ?, ?)",
+    [
+      instructor.name,
+      instructor.biography,
+      instructor.phone,
+      instructor.createdAt.toISOString(),
+      instructor.userId,
+    ]
   );
   const id = result.lastInsertRowid;
   const row = {
