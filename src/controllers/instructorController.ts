@@ -20,7 +20,13 @@ export const createInstructor = async (req: Request, res: Response) => {
       return;
     }
 
-    const instructor = { name, biography, phone, userId };
+    const instructor = {
+      name,
+      biography,
+      phone,
+      createdAt: new Date(),
+      userId,
+    };
     const newInstructor = await InstructorService.createInstructor(instructor);
     res.status(201).json({
       success: true,
