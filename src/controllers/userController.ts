@@ -84,13 +84,12 @@ export const createUser = async (req: Request, res: Response) => {
       password,
       createdAt: new Date(),
     });
-    res
-      .status(201)
-      .json({
-        success: true,
-        data: newUser,
-        message: "User created successfully",
-      });
+
+    res.status(201).json({
+      success: true,
+      data: newUser,
+      message: "User created successfully",
+    });
   } catch (error) {
     console.error("Error creating user:", error);
     res.status(500).json({ error: "Internal Server Error" });
