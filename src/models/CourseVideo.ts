@@ -4,6 +4,7 @@ export interface CourseVideo {
     title: string;
     description: string;
     url: string;
+    thumbnailUrl: string;
     duration: string;
     price: number;
 }

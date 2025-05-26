@@ -2,11 +2,11 @@ import db from "../config/db";
 import { Course } from "../models/Course";
 
 export const createCourse = async (course: Course): Promise<Course> => {
-  const result = await db.execute(
-    "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, duration, thumbnailUrl, instructorId, categoryId, subcategoryId) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  const result = await db.execute("INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId, subcategory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       course.title,
       course.description,
+      course.creationDate.toISOString(),
       course.price,
       course.duration || null,
       course.isPublished ? 1 : 0,
@@ -14,7 +14,6 @@ export const createCourse = async (course: Course): Promise<Course> => {
       course.instructorId,
       course.categoryId || null,
       course.subcategoryId || null,
-      course.creationDate.toISOString(),
     ]
   );
   const id = result.lastInsertRowid;
