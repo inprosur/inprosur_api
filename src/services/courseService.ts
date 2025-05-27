@@ -2,7 +2,8 @@ import db from "../config/db";
 import { Course } from "../models/Course";
 
 export const createCourse = async (course: Course): Promise<Course> => {
-  const result = await db.execute("INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId, subcategory) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+  const result = await db.execute(
+    "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId, subcategoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       course.title,
       course.description,
