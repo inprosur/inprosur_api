@@ -1,9 +1,6 @@
 import { Request, Response } from "express";
 import * as UserService from "../services/userService";
-import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
-
-dotenv.config();
+import { hashedPassword } from "../utils/hashPassword";
 
 // Función para obtener todos los usuarios usando el servicio de usuario
 export const getAllUsers = async (_req: Request, res: Response) => {
@@ -82,10 +79,6 @@ export const createUser = async (req: Request, res: Response) => {
       });
       return;
     }
-
-    const hashedPassword = async (password: string): Promise<string> => {
-      return await bcrypt.hash(password, parseInt(process.env.SALT_ROUNDS!));
-    };
 
     const newUser = await UserService.createUser({
       username,
