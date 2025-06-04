@@ -52,3 +52,19 @@ export const createCourseRating = async (
     ...rating,
   };
 };
+
+export const getCourseRatingByStudent = async (
+  studentId: number
+): Promise<number | null> => {
+  const result = await db.execute(
+    "SELECT rating FROM CourseRating WHERE studentId = ?",
+    [studentId]
+  );
+
+  const row = Array.isArray(result) ? result[0] : result.rows;
+
+  if (!row || row.length === 0) {
+    return null;
+  }
+  return Number(row[0].rating);
+};
