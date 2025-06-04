@@ -68,7 +68,7 @@ pnpm run dev
 
 ### 🎓 Crear grado académico
 
-**POST** `/api/degrees`
+**POST** `/api/degrees/newDegree`
 
 ### 📚 Obtener todas las categorías
 
