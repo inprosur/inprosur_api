@@ -5,6 +5,6 @@ const router = Router();
 
 router.get('/', DegressController.getAllDegress);
 router.get('/:id', DegressController.getDegressById);
-router.post('/', DegressController.createDegress);
+router.post('/newDegree', DegressController.createDegress);
 
 export default router;
