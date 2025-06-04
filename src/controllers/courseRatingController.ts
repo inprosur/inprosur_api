@@ -107,3 +107,39 @@ export const createCourseRating = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getCourseRatingByStudent = async (req: Request, res: Response) => {
+  const studentId = parseInt(req.params.id);
+  if (isNaN(studentId)) {
+    res.status(400).json({
+      error: "Invalid rating ID",
+      message: "Rating ID must be a number",
+    });
+  } else {
+    try {
+      const rating = await CourseRatingService.getCourseRatingByStudent(
+        studentId
+      );
+      if (rating) {
+        res.status(200).json({
+          success: true,
+          data: rating,
+          message: "Course rating from student retrieve successfully.",
+        });
+        return;
+      } else {
+        res.status(404).json({
+          error: "Rating not found",
+          message: "Rating from student not found",
+        });
+        return;
+      }
+    } catch (error) {
+      console.error("Error fetching data from db");
+      res.status(500).json({
+        error: "Interval server error.",
+        message: "Failed fetching rating",
+      });
+    }
+  }
+};
