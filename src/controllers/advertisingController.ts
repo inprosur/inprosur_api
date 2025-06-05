@@ -12,7 +12,7 @@ export const createAdvertising = async (req: Request, res: Response) => {
         }
         const { imgUrl, externalUrl, courseId, status} = req.body;
 
-        if(!imgUrl || !courseId || !status) {
+        if(!imgUrl) {
             res.status(400).json({
                 error:"Missing fields",
                 message: "Missing requiered fields."
@@ -22,7 +22,7 @@ export const createAdvertising = async (req: Request, res: Response) => {
 
         const newAdvertising = await AdvertisingService.createAdvertising({
             imgUrl, 
-            courseId, 
+            courseId: courseId ?? null, 
             status,
             externalUrl: externalUrl ?? null,
             createdAt: new Date()
@@ -43,17 +43,18 @@ export const createAdvertising = async (req: Request, res: Response) => {
 
 export const getAllAdvertisings = async(_req: Request, res: Response) => {
     try {
-        const users = await AdvertisingService.getAllAdvertisings();
-        if(!users || users.length ===0) {
+        const advertisings = await AdvertisingService.getAllAdvertisings();
+        if(!advertisings || advertisings.length ===0) {
             res.status(404).json({
                 error: "No data found",
                 message: "No se encontraron Usuarios"
             });
             return;
         }
+        const advertisingStatus = advertisings.map(advertising =>({...advertising, status: Boolean(advertising.status)}));
         res.status(200).json({
             success: true,
-            data: users,
+            data: advertisingStatus,
             message: "Users retrieved successfully."
         })
     } catch (error) {
