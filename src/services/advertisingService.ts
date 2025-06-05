@@ -9,7 +9,7 @@ export const getAllAdvertisings = async () => {
 
 export const createAdvertising = async (advertising: Advertising): Promise<Advertising> => {
     const result = await db.execute('INSERT INTO Advertisings (imgUrl, externalUrl, status, courseId, createdAt) VALUES (?,?,?,?,?)',
-        [advertising.imgUrl, advertising.externalUrl!, advertising.status, advertising.courseId, advertising.createdAt.toISOString()]);
+        [advertising.imgUrl, advertising.externalUrl!, advertising.status ? 1 : 0, advertising.courseId, advertising.createdAt.toISOString()]);
     const id = result.lastInsertRowid;
     const row = { ...advertising, id: id !== undefined ? Number.parseInt(id.toString()) : undefined };
     return row as Advertising;
