@@ -9,6 +9,6 @@ router.get("/", UserController.getAllUsers);
 //GET /api/users/:id
 router.get("/:id", UserController.getUserById);
 // POST /api/users/newUser
-router.post("/newUser", UserController.createUser);
+router.post("/", UserController.createUser);
 
 export default router;
