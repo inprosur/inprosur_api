@@ -10,5 +10,7 @@ router.get("/", UserController.getAllUsers);
 router.get("/:id", UserController.getUserById);
 // POST /api/users/newUser
 router.post("/", UserController.createUser);
+router.get("/email/:email", UserController.getUserByEmail);
+router.patch("/:id", UserController.updateUser);
 
 export default router;
