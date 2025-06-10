@@ -70,7 +70,7 @@ export const createUser = async (req: Request, res: Response) => {
       return;
     }
 
-    const { username, email, password } = req.body;
+    const { username, email, password, uId } = req.body;
 
     if (!username || !email || !password) {
       res.status(400).json({
@@ -84,6 +84,7 @@ export const createUser = async (req: Request, res: Response) => {
       username,
       email,
       password: await hashedPassword(password),
+      uId,
       createdAt: new Date(),
     });
 
