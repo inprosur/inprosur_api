@@ -98,3 +98,83 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+export const getUserByEmail = async (req: Request, res: Response) => {
+  try {
+    const { email } = req.params;
+
+    if (!email) {
+      res.status(400).json({
+        error: "Missin email parameter",
+        message: "Email parameter is required",
+      });
+      return;
+    }
+    const user = await UserService.getUserByEmail(email);
+
+    if (!user) {
+      res.status(404).json({
+        error: "User not found",
+        message: "No user found with email: ${email}",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: user,
+      message: "User retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching user by email: ", error);
+    res.status(500).json({
+      error: "Internal server Error",
+      message: "Failed to fetch user by email.",
+    });
+  }
+};
+
+export const updateUser = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body;
+
+    if (!id || isNaN(Number(id))) {
+      res.status(400).json({
+        error: "Ivalid or missing user ID",
+        message: "A valid user ID is required.",
+      });
+      return;
+    }
+
+    if (!updates || Object.keys(updates).length === 0) {
+      res.status(400).json({
+        error: "No updates provided",
+        message: "At least one field is required to update.",
+      });
+      return;
+    }
+
+    const updatedUser = await UserService.updateUser(Number(id), updates);
+
+    if (!updateUser) {
+      res.status(404).json({
+        error: "User not found",
+        message: `No user found with ID: ${id}`,
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedUser,
+      message: "User updated successfully.",
+    });
+  } catch (error) {
+    console.error("Error updating user: ", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to update user",
+    });
+  }
+};
