@@ -38,3 +38,40 @@ export const createUser = async (user: User): Promise<User> => {
   };
   return row as User;
 };
+
+export const getUserByEmail = async (email: string): Promise<User | null> => {
+  const result = await db.execute("SELECT * FROM users WHERE email = ?", [
+    email,
+  ]);
+  const row = Array.isArray(result) ? result[0] : result.rows;
+  if (row.length == 1) {
+    return row[0] as User;
+  } else {
+    return null;
+  }
+};
+
+export const updateUser = async (
+  id: number,
+  updates: Partial<User>
+): Promise<User | null> => {
+  const fields = Object.keys(updates)
+    .map((key) => `${key} = ?`)
+    .join(", ");
+  const values = Object.values(updates);
+
+  if (fields.length === 0) {
+    throw new Error("No fields provides to update");
+  }
+
+  const result = await db.execute(`UPDATE users SET ${fields} WHERE id = ?`, [
+    ...values,
+    id,
+  ]);
+
+  if (result.rowsAffected === 0) {
+    return null;
+  }
+
+  return getUserById(id);
+};
