@@ -47,7 +47,7 @@ export const getAllAdvertisings = async (_req: Request, res: Response) => {
     if (!advertisings || advertisings.length === 0) {
       res.status(404).json({
         error: "No data found",
-        message: "No se encontraron Usuarios",
+        message: "No se encontraron anuncions",
       });
       return;
     }
