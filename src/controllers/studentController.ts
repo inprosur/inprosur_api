@@ -100,3 +100,35 @@ export const getStudentById = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const getStudentByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.query.userId as string);
+    if (!userId || isNaN(userId)) {
+      res.status(400).json({
+        error: "Bad request",
+        message: "User ID is required.",
+      });
+      return;
+    }
+    const student = StudentService.getStudentByUserId(userId);
+    if (!student) {
+      res.status(404).json({
+        error: "Not found",
+        message: "Student not found.",
+      });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: student,
+      message: "Student retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching student by userId: ", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to fetch student by userId.",
+    });
+  }
+};
