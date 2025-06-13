@@ -36,3 +36,17 @@ export const getStudentById = async (id: number): Promise<Student | null> => {
     return null;
   }
 };
+
+export const getStudentByUserId = async (
+  userId: number
+): Promise<Student | null> => {
+  const result = await db.execute("SELECT * FROM Students WHERE userId = ?", [
+    userId,
+  ]);
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  if (rows.length === 1) {
+    return rows[0] as Student;
+  } else {
+    return null;
+  }
+};
