@@ -1,5 +1,6 @@
 import db from "../config/db";
 import { User } from "../models/User";
+import { hashedPassword } from "../utils/hashPassword";
 
 // Función para obtener todos los usuarios, se conecta a la base de datos y devuelve un array con todos los usuarios
 export const getAllUsers = async (): Promise<User[]> => {
@@ -55,6 +56,10 @@ export const updateUser = async (
   id: number,
   updates: Partial<User>
 ): Promise<User | null> => {
+  if (updates.password) {
+    updates.password = await hashedPassword(updates.password);
+  }
+
   const fields = Object.keys(updates)
     .map((key) => `${key} = ?`)
     .join(", ");
