@@ -113,8 +113,9 @@ export const getStudentByUserId = async (req: Request, res: Response) => {
     }
     const student = StudentService.getStudentByUserId(userId);
     if (!student) {
-      res.status(404).json({
-        error: "Not found",
+      res.status(200).json({
+        success: true,
+        data: null,
         message: "Student not found.",
       });
       return;
