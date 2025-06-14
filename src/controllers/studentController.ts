@@ -111,7 +111,7 @@ export const getStudentByUserId = async (req: Request, res: Response) => {
       });
       return;
     }
-    const student = StudentService.getStudentByUserId(userId);
+    const student = await StudentService.getStudentByUserId(userId);
     if (!student) {
       res.status(200).json({
         success: true,
