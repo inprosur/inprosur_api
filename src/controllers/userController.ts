@@ -81,8 +81,8 @@ export const createUser = async (req: Request, res: Response) => {
     }
 
     const newUser = await UserService.createUser({
-      username,
-      email,
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
       password: await hashedPassword(password),
       uId,
       createdAt: new Date(),
