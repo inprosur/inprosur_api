@@ -28,9 +28,9 @@ export const getAllCategories = async (_req: Request, res: Response) => {
 export const getCategoryById = async (req: Request, res: Response) => {
   const categoryId = parseInt(req.params.id);
   if (isNaN(categoryId)) {
-    res.status(400).json({ 
-      error: "Invalid category Id", 
-      message: "Category ID must be a number" 
+    res.status(400).json({
+      error: "Invalid category Id",
+      message: "Category ID must be a number",
     });
   } else {
     try {
@@ -42,9 +42,9 @@ export const getCategoryById = async (req: Request, res: Response) => {
           message: "Category retrieved successfully.",
         });
       } else {
-        res.status(404).json({ 
-          error: "Category not found", 
-          message: "Category not found." 
+        res.status(404).json({
+          error: "Category not found",
+          message: "Category not found.",
         });
       }
     } catch (error) {
@@ -88,5 +88,30 @@ export const createCategory = async (req: Request, res: Response) => {
   } catch (error) {
     console.error("Error creating category:", error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+export const getCategoryByDegreeId = async (req: Request, res: Response) => {
+  try {
+    const degreeId = parseInt(req.query.degreeId as string);
+    if (degreeId == null || isNaN(degreeId)) {
+      res.status(400).json({
+        error: "Missing required fields",
+        message: "Degree ID is needed",
+      });
+      return;
+    }
+    const categories = await CategoryService.getCategoriesByDegreeId(degreeId);
+    res.status(200).json({
+      success: true,
+      data: categories,
+      message: "Categories By Degree ID retrieved successfully",
+    });
+  } catch (error) {
+    console.error("Error fetching categories: ", error);
+    res.status(500).json({
+      error: "Interval Server Error",
+      message: "Server Conection Missing",
+    });
   }
 };

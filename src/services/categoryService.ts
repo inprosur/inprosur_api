@@ -8,7 +8,9 @@ export const getAllCategories = async (): Promise<Category[]> => {
 };
 
 export const getCategoryById = async (id: number): Promise<Category | null> => {
-  const result = await db.execute("SELECT * FROM categories WHERE id = ?", [id]);
+  const result = await db.execute("SELECT * FROM categories WHERE id = ?", [
+    id,
+  ]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
   if (rows.length == 1) {
     return rows[0] as Category;
@@ -28,4 +30,15 @@ export const createCategory = async (category: Category): Promise<Category> => {
     id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
   };
   return row as Category;
+};
+
+export const getCategoriesByDegreeId = async (
+  degreeId: number
+): Promise<Category[]> => {
+  const result = await db.execute(
+    "SELECT * FROM categories WHERE degreeId = ?",
+    [degreeId]
+  );
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  return rows as Category[];
 };
