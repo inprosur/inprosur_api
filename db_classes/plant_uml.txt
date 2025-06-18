@@ -197,7 +197,7 @@ InstructorCommissions "0..1" --> "*" Courses : courseId
 InstructorCommissions "0..1" --> "*" CourseVideos : videoId
 
 ' *************** DOCUMENTOS DE CURSO ***************
-class CourseDocument {
+class CourseDocuments {
   + id: Integer [pk]
   + title: Text
   + description: Text
@@ -207,7 +207,7 @@ class CourseDocument {
   + createdAt: Date
 }
 
-CourseDocument --> Courses : courseId
+CourseDocuments --> Courses : courseId
 
 ' *************** REGISTRO DE ACCESOS ***************
 class AccessLog {
