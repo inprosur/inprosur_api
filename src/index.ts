@@ -19,7 +19,8 @@ import paymentHistoryRoutes from "./routes/paymentHistoryRoutes";
 import courseRatingRoutes from "./routes/courseRatingRoutes";
 import enrollmentRoutes from "./routes/enrollmentRoutes";
 import accessLogRoutes from "./routes/accessLogRoutes";
-import advertisingRoutes from './routes/advertisingRoutes';
+import advertisingRoutes from "./routes/advertisingRoutes";
+import searchRoutes from "./routes/searchRoutes";
 
 dotenv.config();
 const app = express();
@@ -45,6 +46,7 @@ app.use("/api/course-ratings", courseRatingRoutes);
 app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/access-logs", accessLogRoutes);
 app.use("/api/advertising", advertisingRoutes);
+app.use("/api/search", searchRoutes);
 
 const PORT = process.env.PORT || 3000;
 
