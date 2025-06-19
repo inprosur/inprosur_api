@@ -62,7 +62,7 @@ class Students {
 
 Students --> Users : userId
 
-' *************** GRADOS, CATEGORÍAS Y SUBCATEGORÍAS ***************
+' *************** GRADOS, CATEGORÍAS ***************
 class Degrees {
   + id: Integer [pk]
   + name: Text
@@ -77,14 +77,6 @@ class Categories {
 
 Categories --> Degrees : degreeId
 
-class Subcategories {
-  + id: Integer [pk]
-  + categoryId: Integer
-  + name: Text
-}
-
-Subcategories --> Categories : categoryId
-
 ' *************** CURSOS ***************
 class Courses {
   + id: Integer [pk]
@@ -97,12 +89,10 @@ class Courses {
   + thumbnailUrl: Text
   + instructorId: Integer
   + categoryId: Integer
-  + subcategoryId: Integer
 }
 
 Courses --> Instructors : instructorId
 Courses --> Categories : categoryId
-Courses --> Subcategories : subcategoryId
 
 class CourseVideos {
   + id: Integer [pk]
@@ -123,6 +113,7 @@ class Enrollments {
   + studentId: Integer
   + courseId: Integer
   + enrollmentDate: Text
+  + endEnrollmentDate: Text
   + amount: Real
   + paymentDate: Text
   + status: Boolean
@@ -149,7 +140,7 @@ class Advertisings {
   + id: Integer [pk]
   + imgUrl: Text
   + externalUrl: Text
-  + couseId: Integer
+  + courseId: Integer
   + status: Boolean
   + createdAt: Text
 }
@@ -172,6 +163,7 @@ class PaymentHistory {
   + id: Integer [pk]
   + studentId: Integer
   + courseId: Integer
+  + documentId: Integer
   + videoId: Integer
   + amount: Real
   + paymentDate: Text
@@ -180,6 +172,7 @@ class PaymentHistory {
 PaymentHistory --> Students : studentId
 PaymentHistory "0..1" --> "*" Courses : courseId
 PaymentHistory "0..1" --> "*" CourseVideos : videoId
+PaymentHistory "0..1" --> "*" CourseDocuments : documentId
 
 ' *************** COMISIONES DE INSTRUCTORES ***************
 class InstructorCommissions {
@@ -187,6 +180,7 @@ class InstructorCommissions {
   + instructorId: Integer
   + courseId: Integer
   + videoId: Integer
+  + documentId: Integer
   + commissionPercentage: Real
   + commissionAmount: Real
   + paymentDate: Text
@@ -195,6 +189,7 @@ class InstructorCommissions {
 InstructorCommissions --> Instructors : instructorId
 InstructorCommissions "0..1" --> "*" Courses : courseId
 InstructorCommissions "0..1" --> "*" CourseVideos : videoId
+InstructorCommissions "0..1" --> "*" CourseDocuments : documentId
 
 ' *************** DOCUMENTOS DE CURSO ***************
 class CourseDocuments {
@@ -223,6 +218,7 @@ class AccessLog {
 AccessLog --> Students : studentId
 AccessLog "0..1" --> "0..1" Courses : courseId
 AccessLog "0..1" --> "0..1" CourseVideos : courseVideoId
+AccessLog "0..1" --> "0..1" CourseDocuments : courseDocumentId
 
 ' *************** COMISIONES ***************
 class Commission {
@@ -231,4 +227,22 @@ class Commission {
 }
 
 Commission ||--o| Instructors : "1 a 1"
+
+class IndividualPurchases {
+  + id: Integer [pk]
+  + studentId: Integer
+  + itemType: Text <<'video' | 'document'>>
+  + videoId: Integer
+  + documentId: Integer
+  + amount: Real
+  + purchaseDate: Text
+  + limitPurchaseDate: Text
+  + status: Boolean
+}
+
+IndividualPurchases --> Students : studentId  
+IndividualPurchases --> CourseVideos : videoId  
+IndividualPurchases --> CourseDocuments : documentId
+
+
 @enduml
