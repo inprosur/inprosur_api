@@ -5,6 +5,7 @@ export const searchCourses = async (term: string) => {
     `
     SELECT
       'course' as type,
+      id,
       title,
       description,
       thumbnailUrl,
@@ -17,6 +18,7 @@ export const searchCourses = async (term: string) => {
 
     SELECT
       'video' as type,
+      id,
       title,
       description,
       thumbnailUrl,
@@ -29,6 +31,7 @@ export const searchCourses = async (term: string) => {
 
     SELECT
       'document' as type,
+      id,
       title,
       description,
       NULL as thumbnailUrl,
