@@ -10,7 +10,8 @@ export const searchCourses = async (req: Request, res: Response) => {
     });
   }
   try {
-    const results = await SearchService.searchCourses(term);
+    let text = "%" + term + "%";
+    const results = await SearchService.searchCourses(text);
     res.status(200).json({
       success: true,
       data: results,

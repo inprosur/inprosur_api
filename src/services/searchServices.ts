@@ -3,50 +3,43 @@ import db from "../config/db";
 export const searchCourses = async (term: string) => {
   const result = await db.execute(
     `
-    SELECT 
+    SELECT
       'course' as type,
-      id,
       title,
       description,
       thumbnailUrl,
-      price,
-      id as courseId
+      NULL as url,
+      NULL as fileUrl
     FROM Courses
-    WHERE (title LIKE ? OR description LIKE ?) 
-      AND isPublished = 1
-    
+    WHERE (title LIKE ? OR description LIKE ?) AND isPublished = 1
+
     UNION ALL
-    
-    SELECT 
+
+    SELECT
       'video' as type,
-      id,
       title,
       description,
       thumbnailUrl,
-      price,
-      courseId
+      url,
+      NULL as fileUrl
     FROM CourseVideos
-    WHERE (title LIKE ? OR description LIKE ?)
-    
+    WHERE title LIKE ? OR description LIKE ?
+
     UNION ALL
-    
-    SELECT 
+
+    SELECT
       'document' as type,
-      id,
       title,
       description,
       NULL as thumbnailUrl,
-      price,
-      courseId
+      NULL as url,
+      fileUrl
     FROM CourseDocuments
-    WHERE (title LIKE ? OR description LIKE ?)
-    
-    ORDER BY title
-    LIMIT 20
-  `,
+    WHERE title LIKE ? OR description LIKE ?
+    ORDER BY type, title
+    `,
     [term, term, term, term, term, term]
   );
-
   const rows = Array.isArray(result) ? result[0] : result.rows;
-  return rows as any;
+  return rows as any[];
 };
