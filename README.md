@@ -334,6 +334,8 @@ pnpm run dev
 
 ## ➕**POST** `/api/advertising`
 
+---
+
 ### 🔎 Búsqueda de contenido
 
 #### Buscar contenido en cursos, videos y documentos
