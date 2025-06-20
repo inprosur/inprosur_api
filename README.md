@@ -330,4 +330,14 @@ pnpm run dev
 
 🔍**GET** `/api/advertising`
 
-####
+#### Agregar nueva Publicidad
+
+## ➕**POST** `/api/advertising`
+
+### 🔎 Búsqueda de contenido
+
+#### Buscar contenido en cursos, videos y documentos
+
+🔍**GET** `/api/search/content`
+
+---
