@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
-
+import bcrypt from "bcryptjs";
 // Función para obtener todos los usuarios usando el servicio de usuario
 export const getAllUsers = async (_req: Request, res: Response) => {
   try {
@@ -130,6 +130,52 @@ export const getUserByEmail = async (req: Request, res: Response) => {
     res.status(500).json({
       error: "Internal server Error",
       message: "Failed to fetch user by email.",
+    });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      res.status(400).json({
+        error: "Missing required fields",
+        message: "Email and password are required.",
+      });
+      return;
+    }
+
+    const user = await UserService.getUserByEmail(email.toLowerCase());
+    if (!user) {
+      res.status(404).json({
+        error: "User not found",
+        message: `No user found with email: ${email}`,
+      });
+      return;
+    }
+
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      res.status(401).json({
+        error: "Invalid credentials",
+        message: "Incorrect password.",
+      });
+      return;
+    }
+
+    // ✅ Éxito
+    res.status(200).json({
+      success: true,
+      data: user,
+      message: "Login successful.",
+    });
+
+  } catch (error) {
+    console.error("Error logging in:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to log in.",
     });
   }
 };
