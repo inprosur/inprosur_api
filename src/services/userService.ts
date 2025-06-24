@@ -39,7 +39,7 @@ export const createUser = async (user: User): Promise<User> => {
   };
   return row as User;
 };
-
+//funsion para obtener usuariospor email
 export const getUserByEmail = async (email: string): Promise<User | null> => {
   const result = await db.execute("SELECT * FROM users WHERE email = ?", [
     email,

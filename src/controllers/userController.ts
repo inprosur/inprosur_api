@@ -179,7 +179,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
-
+//actualizar usuario
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
