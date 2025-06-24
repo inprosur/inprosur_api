@@ -46,3 +46,24 @@ export const searchCourses = async (term: string) => {
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as any[];
 };
+
+export const searchCoursesByCategory = async (categoryId: number) => {
+  const coursesFound = await db.execute(
+    `
+    SELECT 'course' as type,
+    id,
+    title,
+    description,
+    thumbnailUrl,
+    NULL as url,
+    NULL as fileUrl
+    FROM Courses
+    WHERE categoryId = ? AND isPublished = 1
+    ORDER BY title`,
+    [categoryId]
+  );
+  const rows = Array.isArray(coursesFound)
+    ? coursesFound[0]
+    : coursesFound.rows;
+  return rows as any[];
+};
