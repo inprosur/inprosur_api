@@ -9,6 +9,7 @@ class Users {
   + createdAt: Text
   + photo: Text
   + uId: Text
+  + status: Boolean
 }
 
 class Roles {
@@ -245,5 +246,17 @@ IndividualPurchases --> Students : studentId
 IndividualPurchases --> CourseVideos : videoId  
 IndividualPurchases --> CourseDocuments : documentId
 
+class Notifications {
+  + id: Integer [pk]
+  + destination: Text <<"students | instructors">>
+  + message: Text
+  + studentId: Integer
+  + instructorId: Integer
+  + status: Boolean
+  + date: Text
+}
+
+Notifications --> Students : studentId
+Notifications --> Instructors : instructorId
 
 @enduml
