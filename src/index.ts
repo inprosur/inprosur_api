@@ -22,15 +22,19 @@ import enrollmentRoutes from "./routes/enrollmentRoutes";
 import accessLogRoutes from "./routes/accessLogRoutes";
 import advertisingRoutes from "./routes/advertisingRoutes";
 import searchRoutes from "./routes/searchRoutes";
+import notificationRoutes from "./routes/notificationRoute";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 
-app.use(cors({
-  origin: "http://localhost:3001", // 👈 tu frontend
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3001", // 👈 tu frontend
+    credentials: true,
+  })
+);
+
 app.use("/api/users", userRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
@@ -52,6 +56,7 @@ app.use("/api/enrollments", enrollmentRoutes);
 app.use("/api/access-logs", accessLogRoutes);
 app.use("/api/advertising", advertisingRoutes);
 app.use("/api/search", searchRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 const PORT = process.env.PORT || 3000;
 
