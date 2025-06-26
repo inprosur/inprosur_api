@@ -179,6 +179,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
     });
   }
 };
+
 //actualizar usuario
 export const updateUser = async (req: Request, res: Response) => {
   try {
@@ -221,6 +222,41 @@ export const updateUser = async (req: Request, res: Response) => {
     res.status(500).json({
       error: "Internal Server Error",
       message: "Failed to update user",
+    });
+  }
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+  try {
+    const id = parseInt(req.params.id);
+    if (isNaN(id)) {
+      res.status(400).json({
+        error: "Invalid user ID",
+        message: "User ID must be a number",
+      });
+      return;
+    }
+
+    const deletedUser = await UserService.deleteUser(id);
+
+    if (!deletedUser) {
+      res.status(404).json({
+        error: "User not found",
+        message: `No user found with ID: ${id}`,
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: deletedUser,
+      message: "User deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to delete user",
     });
   }
 };

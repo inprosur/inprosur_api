@@ -19,5 +19,7 @@ router.get("/:id", UserController.getUserById);
 //obtener usuarios por id
 router.patch("/:id", UserController.updateUser);
 
+//eliminar usuario por id
+router.delete("/:id", UserController.deleteUser);
 
 export default router;

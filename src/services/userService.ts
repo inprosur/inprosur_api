@@ -80,3 +80,13 @@ export const updateUser = async (
 
   return getUserById(id);
 };
+export const deleteUser = async (id: number): Promise<User | null> => {
+  // Verificar si el usuario existe
+  const user = await getUserById(id);
+  if (!user) return null;
+
+  // Ejecutar la eliminación
+  await db.execute("DELETE FROM users WHERE id = ?", [id]);
+
+  return user; // Retornar el usuario eliminado
+};
