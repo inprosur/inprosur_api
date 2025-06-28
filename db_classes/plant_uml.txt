@@ -199,6 +199,7 @@ class CourseDocuments {
   + title: Text
   + description: Text
   + fileUrl: Text
+  + thumbnailUrl: Text
   + price: Real
   + courseId: Integer
   + createdAt: Date
