@@ -12,7 +12,7 @@ export const searchCourses = async (term: string) => {
       NULL as url,
       NULL as fileUrl
     FROM Courses
-    WHERE (title LIKE ? OR description LIKE ?) AND isPublished = 1
+    WHERE (title LIKE ? OR description LIKE ?) AND isPublished = true
 
     UNION ALL
 
@@ -47,20 +47,57 @@ export const searchCourses = async (term: string) => {
   return rows as any[];
 };
 
-export const searchCoursesByCategory = async (categoryId: number) => {
+export const searchCoursesByCategory = async (
+  categoryId: number,
+  term: string
+) => {
   const coursesFound = await db.execute(
-    `
-    SELECT 'course' as type,
-    id,
-    title,
-    description,
-    thumbnailUrl,
-    NULL as url,
-    NULL as fileUrl
-    FROM Courses
-    WHERE categoryId = ? AND isPublished = 1
-    ORDER BY title`,
-    [categoryId]
+    `SELECT
+    'course' AS type,
+    c.id,
+    c.title,
+    c.description,
+    c.thumbnailUrl,
+    NULL AS url,
+    NULL AS fileUrl
+  FROM Courses c
+  WHERE (c.title LIKE ? OR c.description LIKE ?)
+  AND c.categoryId = ?
+  AND c.isPublished = true
+
+  UNION ALL
+
+  SELECT
+    'video' AS type,
+    cv.id,
+    cv.title,
+    cv.description,
+    cv.thumbnailUrl,
+    cv.url,
+    NULL AS fileUrl
+  FROM CourseVideos cv
+  JOIN Courses c ON cv.courseId = c.id
+  WHERE (cv.title LIKE ? OR cv.description LIKE ?)
+  AND c.isPublished = true
+
+  UNION ALL
+
+  SELECT
+    'document' AS type,
+    cd.id,
+    cd.title,
+    cd.description,
+    cd.thumbnailUrl,
+    NULL AS url,
+    cd.fileUrl
+  FROM CourseDocuments cd
+  JOIN Courses c ON cd.courseId = c.id
+  WHERE (cd.title LIKE ? OR cd.description LIKE ?)
+  AND c.isPublished = true
+
+  ORDER BY title
+  `,
+    [term, term, categoryId, term, term, term, term]
   );
   const rows = Array.isArray(coursesFound)
     ? coursesFound[0]
