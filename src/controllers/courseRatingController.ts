@@ -143,3 +143,20 @@ export const getCourseRatingByStudent = async (req: Request, res: Response) => {
     }
   }
 };
+
+export const getRankingCourseRating = async (_req: Request, res: Response) => {
+  try {
+    const result = await CourseRatingService.getRankingCourseRating();
+    res.status(200).json({
+      success: true,
+      data: result,
+      message: "Course ratings ranking retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching course ratings rankings:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to fetch course ratings rankings",
+    });
+  }
+};
