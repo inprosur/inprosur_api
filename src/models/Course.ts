@@ -3,8 +3,6 @@ export interface Course {
   title: string;
   description: string;
   instructorId: number;
-  categoryId?: number;
-  subcategoryId?: number;
   price: number;
   isPublished: boolean;
   duration?: string;
