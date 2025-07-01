@@ -35,14 +35,8 @@ export const searchCoursesByCategory = async (req: Request, res: Response) => {
       message: "Invalid category ID.",
     });
   }
-  if (!term) {
-    res.status(400).json({
-      error: "Bad request",
-      message: "Search term is required.",
-    });
-  }
   try {
-    let text = "%" + term + "%";
+    let text = term === "" ? "" : "%" + term + "%";
     const results = await SearchService.searchCoursesByCategory(
       categoryId,
       text

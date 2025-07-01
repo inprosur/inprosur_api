@@ -51,8 +51,60 @@ export const searchCoursesByCategory = async (
   categoryId: number,
   term: string
 ) => {
-  const coursesFound = await db.execute(
-    `SELECT
+  if (!term || term.trim() === "") {
+    const coursesFound = await db.execute(
+      `SELECT
+        'course' AS type,
+        c.id,
+        c.title,
+        c.description,
+        c.thumbnailUrl,
+        NULL AS url,
+        NULL AS fileUrl
+      FROM Courses c
+      WHERE c.categoryId = ?
+      AND c.isPublished = true
+
+      UNION ALL
+
+      SELECT
+        'video' AS type,
+        cv.id,
+        cv.title,
+        cv.description,
+        cv.thumbnailUrl,
+        cv.url,
+        NULL AS fileUrl
+      FROM CourseVideos cv
+      JOIN Courses c ON cv.courseId = c.id
+      WHERE c.categoryId = ?
+      AND c.isPublished = true
+
+      UNION ALL
+      SELECT
+        'document' AS type,
+        cd.id,
+        cd.title,
+        cd.description,
+        cd.thumbnailUrl,
+        NULL AS url,
+        cd.fileUrl
+      FROM CourseDocuments cd
+      JOIN Courses c ON cd.courseId = c.id
+      WHERE c.categoryId = ?
+      AND c.isPublished = true
+
+      ORDER BY title
+      `,
+      [categoryId, categoryId, categoryId]
+    );
+    const rows = Array.isArray(coursesFound)
+      ? coursesFound[0]
+      : coursesFound.rows;
+    return rows as any[];
+  } else {
+    const coursesFound = await db.execute(
+      `SELECT
     'course' AS type,
     c.id,
     c.title,
@@ -97,10 +149,11 @@ export const searchCoursesByCategory = async (
 
   ORDER BY title
   `,
-    [term, term, categoryId, term, term, term, term]
-  );
-  const rows = Array.isArray(coursesFound)
-    ? coursesFound[0]
-    : coursesFound.rows;
-  return rows as any[];
+      [term, term, categoryId, term, term, term, term]
+    );
+    const rows = Array.isArray(coursesFound)
+      ? coursesFound[0]
+      : coursesFound.rows;
+    return rows as any[];
+  }
 };
