@@ -13,8 +13,7 @@ export const createCourse = async (course: Course): Promise<Course> => {
       course.isPublished ? 1 : 0,
       course.thumbnailUrl || null,
       course.instructorId,
-      course.categoryId || null,
-      course.subcategoryId || null,
+      course.categoryId!,
     ]
   );
   const id = result.lastInsertRowid;
