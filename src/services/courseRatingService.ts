@@ -74,6 +74,7 @@ export const getRankingCourseRating = async (): Promise<any[]> => {
   c.id,
   c.title,
   c.description,
+  c.thumbnailUrl,
   ROUND(AVG(cr.rating), 2) AS average_rating,
   COUNT(cr.id) AS rating_count
 FROM
