@@ -146,6 +146,7 @@ export const getCourseRatingByStudent = async (req: Request, res: Response) => {
 
 export const getRankingCourseRating = async (_req: Request, res: Response) => {
   try {
+    console.log("Fetching course ratings ranking...");
     const result = await CourseRatingService.getRankingCourseRating();
     res.status(200).json({
       success: true,
