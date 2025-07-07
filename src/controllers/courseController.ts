@@ -61,7 +61,7 @@ export const createCourse = async (req: Request, res: Response) => {
 export const getAllCourses = async (_req: Request, res: Response) => {
   try {
     const courses = await CourseService.getAllCourses();
-    if (!courses || courses.length === 0) {
+    if (!courses) {
       res.status(404).json({
         error: "No courses found",
         message: "No courses found in the database.",
@@ -109,10 +109,38 @@ export const getCourseById = async (req: Request, res: Response) => {
       message: "Course retrieved successfully.",
     });
   } catch (error) {
-    console.log("Error fetching course: ", error);
+    console.error("Error fetching course: ", error);
     res.status(500).json({
       error: "Internal server error",
       message: "Failed to fetch course.",
+    });
+  }
+};
+
+export const getRecentsCreatedCourses = async (
+  _req: Request,
+  res: Response
+) => {
+  try {
+    const courses = await CourseService.getRecentsCreatedCourses();
+    if (!courses) {
+      res.status(404).json({
+        error: "No courses found",
+        message: "No courses found in the Database",
+      });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: courses,
+      message: "Courses retrieved successfully.",
+    });
+    return;
+  } catch (error) {
+    console.error("Error fetching courses: ", error);
+    res.status(500).json({
+      error: "Internal Server error.",
+      message: "Failed to fetch courses.",
     });
   }
 };

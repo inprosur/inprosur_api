@@ -39,3 +39,15 @@ export const getCourseById = async (id: number): Promise<Course | null> => {
     return null;
   }
 };
+
+export const getRecentsCreatedCourses = async (): Promise<Course[]> => {
+  const result = await db.execute(`
+    SELECT *
+    FROM courses
+    WHERE isPublished = true
+    ORDER BY datetime(creationDate) DESC
+    LIMIT 10
+  `);
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  return rows as Course[];
+};
