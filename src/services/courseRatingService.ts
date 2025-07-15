@@ -74,9 +74,10 @@ export const getRankingCourseRating = async (): Promise<any[]> => {
     c.id,
     c.title,
     c.description,
+    c.instructorId,
     c.thumbnailUrl,
-    ROUND(AVG(cr.rating), 2) AS average_rating,
-    COUNT(cr.id) AS rating_count
+    ROUND(AVG(cr.rating), 2) AS averageRating,
+    COUNT(cr.id) AS ratingCount
   FROM
     Courses c
     JOIN CourseRatings cr ON cr.courseId = c.id
@@ -86,8 +87,8 @@ export const getRankingCourseRating = async (): Promise<any[]> => {
     c.id,
     c.title
   ORDER BY
-    average_rating DESC,
-    rating_count DESC
+    averageRating DESC,
+    ratingCount DESC
   LIMIT
     10;`);
   const rows = Array.isArray(result) ? result[0] : result.rows;

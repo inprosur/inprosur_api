@@ -5,7 +5,7 @@ const router = Router();
 
 router.post("/newCourse", CourseController.createCourse);
 router.get("/", CourseController.getAllCourses);
-router.get("/:id", CourseController.getCourseById);
 router.get("/recents", CourseController.getRecentsCreatedCourses);
+router.get("/:id", CourseController.getCourseById);
 
 export default router;
