@@ -5,13 +5,13 @@ const router = Router();
 
 // Define la ruta para hacer CRUD a todos los usuarios
 // GET /api/users
-router.get("/", UserController.getAllUsers);// POST /api/users/newUser
+router.get("/", UserController.getAllUsers); // POST /api/users/newUser
 //obtener usuarios por email
 router.get("/email/:email", UserController.getUserByEmail);
-//logueo de usuarios
-router.post("/login", UserController.loginUser);
 //crear un nuevo usuario
 router.post("/", UserController.createUser);
+//logueo de usuarios
+router.post("/login", UserController.loginUser);
 
 //GET /api/users/:id
 
