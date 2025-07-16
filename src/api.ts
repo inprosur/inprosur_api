@@ -23,7 +23,6 @@ import accessLogRoutes from "./routes/accessLogRoutes";
 import advertisingRoutes from "./routes/advertisingRoutes";
 import searchRoutes from "./routes/searchRoutes";
 import notificationRoutes from "./routes/notificationRoute";
-import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 const app = express();
