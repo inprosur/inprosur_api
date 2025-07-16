@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import serverless from "serverless-http";
 import userRoutes from "./routes/userRoutes";
 import permissionRoutes from "./routes/permissionRoutes";
 import roleRoutes from "./routes/roleRoutes";
@@ -22,6 +23,7 @@ import accessLogRoutes from "./routes/accessLogRoutes";
 import advertisingRoutes from "./routes/advertisingRoutes";
 import searchRoutes from "./routes/searchRoutes";
 import notificationRoutes from "./routes/notificationRoute";
+import ServerlessHttp from "serverless-http";
 
 dotenv.config();
 const app = express();
@@ -29,7 +31,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:3001", // 👈 tu frontend
+    origin: "*",
     credentials: true,
   })
 );
@@ -56,9 +58,4 @@ app.use("/api/advertising", advertisingRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  console.log("API is running on port", PORT);
-  console.log("TURSO_URL:", process.env.TURSO_URL);
-});
+export const handler = serverless(app);
