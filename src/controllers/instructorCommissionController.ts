@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as InstructorCommissionService from "../services/instructorCommissionService";
 
 export const getAllCommissions = async (_req: Request, res: Response) => {
@@ -25,7 +25,11 @@ export const getAllCommissions = async (_req: Request, res: Response) => {
     }
 };
 
-export const getCommissionById = async (req: Request, res: Response) => {
+interface CommissionParams {
+    id: string;
+}
+
+export const getCommissionById = async (req: Request<CommissionParams>, res: Response) => {
     const commissionId = parseInt(req.params.id);
     if (isNaN(commissionId)) {
         res.status(400).json({

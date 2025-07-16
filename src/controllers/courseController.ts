@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as CourseService from "../services/courseService";
 
 export const createCourse = async (req: Request, res: Response) => {
@@ -83,7 +83,11 @@ export const getAllCourses = async (_req: Request, res: Response) => {
   }
 };
 
-export const getCourseById = async (req: Request, res: Response) => {
+interface CourseParams {
+  id: string;
+}
+
+export const getCourseById = async (req: Request<CourseParams>, res: Response) => {
   try {
     const courseId = parseInt(req.params.id);
     if (!courseId) {

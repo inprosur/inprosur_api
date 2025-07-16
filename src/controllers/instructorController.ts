@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as InstructorService from "../services/instructorService";
 
 export const createInstructor = async (req: Request, res: Response) => {
@@ -66,7 +66,11 @@ export const getAllInstructors = async (_req: Request, res: Response) => {
   }
 };
 
-export const getInstructorById = async (req: Request, res: Response) => {
+interface InstructorParams {
+  id: string;
+}
+
+export const getInstructorById = async (req: Request<InstructorParams>, res: Response) => {
   try {
     const instructorId = Number(req.params.id);
     if (!Number.isInteger(instructorId) || instructorId <= 0) {

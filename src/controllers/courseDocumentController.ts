@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as CourseDocumentService from "../services/courseDocumentService";
 
 export const getAllCourseDocuments = async (_req: Request, res: Response) => {
@@ -25,7 +25,11 @@ export const getAllCourseDocuments = async (_req: Request, res: Response) => {
     }
 };
 
-export const getCourseDocumentById = async (req: Request, res: Response) => {
+interface CourseDocumentParams {
+    id: string;
+}
+
+export const getCourseDocumentById = async (req: Request<CourseDocumentParams>, res: Response) => {
     const docId = parseInt(req.params.id);
     if (isNaN(docId)) {
         res.status(400).json({

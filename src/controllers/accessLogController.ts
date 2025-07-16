@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as AccessLogService from "../services/accessLogService";
 
 export const getAllAccessLogs = async (_req: Request, res: Response) => {
@@ -25,7 +25,11 @@ export const getAllAccessLogs = async (_req: Request, res: Response) => {
     }
 };
 
-export const getAccessLogById = async (req: Request, res: Response) => {
+interface AccessLogParams {
+    id: string;
+}
+
+export const getAccessLogById = async (req: Request<AccessLogParams>, res: Response) => {
     const accessLogId = parseInt(req.params.id);
     if (isNaN(accessLogId)) {
         res.status(400).json({ 

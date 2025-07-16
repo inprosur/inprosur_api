@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as DegressService from "../services/degreeService";
 
 export const getAllDegrees = async (_req: Request, res: Response) => {
@@ -11,7 +11,11 @@ export const getAllDegrees = async (_req: Request, res: Response) => {
   }
 };
 
-export const getDegreesById = async (req: Request, res: Response) => {
+interface DegressParams {
+  id: string;
+}
+
+export const getDegreesById = async (req: Request<DegressParams>, res: Response) => {
   const id = parseInt(req.params.id);
   if (isNaN(id)) {
     res.status(400).json({ error: "Invalid ID" });

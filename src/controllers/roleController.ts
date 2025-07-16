@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as RoleService from "../services/roleService";
 import * as RolePermissionService from "../services/rolPermissionService";
 
@@ -78,7 +78,11 @@ export const getAllRoles = async (_req: Request, res: Response) => {
   }
 };
 
-export const getRoleById = async (req: Request, res: Response) => {
+interface RoleParams {
+  id: string;
+}
+
+export const getRoleById = async (req: Request<RoleParams>, res: Response) => {
   try {
     const roleId = Number(req.params.id);
     if (!Number.isInteger(roleId) || roleId <= 0) {

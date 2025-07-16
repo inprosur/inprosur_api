@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as StudentService from "../services/studentService";
 
 export const createStudent = async (req: Request, res: Response) => {
@@ -68,7 +68,11 @@ export const getAllStudents = async (_req: Request, res: Response) => {
   }
 };
 
-export const getStudentById = async (req: Request, res: Response) => {
+interface StudentIdParams {
+  id: string;
+}
+
+export const getStudentById = async (req: Request<StudentIdParams>, res: Response) => {
   try {
     const studentId = parseInt(req.params.id);
     if (!studentId) {
@@ -79,7 +83,7 @@ export const getStudentById = async (req: Request, res: Response) => {
       return;
     }
 
-    const student = StudentService.getStudentById(studentId);
+    const student = await StudentService.getStudentById(studentId);
     if (!student) {
       res.status(404).json({
         error: "Not found",

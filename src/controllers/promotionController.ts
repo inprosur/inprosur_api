@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as PromotionService from "../services/promotionService";
 
 export const getAllPromotions = async (_req: Request, res: Response) => {
@@ -25,7 +25,10 @@ export const getAllPromotions = async (_req: Request, res: Response) => {
     }
 };
 
-export const getPromotionById = async (req: Request, res: Response) => {
+interface PromotionParams {
+    id: string;
+}
+export const getPromotionById = async (req: Request<PromotionParams>, res: Response) => {
     const promotionId = parseInt(req.params.id);
     if (isNaN(promotionId)) {
         res.status(400).json({

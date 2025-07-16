@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as CategoryService from "../services/categoryService";
 
 export const getAllCategories = async (_req: Request, res: Response) => {
@@ -25,7 +25,11 @@ export const getAllCategories = async (_req: Request, res: Response) => {
   }
 };
 
-export const getCategoryById = async (req: Request, res: Response) => {
+interface CategoryParams {
+  id: string;
+}
+
+export const getCategoryById = async (req: Request<CategoryParams>, res: Response) => {
   const categoryId = parseInt(req.params.id);
   if (isNaN(categoryId)) {
     res.status(400).json({

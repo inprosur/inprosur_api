@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
@@ -27,8 +27,13 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   }
 };
 
+interface UserParams {
+  id: string;
+  email: string;
+}
+
 // Función para obtener un usuario por su ID usando el servicio de usuario. Se espera que el ID sea un número entero y se maneja un error 400 si no lo es.
-export const getUserById = async (req: Request, res: Response) => {
+export const getUserById = async (req: Request<UserParams>, res: Response) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
     res
@@ -99,7 +104,7 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByEmail = async (req: Request, res: Response) => {
+export const getUserByEmail = async (req: Request<UserParams>, res: Response) => {
   try {
     const { email } = req.params;
 
@@ -180,7 +185,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 //actualizar usuario
-export const updateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request<UserParams>, res: Response) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -225,7 +230,7 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-export const deleteUser = async (req: Request, res: Response) => {
+export const deleteUser = async (req: Request<UserParams>, res: Response) => {
   try {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {

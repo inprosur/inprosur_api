@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as EnrollmentService from "../services/enrollmentService";
 
 export const getAllEnrollments = async (_req: Request, res: Response) => {
@@ -25,7 +25,11 @@ export const getAllEnrollments = async (_req: Request, res: Response) => {
   }
 };
 
-export const getEnrollmentById = async (req: Request, res: Response) => {
+interface EnrollmentParams {
+  id: string;
+}
+
+export const getEnrollmentById = async (req: Request<EnrollmentParams>, res: Response) => {
   const enrollmentId = parseInt(req.params.id);
   if (isNaN(enrollmentId)) {
     res.status(400).json({
@@ -105,7 +109,7 @@ export const createEnrollment = async (req: Request, res: Response) => {
   }
 };
 
-export const getStudentCourses = async (req: Request, res: Response) => {
+export const getStudentCourses = async (req: Request<EnrollmentParams>, res: Response) => {
   const enrollmentId = parseInt(req.params.id);
   if (isNaN(enrollmentId)) {
     res.status(400).json({

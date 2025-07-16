@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response } from "../types/express";
 import * as PermissionService from "../services/permissionService";
 
 // Función para crear un nuevo permiso, pasamos el permiso al servicio de permisos
@@ -51,8 +51,11 @@ export const getAllPermissions = async (_req: Request, res: Response) => {
   }
 };
 
+interface PermissionParams {
+  id: string;
+}
 // Función para obtener un permiso por su ID, llamando al servicio de permisos
-export const getPermissionById = async (req: Request, res: Response) => {
+export const getPermissionById = async (req: Request<PermissionParams>, res: Response) => {
   const permissionId = parseInt(req.params.id);
   if (isNaN(permissionId)) {
     res.status(400).json({ error: "Invalid permission ID" });
