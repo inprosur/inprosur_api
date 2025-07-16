@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
 import * as CommissionService from "../services/commissionService";
+import { Request, Response, CommissionRequestBody } from "../types/express";
 
-export const createCommission = async (req: Request, res: Response) => {
+export const createCommission = async (req: Request<{}, any, CommissionRequestBody>, res: Response) => {
   try {
     if (!req.body) {
       res.status(400).json({
