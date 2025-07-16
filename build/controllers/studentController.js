@@ -111,7 +111,7 @@ const getStudentById = async (req, res) => {
             });
             return;
         }
-        const student = StudentService.getStudentById(studentId);
+        const student = await StudentService.getStudentById(studentId);
         if (!student) {
             res.status(404).json({
                 error: "Not found",
