@@ -1,10 +1,11 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Commission } from "../models/Comission";
 
 export const createCommission = async (
   commission: Commission
 ): Promise<Commission> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO Commissions (instructorId, percentage) VALUES (?, ?)",
     [commission.instructorId, commission.percentage]
   );
@@ -19,7 +20,10 @@ export const createCommission = async (
 export const getCommissionById = async (
   id: number
 ): Promise<Commission | null> => {
-  const result = await db.execute("SELECT * FROM Commissions WHERE id=?", [id]);
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Commissions WHERE id=?", [
+    id,
+  ]);
   const row = Array.isArray(result) ? result[0] : result.rows;
   if (row.length === 1) {
     return row[0] as Commission;

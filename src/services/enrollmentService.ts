@@ -1,9 +1,10 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Course } from "../models/Course";
 import { Enrollment } from "../models/Enrollment";
 
 export const getAllEnrollments = async (): Promise<Enrollment[]> => {
-  const result = await db.execute("SELECT * FROM enrollments");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM enrollments");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Enrollment[];
 };
@@ -11,9 +12,11 @@ export const getAllEnrollments = async (): Promise<Enrollment[]> => {
 export const getEnrollmentById = async (
   id: number
 ): Promise<Enrollment | null> => {
-  const result = await db.execute("SELECT * FROM enrollments WHERE id = ?", [
-    id,
-  ]);
+  const client = getTursoClient();
+  const result = await client.execute(
+    "SELECT * FROM enrollments WHERE id = ?",
+    [id]
+  );
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows.length === 1 ? (rows[0] as Enrollment) : null;
 };
@@ -21,7 +24,8 @@ export const getEnrollmentById = async (
 export const createEnrollment = async (
   enrollment: Omit<Enrollment, "id" | "enrollmentDate" | "paymentDate">
 ): Promise<Enrollment> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     `INSERT INTO enrollments (
             studentId, 
             courseId, 
@@ -51,7 +55,8 @@ export const createEnrollment = async (
 export const getStundentCourses = async (
   studentId: number
 ): Promise<Course[]> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "SELECT c.* FROM Courses c INNER JOIN enrollments e ON c.id = e.courseId WHERE e.studentId = ?",
     [studentId]
   );

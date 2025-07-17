@@ -1,8 +1,9 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { CourseRating } from "../models/CourseRating";
 
 export const getAllCourseRatings = async (): Promise<CourseRating[]> => {
-  const result = await db.execute("SELECT * FROM CourseRatings");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM CourseRatings");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as CourseRating[];
 };
@@ -10,7 +11,8 @@ export const getAllCourseRatings = async (): Promise<CourseRating[]> => {
 export const getCourseRating = async (
   courseId: number
 ): Promise<{ courseId: number; averageRating: number } | null> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     `SELECT courseId, 
             ROUND(AVG(CAST(rating AS FLOAT)), 2) as averageRating 
      FROM CourseRatings 
@@ -33,12 +35,13 @@ export const getCourseRating = async (
 export const createCourseRating = async (
   rating: Omit<CourseRating, "id">
 ): Promise<CourseRating> => {
+  const client = getTursoClient();
   // Validar que el rating esté entre 1 y 5
   if (rating.rating < 1 || rating.rating > 5) {
     throw new Error("Rating must be between 1 and 5");
   }
 
-  const result = await db.execute(
+  const result = await client.execute(
     `INSERT INTO CourseRatings (
             studentId, 
             courseId, 
@@ -56,7 +59,8 @@ export const createCourseRating = async (
 export const getCourseRatingByStudent = async (
   studentId: number
 ): Promise<number | null> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "SELECT rating FROM CourseRating WHERE studentId = ?",
     [studentId]
   );
@@ -70,7 +74,8 @@ export const getCourseRatingByStudent = async (
 };
 
 export const getRankingCourseRating = async (): Promise<any[]> => {
-  const result = await db.execute(`SELECT
+  const client = getTursoClient();
+  const result = await client.execute(`SELECT
     c.id,
     c.title,
     c.description,

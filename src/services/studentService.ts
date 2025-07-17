@@ -1,8 +1,9 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Student } from "../models/Student";
 
 export const createStudent = async (student: Student): Promise<Student> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO Students (name, phone, address, fingerprint, userId, createdAt) VALUES(?, ?, ?, ?, ?, ?)",
     [
       student.name,
@@ -22,13 +23,17 @@ export const createStudent = async (student: Student): Promise<Student> => {
 };
 
 export const getAllStudents = async (): Promise<Student[]> => {
-  const result = await db.execute("SELECT * FROM Students");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Students");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Student[];
 };
 
 export const getStudentById = async (id: number): Promise<Student | null> => {
-  const result = await db.execute("SELECT * FROM Students WHERE id=?", [id]);
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Students WHERE id=?", [
+    id,
+  ]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
   if (rows.length === 1) {
     return rows[0] as Student;
@@ -40,9 +45,11 @@ export const getStudentById = async (id: number): Promise<Student | null> => {
 export const getStudentByUserId = async (
   userId: number
 ): Promise<Student | null> => {
-  const result = await db.execute("SELECT * FROM Students WHERE userId = ?", [
-    userId,
-  ]);
+  const client = getTursoClient();
+  const result = await client.execute(
+    "SELECT * FROM Students WHERE userId = ?",
+    [userId]
+  );
   const rows = Array.isArray(result) ? result[0] : result.rows;
   if (rows.length === 1) {
     return rows[0] as Student;

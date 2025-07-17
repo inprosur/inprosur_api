@@ -1,7 +1,8 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 
 export const searchCourses = async (term: string) => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     `
     SELECT
       'course' as type,
@@ -51,8 +52,9 @@ export const searchCoursesByCategory = async (
   categoryId: number,
   term: string
 ) => {
+  const client = getTursoClient();
   if (!term || term.trim() === "") {
-    const coursesFound = await db.execute(
+    const coursesFound = await client.execute(
       `SELECT
         'course' AS type,
         c.id,
@@ -103,7 +105,7 @@ export const searchCoursesByCategory = async (
       : coursesFound.rows;
     return rows as any[];
   } else {
-    const coursesFound = await db.execute(
+    const coursesFound = await client.execute(
       `SELECT
     'course' AS type,
     c.id,

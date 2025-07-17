@@ -1,10 +1,11 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Notification } from "../models/Notification";
 
 export const createNotification = async (
   notification: Notification
 ): Promise<Notification> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     `
         INSERT INTO Notifications (destination, studentId, instructorId, status, date)`,
     [

@@ -82,10 +82,11 @@ export const createUser = async (
       return;
     }
 
+    const hashPassword = await hashedPassword(password);
     const newUser = await UserService.createUser({
       username: username.toLowerCase(),
       email: email.toLowerCase(),
-      password: await hashedPassword(password),
+      password: hashPassword,
       uId,
       createdAt: new Date(),
     });

@@ -1,14 +1,16 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Category } from "../models/Category";
 
 export const getAllCategories = async (): Promise<Category[]> => {
-  const result = await db.execute("SELECT * FROM categories");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM categories");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Category[];
 };
 
 export const getCategoryById = async (id: number): Promise<Category | null> => {
-  const result = await db.execute("SELECT * FROM categories WHERE id = ?", [
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM categories WHERE id = ?", [
     id,
   ]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
@@ -20,7 +22,8 @@ export const getCategoryById = async (id: number): Promise<Category | null> => {
 };
 
 export const createCategory = async (category: Category): Promise<Category> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO categories (name, degreeId) VALUES (?, ?)",
     [category.name, category.degreeId]
   );
@@ -35,7 +38,8 @@ export const createCategory = async (category: Category): Promise<Category> => {
 export const getCategoriesByDegreeId = async (
   degreeId: number
 ): Promise<Category[]> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "SELECT * FROM categories WHERE degreeId = ?",
     [degreeId]
   );

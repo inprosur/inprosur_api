@@ -1,14 +1,18 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Degree } from "../models/Degree";
 
 export const getAllDegrees = async (): Promise<Degree[]> => {
-  const result = await db.execute("SELECT * FROM degrees");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM degrees");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Degree[];
 };
 
 export const getDegreesById = async (id: number): Promise<Degree | null> => {
-  const result = await db.execute("SELECT * FROM degrees WHERE id = ?", [id]);
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM degrees WHERE id = ?", [
+    id,
+  ]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows.length
     ? {
@@ -22,7 +26,8 @@ export const getDegreesById = async (id: number): Promise<Degree | null> => {
 export const createDegrees = async (
   degress: Omit<Degree, "id">
 ): Promise<Degree> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO degrees (name, description) VALUES (?, ?)",
     [degress.name, degress.description]
   );

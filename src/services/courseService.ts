@@ -1,8 +1,9 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Course } from "../models/Course";
 
 export const createCourse = async (course: Course): Promise<Course> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId, subcategoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       course.title,
@@ -25,13 +26,15 @@ export const createCourse = async (course: Course): Promise<Course> => {
 };
 
 export const getAllCourses = async (): Promise<Course[]> => {
-  const result = await db.execute("SELECT * FROM Courses");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Courses");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Course[];
 };
 
 export const getCourseById = async (id: number): Promise<Course | null> => {
-  const result = await db.execute("SELECT * FROM Courses WHERE id=?", [id]);
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Courses WHERE id=?", [id]);
   const row = Array.isArray(result) ? result[0] : result.rows;
   if (row.length == 1) {
     return row[0] as Course;
@@ -41,7 +44,8 @@ export const getCourseById = async (id: number): Promise<Course | null> => {
 };
 
 export const getRecentsCreatedCourses = async (): Promise<Course[]> => {
-  const result = await db.execute(`
+  const client = getTursoClient();
+  const result = await client.execute(`
     SELECT *
     FROM courses
     WHERE isPublished = true

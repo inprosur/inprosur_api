@@ -1,11 +1,12 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { RolePermission } from "../models/RolePermission";
 
 // Función para crear una nueva relación entre rol y permiso
 export const createRolePermission = async (
   rolePermission: RolePermission
 ): Promise<RolePermission> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO RolePermissions (roleId, permissionId) VALUES (?, ?)",
     [rolePermission.roleId, rolePermission.permissionId]
   );
@@ -17,7 +18,8 @@ export const createRolePermission = async (
 export const getRollPermissionByIds = async (
   rolePermission: RolePermission
 ): Promise<RolePermission | null> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "SELECT * FROM RolePermissions WHERE roleId=? AND permissionId=?",
     [rolePermission.roleId, rolePermission.permissionId]
   );

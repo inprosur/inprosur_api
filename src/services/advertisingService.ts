@@ -1,8 +1,9 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Advertising } from "../models/Advertising";
 
 export const getAllAdvertisings = async () => {
-  const result = await db.execute("SELECT * FROM Advertisings");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Advertisings");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Advertising[];
 };
@@ -10,7 +11,8 @@ export const getAllAdvertisings = async () => {
 export const createAdvertising = async (
   advertising: Advertising
 ): Promise<Advertising> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO Advertisings (imgUrl, externalUrl, status, courseId, createdAt) VALUES (?,?,?,?,?)",
     [
       advertising.imgUrl,

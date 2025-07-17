@@ -1,10 +1,11 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { Instructor } from "../models/Instructor";
 
 export const createInstructor = async (
   instructor: Instructor
 ): Promise<Instructor> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO Instructors (name, biography, phone, createdAt, userId) VALUES(?, ?, ?, ?, ?)",
     [
       instructor.name,
@@ -23,7 +24,8 @@ export const createInstructor = async (
 };
 
 export const getAllInstructors = async (): Promise<Instructor[]> => {
-  const result = await db.execute("SELECT * FROM Instructors");
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Instructors");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Instructor[];
 };
@@ -31,7 +33,10 @@ export const getAllInstructors = async (): Promise<Instructor[]> => {
 export const getInstructorById = async (
   id: number
 ): Promise<Instructor | null> => {
-  const result = await db.execute("SELECT * FROM Instructors WHERE id=?", [id]);
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM Instructors WHERE id=?", [
+    id,
+  ]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
   if (rows.length === 1) {
     return rows[0] as Instructor;
