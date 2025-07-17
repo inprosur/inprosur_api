@@ -3,13 +3,12 @@ import * as UserController from "../controllers/userController";
 
 const router = Router();
 
-// Define la ruta para hacer CRUD a todos los usuarios
+//crear un nuevo usuario
+router.post("/new", UserController.createUser);
 // GET /api/users
 router.get("/", UserController.getAllUsers); // POST /api/users/newUser
 //obtener usuarios por email
 router.get("/email/:email", UserController.getUserByEmail);
-//crear un nuevo usuario
-router.post("/", UserController.createUser);
 //logueo de usuarios
 router.post("/login", UserController.loginUser);
 
