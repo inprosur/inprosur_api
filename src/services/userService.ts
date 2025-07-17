@@ -81,6 +81,7 @@ export const updateUser = async (
 
   return getUserById(id);
 };
+
 export const deleteUser = async (id: number): Promise<User | null> => {
   // Verificar si el usuario existe
   const user = await getUserById(id);

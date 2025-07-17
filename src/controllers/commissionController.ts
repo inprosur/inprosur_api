@@ -11,7 +11,8 @@ export const createCommission = async (req: Request<{}, any, CommissionRequestBo
       return;
     }
 
-    const { instructorId, percentage } = req.body;
+    const { instructorId, percentage } = req.body as CommissionRequestBody;
+    
     if (!instructorId || !percentage) {
       res.status(400).json({
         error: "Fields Missing",

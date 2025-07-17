@@ -2,6 +2,7 @@ import { Request, Response as ExpressResponse} from "../types/express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
+import { User } from "../models/User";
 
 interface UserParams {
   id: string;
@@ -187,7 +188,7 @@ export const loginUser = async (req: Request, res: ExpressResponse): Promise<voi
 };
 
 //actualizar usuario
-export const updateUser = async (req: Request<UserParams>, res: ExpressResponse) => {
+export const updateUser = async (req: Request<any, any, Partial<User>>, res: ExpressResponse) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -210,7 +211,7 @@ export const updateUser = async (req: Request<UserParams>, res: ExpressResponse)
 
     const updatedUser = await UserService.updateUser(Number(id), updates);
 
-    if (!updateUser) {
+    if (!updatedUser) {
       res.status(404).json({
         error: "User not found",
         message: `No user found with ID: ${id}`,
