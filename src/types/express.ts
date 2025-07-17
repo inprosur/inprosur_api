@@ -6,8 +6,8 @@ export interface Request<P = {}, ResBody = any, ReqBody = any, ReqQuery = any> e
 }
 
 export interface Response<ResBody = any> extends ExpressResponse<ResBody> {
-   status(code: number): this;
- }
+  status(code: number): this;
+}
 
 // Tipos específicos para diferentes controladores
 export interface CommissionRequestBody {

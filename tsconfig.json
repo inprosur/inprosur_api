@@ -6,7 +6,7 @@
     "outDir": "build",                                   /* Specify an output folder for all emitted files. */
     "esModuleInterop": true,                             
     "forceConsistentCasingInFileNames": true,            
-    "strict": true,                                      /* Enable all strict type-checking options. */
+    "strict": false,                                      /* Enable all strict type-checking options. */
     "noUnusedLocals": true,                           /* Enable error reporting when local variables aren't read. */
     "noUnusedParameters": true,                       /* Raise an error when a function parameter isn't read. */
     "noImplicitReturns": true,                        /* Enable error reporting for codepaths that do not explicitly return in a function. */

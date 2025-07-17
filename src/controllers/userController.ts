@@ -2,6 +2,12 @@ import { Request, Response } from "../types/express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
+
+interface UserParams {
+  id: string;
+  email: string;
+}
+
 // Función para obtener todos los usuarios usando el servicio de usuario
 export const getAllUsers = async (_req: Request, res: Response) => {
   try {
@@ -27,10 +33,6 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   }
 };
 
-interface UserParams {
-  id: string;
-  email: string;
-}
 
 // Función para obtener un usuario por su ID usando el servicio de usuario. Se espera que el ID sea un número entero y se maneja un error 400 si no lo es.
 export const getUserById = async (req: Request<UserParams>, res: Response) => {
