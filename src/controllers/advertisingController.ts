@@ -1,7 +1,10 @@
-import { Request, Response } from "express";
 import * as AdvertisingService from "../services/advertisingService";
+import { AdvetisingRequest, CustomResponse } from "../types/express";
 
-export const createAdvertising = async (req: Request, res: Response) => {
+export const createAdvertising = async (
+  req: AdvetisingRequest,
+  res: CustomResponse
+) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -41,7 +44,10 @@ export const createAdvertising = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllAdvertisings = async (_req: Request, res: Response) => {
+export const getAllAdvertisings = async (
+  _req: Request,
+  res: CustomResponse
+) => {
   try {
     const advertisings = await AdvertisingService.getAllAdvertisings();
     if (!advertisings || advertisings.length === 0) {

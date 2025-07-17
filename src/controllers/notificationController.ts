@@ -1,16 +1,11 @@
-import { Request, Response } from "express";
 import * as NotificationService from "../services/notificationService";
+import { CustomResponse, NotificationRequest } from "../types/express";
 
-export const createNotification = async (req: Request, res: Response) => {
+export const createNotification = async (
+  req: NotificationRequest,
+  res: CustomResponse
+) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Bad request",
-        message: "Request body is required",
-      });
-      return;
-    }
-
     const { destination, studentId, instructorId, message } = req.body;
     if (!destination || !message) {
       res.status(400).json({
@@ -23,8 +18,8 @@ export const createNotification = async (req: Request, res: Response) => {
     const newNotification = await NotificationService.createNotification({
       destination,
       message,
-      studentId: studentId !== undefined ? studentId : null,
-      instructorId: instructorId !== undefined ? instructorId : null,
+      studentId,
+      instructorId,
       status: true,
       date: new Date(),
     });

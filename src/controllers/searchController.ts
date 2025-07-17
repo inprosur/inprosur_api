@@ -1,7 +1,10 @@
-import { Request, Response } from "express";
 import * as SearchService from "../services/searchServices";
+import { SearchRequest, CustomResponse } from "../types/express";
 
-export const searchCourses = async (req: Request, res: Response) => {
+export const searchCourses = async (
+  req: SearchRequest,
+  res: CustomResponse
+) => {
   const term = req.query.term as string;
   if (!term) {
     res.status(400).json({
@@ -26,12 +29,10 @@ export const searchCourses = async (req: Request, res: Response) => {
   }
 };
 
-interface SearchParams {
-  //term: string;
-  categoryId: string;
-}
-
-export const searchCoursesByCategory = async (req: Request<SearchParams>, res: Response) => {
+export const searchCoursesByCategory = async (
+  req: SearchRequest,
+  res: CustomResponse
+) => {
   const categoryId = parseInt(req.params.categoryId);
   const term = req.query.term as string;
   if (isNaN(categoryId)) {
