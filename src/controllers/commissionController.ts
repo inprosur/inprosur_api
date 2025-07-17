@@ -2,7 +2,7 @@ import * as CommissionService from "../services/commissionService";
 import { Request, Response } from "express";
 import { CommissionRequestBody } from "../types/express";
 
-export const createCommission = async (req: Request<{}, {}, CommissionRequestBody>, res: Response) => {
+export const createCommission = async (req: Request<{}, any, CommissionRequestBody>, res: Response) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -12,7 +12,7 @@ export const createCommission = async (req: Request<{}, {}, CommissionRequestBod
       return;
     }
 
-    const { instructorId, percentage } = req.body as CommissionRequestBody;
+    const { instructorId, percentage } = req.body;
 
     if (!instructorId || !percentage) {
       res.status(400).json({
