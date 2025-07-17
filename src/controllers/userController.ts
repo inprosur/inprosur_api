@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response as ExpressResponse} from "../types/express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
@@ -9,7 +9,7 @@ interface UserParams {
 }
 
 // Función para obtener todos los usuarios usando el servicio de usuario
-export const getAllUsers = async (_req: Request, res: Response) => {
+export const getAllUsers = async (_req: Request, res: ExpressResponse) => {
   try {
     const users = await UserService.getAllUsers();
     if (!users || users.length === 0) {
@@ -35,7 +35,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 
 
 // Función para obtener un usuario por su ID usando el servicio de usuario. Se espera que el ID sea un número entero y se maneja un error 400 si no lo es.
-export const getUserById = async (req: Request<UserParams>, res: Response) => {
+export const getUserById = async (req: Request<UserParams>, res: ExpressResponse) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
     res
@@ -66,7 +66,7 @@ export const getUserById = async (req: Request<UserParams>, res: Response) => {
 };
 
 // Función para crear un nuevo usuario usando el servicio de usuario. Se espera que el cuerpo de las solicitud contenga los campos username, email y password. Se maneja un error 400 si faltan campos requeridos.
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: ExpressResponse) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -106,7 +106,7 @@ export const createUser = async (req: Request, res: Response) => {
   }
 };
 
-export const getUserByEmail = async (req: Request<UserParams>, res: Response) => {
+export const getUserByEmail = async (req: Request<UserParams>, res: ExpressResponse) => {
   try {
     const { email } = req.params;
 
@@ -141,7 +141,7 @@ export const getUserByEmail = async (req: Request<UserParams>, res: Response) =>
   }
 };
 
-export const loginUser = async (req: Request, res: Response): Promise<void> => {
+export const loginUser = async (req: Request, res: ExpressResponse): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -187,7 +187,7 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 };
 
 //actualizar usuario
-export const updateUser = async (req: Request<UserParams>, res: Response) => {
+export const updateUser = async (req: Request<UserParams>, res: ExpressResponse) => {
   try {
     const { id } = req.params;
     const updates = req.body;
@@ -232,7 +232,7 @@ export const updateUser = async (req: Request<UserParams>, res: Response) => {
   }
 };
 
-export const deleteUser = async (req: Request<UserParams>, res: Response) => {
+export const deleteUser = async (req: Request<UserParams>, res: ExpressResponse) => {
   try {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {
