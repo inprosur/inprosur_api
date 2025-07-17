@@ -1,10 +1,9 @@
 import * as CommissionService from "../services/commissionService";
-import { Response } from "express";
-import { CommissionRequest } from "../types/express";
+import { CommissionRequest, CustomResponse } from "../types/express";
 
 export const createCommission = async (
   req: CommissionRequest,
-  res: Response
+  res: CustomResponse
 ) => {
   try {
     const { instructorId, percentage } = req.body;

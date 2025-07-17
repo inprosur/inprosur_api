@@ -1,4 +1,9 @@
-import { Request } from "express";
+import { Request, Response } from "express";
+
+export interface CustomResponse extends Response {
+  status: (code: number) => this;
+  json: (body: any) => this;
+}
 
 interface CommissionBody {
   instructorId: number;

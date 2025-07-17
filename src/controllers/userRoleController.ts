@@ -1,8 +1,10 @@
-import { Response } from "express";
 import * as UserRolService from "../services/userRolesService";
-import { UserRolRequest } from "../types/express";
+import { CustomResponse, UserRolRequest } from "../types/express";
 
-export const createUserRole = async (req: UserRolRequest, res: Response) => {
+export const createUserRole = async (
+  req: UserRolRequest,
+  res: CustomResponse
+) => {
   try {
     const { userId, roleId } = req.body;
 
