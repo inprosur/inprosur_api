@@ -1,16 +1,9 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CreateStudentRequest, CustomResponse, GetStudentParams, StudentByUserRequest } from "../types/express";
 import * as StudentService from "../services/studentService";
 
-export const createStudent = async (req: Request, res: CustomResponse) => {
+export const createStudent = async (req: CreateStudentRequest, res: CustomResponse) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Bad request",
-        message: "Request body is required",
-      });
-      return;
-    }
 
     const { name, phone, address, fingerprint, userId } = req.body;
     if (!name || !address || !phone || !userId) {
@@ -29,7 +22,10 @@ export const createStudent = async (req: Request, res: CustomResponse) => {
       createdAt: new Date(),
       userId,
     };
-    const newStudent = await StudentService.createStudent(student);
+    const newStudent = await StudentService.createStudent({
+      ...student,
+      fingerprint: fingerprint || undefined
+    });
     res.status(201).json({
       success: true,
       data: newStudent,
@@ -44,7 +40,7 @@ export const createStudent = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getAllStudents = async (_req: Request, res: CustomResponse) => {
+export const getAllStudents = async (_req: CreateStudentRequest, res: CustomResponse) => {
   try {
     const students = await StudentService.getAllStudents();
     if (!students || students.length === 0) {
@@ -69,11 +65,7 @@ export const getAllStudents = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface StudentIdParams {
-  id: string;
-}
-
-export const getStudentById = async (req: Request<StudentIdParams>, res: CustomResponse) => {
+export const getStudentById = async (req: GetStudentParams, res: CustomResponse) => {
   try {
     const studentId = parseInt(req.params.id);
     if (!studentId) {
@@ -106,9 +98,9 @@ export const getStudentById = async (req: Request<StudentIdParams>, res: CustomR
   }
 };
 
-export const getStudentByUserId = async (req: Request, res: CustomResponse) => {
+export const getStudentByUserId = async (req: StudentByUserRequest, res: CustomResponse) => {
   try {
-    const userId = parseInt(req.query.userId as string);
+    const userId = parseInt(req.query.userId);
     if (!userId || isNaN(userId)) {
       res.status(400).json({
         error: "Bad request",

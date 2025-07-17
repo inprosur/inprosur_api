@@ -1,18 +1,10 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CustomResponse, GetPermissionParams, PermissionRequest } from "../types/express";
 import * as PermissionService from "../services/permissionService";
 
 // Función para crear un nuevo permiso, pasamos el permiso al servicio de permisos
-export const createPermission = async (req: Request, res: CustomResponse) => {
+export const createPermission = async (req: PermissionRequest, res: CustomResponse) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Request body is missing.",
-        message:
-          "Request body is missing. Make sure to use express.json() middleware.",
-      });
-      return;
-    }
 
     const { name, description } = req.body;
     if (!name || !description) {
@@ -42,7 +34,7 @@ export const createPermission = async (req: Request, res: CustomResponse) => {
 };
 
 //Función para obtener todos los permisos, llamando al servicio de permisos
-export const getAllPermissions = async (_req: Request, res: CustomResponse) => {
+export const getAllPermissions = async (_req: PermissionRequest, res: CustomResponse) => {
   try {
     const users = await PermissionService.getAllPermissions();
     res.status(200).json(users);
@@ -52,11 +44,8 @@ export const getAllPermissions = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface PermissionParams {
-  id: string;
-}
 // Función para obtener un permiso por su ID, llamando al servicio de permisos
-export const getPermissionById = async (req: Request<PermissionParams>, res: CustomResponse) => {
+export const getPermissionById = async (req: GetPermissionParams, res: CustomResponse) => {
   const permissionId = parseInt(req.params.id);
   if (isNaN(permissionId)) {
     res.status(400).json({ error: "Invalid permission ID" });

@@ -1,8 +1,14 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+import {
+  CreateEnrollmentRequest,
+  CustomResponse,
+  GetEnrollmentParams,
+} from "../types/express";
 import * as EnrollmentService from "../services/enrollmentService";
 
-export const getAllEnrollments = async (_req: Request, res: CustomResponse) => {
+export const getAllEnrollments = async (
+  _req: CreateEnrollmentRequest,
+  res: CustomResponse
+) => {
   try {
     const enrollments = await EnrollmentService.getAllEnrollments();
     if (!enrollments || enrollments.length === 0) {
@@ -26,11 +32,10 @@ export const getAllEnrollments = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface EnrollmentParams {
-  id: string;
-}
-
-export const getEnrollmentById = async (req: Request<EnrollmentParams>, res: CustomResponse) => {
+export const getEnrollmentById = async (
+  req: GetEnrollmentParams,
+  res: CustomResponse
+) => {
   const enrollmentId = parseInt(req.params.id);
   if (isNaN(enrollmentId)) {
     res.status(400).json({
@@ -64,17 +69,11 @@ export const getEnrollmentById = async (req: Request<EnrollmentParams>, res: Cus
   }
 };
 
-export const createEnrollment = async (req: Request, res: CustomResponse) => {
+export const createEnrollment = async (
+  req: CreateEnrollmentRequest,
+  res: CustomResponse
+) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Body is missing",
-        message:
-          "Request body is missing. Make sure to use express.json() middleware.",
-      });
-      return;
-    }
-
     const { studentId, courseId, amount, status } = req.body;
 
     // Validación de campos requeridos
@@ -110,7 +109,10 @@ export const createEnrollment = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getStudentCourses = async (req: Request<EnrollmentParams>, res: CustomResponse) => {
+export const getStudentCourses = async (
+  req: GetEnrollmentParams,
+  res: CustomResponse
+) => {
   const enrollmentId = parseInt(req.params.id);
   if (isNaN(enrollmentId)) {
     res.status(400).json({

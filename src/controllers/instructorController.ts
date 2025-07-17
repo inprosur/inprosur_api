@@ -1,16 +1,9 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CustomResponse, GetInstructorParams, InstructorRequest } from "../types/express";
 import * as InstructorService from "../services/instructorService";
 
-export const createInstructor = async (req: Request, res: CustomResponse) => {
+export const createInstructor = async (req: InstructorRequest, res: CustomResponse) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Bad request",
-        message: "Request body is required",
-      });
-      return;
-    }
 
     const { name, biography, phone, userId } = req.body;
     if (!name || !biography || !phone || !userId) {
@@ -43,7 +36,7 @@ export const createInstructor = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getAllInstructors = async (_req: Request, res: CustomResponse) => {
+export const getAllInstructors = async (_req: InstructorRequest, res: CustomResponse) => {
   try {
     const instructors = await InstructorService.getAllInstructors();
     if (!instructors || instructors.length === 0) {
@@ -67,11 +60,7 @@ export const getAllInstructors = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface InstructorParams {
-  id: string;
-}
-
-export const getInstructorById = async (req: Request<InstructorParams>, res: CustomResponse) => {
+export const getInstructorById = async (req: GetInstructorParams, res: CustomResponse) => {
   try {
     const instructorId = Number(req.params.id);
     if (!Number.isInteger(instructorId) || instructorId <= 0) {

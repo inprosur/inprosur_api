@@ -1,18 +1,15 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+import {
+  CreateCourseRequest,
+  CustomResponse,
+  GetCourseParams,
+} from "../types/express";
 import * as CourseService from "../services/courseService";
 
-export const createCourse = async (req: Request, res: CustomResponse) => {
+export const createCourse = async (
+  req: CreateCourseRequest,
+  res: CustomResponse
+) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Body is missing",
-        message:
-          "Request body is missing. Make sure to use express.json() middlewre.",
-      });
-      return;
-    }
-
     const {
       title,
       description,
@@ -24,11 +21,18 @@ export const createCourse = async (req: Request, res: CustomResponse) => {
       thumbnailUrl,
     } = req.body;
 
-    if (!title || !description || !instructorId || !price || !isPublished) {
+    if (
+      !title ||
+      !description ||
+      !instructorId ||
+      !price ||
+      !isPublished ||
+      !categoryId
+    ) {
       res.status(400).json({
         error: "Missing required fields",
         message:
-          "title, description, instructorId, price, isPublished are required",
+          "title, description, instructorId, price, isPublished and categoryId are required",
       });
       return;
     }
@@ -37,11 +41,11 @@ export const createCourse = async (req: Request, res: CustomResponse) => {
       title,
       description,
       instructorId,
-      categoryId: categoryId || null,
+      categoryId,
       price,
       isPublished,
-      duration: duration || null,
-      thumbnailUrl: thumbnailUrl || null,
+      duration,
+      thumbnailUrl,
       creationDate: new Date(),
     });
 
@@ -59,7 +63,10 @@ export const createCourse = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getAllCourses = async (_req: Request, res: CustomResponse) => {
+export const getAllCourses = async (
+  _req: CreateCourseRequest,
+  res: CustomResponse
+) => {
   try {
     const courses = await CourseService.getAllCourses();
     if (!courses) {
@@ -84,11 +91,10 @@ export const getAllCourses = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface CourseParams {
-  id: string;
-}
-
-export const getCourseById = async (req: Request<CourseParams>, res: CustomResponse) => {
+export const getCourseById = async (
+  req: GetCourseParams,
+  res: CustomResponse
+) => {
   try {
     const courseId = parseInt(req.params.id);
     if (!courseId) {
@@ -123,7 +129,7 @@ export const getCourseById = async (req: Request<CourseParams>, res: CustomRespo
 };
 
 export const getRecentsCreatedCourses = async (
-  _req: Request,
+  _req: GetCourseParams,
   res: CustomResponse
 ) => {
   try {

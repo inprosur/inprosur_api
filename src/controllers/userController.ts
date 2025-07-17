@@ -1,14 +1,14 @@
 import { Request } from "express";
-import { CustomResponse } from "../types/express";
+import {
+  CreateUserRequest,
+  CustomResponse,
+  GetUserParams,
+  LoginRequest,
+  UpdateUserRequest,
+} from "../types/express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
-import { User } from "../models/User";
-
-interface UserParams {
-  id: string;
-  email: string;
-}
 
 // Función para obtener todos los usuarios usando el servicio de usuario
 export const getAllUsers = async (_req: Request, res: CustomResponse) => {
@@ -35,9 +35,8 @@ export const getAllUsers = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-
 // Función para obtener un usuario por su ID usando el servicio de usuario. Se espera que el ID sea un número entero y se maneja un error 400 si no lo es.
-export const getUserById = async (req: Request<UserParams>, res: CustomResponse) => {
+export const getUserById = async (req: GetUserParams, res: CustomResponse) => {
   const userId = parseInt(req.params.id);
   if (isNaN(userId)) {
     res
@@ -68,17 +67,11 @@ export const getUserById = async (req: Request<UserParams>, res: CustomResponse)
 };
 
 // Función para crear un nuevo usuario usando el servicio de usuario. Se espera que el cuerpo de las solicitud contenga los campos username, email y password. Se maneja un error 400 si faltan campos requeridos.
-export const createUser = async (req: Request, res: CustomResponse) => {
+export const createUser = async (
+  req: CreateUserRequest,
+  res: CustomResponse
+) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Body is missing",
-        message:
-          "Request body is missing. Make sure to use express.json() middleware.",
-      });
-      return;
-    }
-
     const { username, email, password, uId } = req.body;
 
     if (!username || !email || !password) {
@@ -108,7 +101,10 @@ export const createUser = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getUserByEmail = async (req: Request<UserParams>, res: CustomResponse) => {
+export const getUserByEmail = async (
+  req: GetUserParams,
+  res: CustomResponse
+) => {
   try {
     const { email } = req.params;
 
@@ -143,7 +139,10 @@ export const getUserByEmail = async (req: Request<UserParams>, res: CustomRespon
   }
 };
 
-export const loginUser = async (req: Request, res: CustomResponse): Promise<void> => {
+export const loginUser = async (
+  req: LoginRequest,
+  res: CustomResponse
+): Promise<void> => {
   try {
     const { email, password } = req.body;
 
@@ -189,18 +188,12 @@ export const loginUser = async (req: Request, res: CustomResponse): Promise<void
 };
 
 //actualizar usuario
-export const updateUser = async (req: Request<any, any, Partial<User>>, res: CustomResponse) => {
+export const updateUser = async (
+  req: UpdateUserRequest,
+  res: CustomResponse
+) => {
   try {
-    const { id } = req.params;
     const updates = req.body;
-
-    if (!id || isNaN(Number(id))) {
-      res.status(400).json({
-        error: "Ivalid or missing user ID",
-        message: "A valid user ID is required.",
-      });
-      return;
-    }
 
     if (!updates || Object.keys(updates).length === 0) {
       res.status(400).json({
@@ -210,12 +203,12 @@ export const updateUser = async (req: Request<any, any, Partial<User>>, res: Cus
       return;
     }
 
-    const updatedUser = await UserService.updateUser(Number(id), updates);
+    const updatedUser = await UserService.updateUser(updates.id, updates);
 
     if (!updatedUser) {
       res.status(404).json({
         error: "User not found",
-        message: `No user found with ID: ${id}`,
+        message: `No user found with ID: ${updates.id}`,
       });
       return;
     }
@@ -234,7 +227,7 @@ export const updateUser = async (req: Request<any, any, Partial<User>>, res: Cus
   }
 };
 
-export const deleteUser = async (req: Request<UserParams>, res: CustomResponse) => {
+export const deleteUser = async (req: GetUserParams, res: CustomResponse) => {
   try {
     const id = parseInt(req.params.id);
     if (isNaN(id)) {

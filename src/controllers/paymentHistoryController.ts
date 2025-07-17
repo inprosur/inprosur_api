@@ -1,8 +1,8 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CreatePaymentHistoryRequest, CustomResponse, GetPaymentHistoryParams } from "../types/express";
 import * as PaymentHistoryService from "../services/paymentHistoryService";
 
-export const getAllPaymentHistories = async (_req: Request, res: CustomResponse) => {
+export const getAllPaymentHistories = async (_req: CreatePaymentHistoryRequest, res: CustomResponse) => {
     try {
         const payments = await PaymentHistoryService.getAllPaymentHistories();
         if (!payments || payments.length === 0) {
@@ -26,11 +26,7 @@ export const getAllPaymentHistories = async (_req: Request, res: CustomResponse)
     }
 };
 
-interface PaymentHistoryParams {
-    id: string;
-}
-
-export const getPaymentHistoryById = async (req: Request<PaymentHistoryParams>, res: CustomResponse) => {
+export const getPaymentHistoryById = async (req: GetPaymentHistoryParams, res: CustomResponse) => {
     const paymentId = parseInt(req.params.id);
     if (isNaN(paymentId)) {
         res.status(400).json({
@@ -62,16 +58,8 @@ export const getPaymentHistoryById = async (req: Request<PaymentHistoryParams>, 
     }
 };
 
-export const createPaymentHistory = async (req: Request, res: CustomResponse) => {
+export const createPaymentHistory = async (req: CreatePaymentHistoryRequest, res: CustomResponse) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Body is missing",
-                message: "Request body is missing. Make sure to use express.json() middleware."
-            });
-            return;
-        }
-
         const { studentId, courseId, videoId, documentId, amount } = req.body;
 
         // Validación: Al menos un ID de recurso (course, video o document)

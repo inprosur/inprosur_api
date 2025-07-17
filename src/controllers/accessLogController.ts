@@ -1,8 +1,8 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CreateAccessLogRequest, CustomResponse, GetAccessLogParams } from "../types/express";
 import * as AccessLogService from "../services/accessLogService";
 
-export const getAllAccessLogs = async (_req: Request, res: CustomResponse) => {
+export const getAllAccessLogs = async (_req: CreateAccessLogRequest, res: CustomResponse) => {
     try {
         const accessLogs = await AccessLogService.getAllAccessLogs();
         if (!accessLogs || accessLogs.length === 0) {
@@ -26,11 +26,7 @@ export const getAllAccessLogs = async (_req: Request, res: CustomResponse) => {
     }
 };
 
-interface AccessLogParams {
-    id: string;
-}
-
-export const getAccessLogById = async (req: Request<AccessLogParams>, res: CustomResponse) => {
+export const getAccessLogById = async (req: GetAccessLogParams, res: CustomResponse) => {
     const accessLogId = parseInt(req.params.id);
     if (isNaN(accessLogId)) {
         res.status(400).json({ 
@@ -62,15 +58,8 @@ export const getAccessLogById = async (req: Request<AccessLogParams>, res: Custo
     }
 };
 
-export const createAccessLog = async (req: Request, res: CustomResponse) => {
+export const createAccessLog = async (req: CreateAccessLogRequest, res: CustomResponse) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Body is missing",
-                message: "Request body is missing. Make sure to use express.json() middleware.",
-            });
-            return;
-        }
 
         const { accessType, studentId, courseId, videoId, documentId } = req.body;
 

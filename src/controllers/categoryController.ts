@@ -1,8 +1,15 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+import {
+  CreateCategoryRequest,
+  CustomResponse,
+  GetCategoryParams,
+  InstructorByDegreeRequest,
+} from "../types/express";
 import * as CategoryService from "../services/categoryService";
 
-export const getAllCategories = async (_req: Request, res: CustomResponse) => {
+export const getAllCategories = async (
+  _req: CreateCategoryRequest,
+  res: CustomResponse
+) => {
   try {
     const categories = await CategoryService.getAllCategories();
     if (!categories || categories.length === 0) {
@@ -26,11 +33,10 @@ export const getAllCategories = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface CategoryParams {
-  id: string;
-}
-
-export const getCategoryById = async (req: Request<CategoryParams>, res: CustomResponse) => {
+export const getCategoryById = async (
+  req: GetCategoryParams,
+  res: CustomResponse
+) => {
   const categoryId = parseInt(req.params.id);
   if (isNaN(categoryId)) {
     res.status(400).json({
@@ -62,16 +68,11 @@ export const getCategoryById = async (req: Request<CategoryParams>, res: CustomR
   }
 };
 
-export const createCategory = async (req: Request, res: CustomResponse) => {
+export const createCategory = async (
+  req: CreateCategoryRequest,
+  res: CustomResponse
+) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Body is missing",
-        message: "Request body is missing.",
-      });
-      return;
-    }
-
     const { name, degreeId } = req.body;
 
     if (!name || !degreeId) {
@@ -96,9 +97,12 @@ export const createCategory = async (req: Request, res: CustomResponse) => {
   }
 };
 
-export const getCategoryByDegreeId = async (req: Request, res: CustomResponse) => {
+export const getCategoryByDegreeId = async (
+  req: InstructorByDegreeRequest,
+  res: CustomResponse
+) => {
   try {
-    const degreeId = parseInt(req.query.degreeId as string);
+    const degreeId = parseInt(req.query.degreeId);
     if (degreeId == null || isNaN(degreeId)) {
       res.status(400).json({
         error: "Missing required fields",

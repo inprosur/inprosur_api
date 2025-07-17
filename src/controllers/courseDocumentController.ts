@@ -1,8 +1,8 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CourseDocumentRequest, CustomResponse, GetCourseDocumnentParams } from "../types/express";
 import * as CourseDocumentService from "../services/courseDocumentService";
 
-export const getAllCourseDocuments = async (_req: Request, res: CustomResponse) => {
+export const getAllCourseDocuments = async (_req: CourseDocumentRequest, res: CustomResponse) => {
     try {
         const documents = await CourseDocumentService.getAllCourseDocuments();
         if (!documents || documents.length === 0) {
@@ -26,11 +26,7 @@ export const getAllCourseDocuments = async (_req: Request, res: CustomResponse) 
     }
 };
 
-interface CourseDocumentParams {
-    id: string;
-}
-
-export const getCourseDocumentById = async (req: Request<CourseDocumentParams>, res: CustomResponse) => {
+export const getCourseDocumentById = async (req: GetCourseDocumnentParams, res: CustomResponse) => {
     const docId = parseInt(req.params.id);
     if (isNaN(docId)) {
         res.status(400).json({
@@ -62,15 +58,8 @@ export const getCourseDocumentById = async (req: Request<CourseDocumentParams>, 
     }
 };
 
-export const createCourseDocument = async (req: Request, res: CustomResponse) => {
+export const createCourseDocument = async (req: CourseDocumentRequest, res: CustomResponse) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Body is missing",
-                message: "Request body is missing. Make sure to use express.json() middleware."
-            });
-            return;
-        }
 
         const { title, description, fileUrl, price, courseId } = req.body;
 

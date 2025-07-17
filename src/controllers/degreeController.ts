@@ -1,8 +1,8 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CustomResponse, DegreeRequest, GetDegreeParams } from "../types/express";
 import * as DegressService from "../services/degreeService";
 
-export const getAllDegrees = async (_req: Request, res: CustomResponse) => {
+export const getAllDegrees = async (_req: DegreeRequest, res: CustomResponse) => {
   try {
     const degress = await DegressService.getAllDegrees();
     res.status(200).json(degress);
@@ -12,11 +12,7 @@ export const getAllDegrees = async (_req: Request, res: CustomResponse) => {
   }
 };
 
-interface DegressParams {
-  id: string;
-}
-
-export const getDegreesById = async (req: Request<DegressParams>, res: CustomResponse) => {
+export const getDegreesById = async (req: GetDegreeParams, res: CustomResponse) => {
   const id = parseInt(req.params.id);
   if (isNaN(id)) {
     res.status(400).json({ error: "Invalid ID" });
@@ -33,7 +29,7 @@ export const getDegreesById = async (req: Request<DegressParams>, res: CustomRes
   }
 };
 
-export const createDegrees = async (req: Request, res: CustomResponse) => {
+export const createDegrees = async (req: DegreeRequest, res: CustomResponse) => {
   const { name, description } = req.body;
   if (!name) {
     res.status(400).json({ error: "Name is required" });
@@ -42,7 +38,7 @@ export const createDegrees = async (req: Request, res: CustomResponse) => {
   try {
     const newDegress = await DegressService.createDegrees({
       name,
-      description: description || null, // Respeta NULL de la DB
+      description,
     });
     res.status(201).json(newDegress);
   } catch (error) {

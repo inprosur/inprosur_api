@@ -1,8 +1,8 @@
-import { Request } from "express";
-import { CustomResponse } from "../types/express";
+
+import { CreateCommissionRequest, CustomResponse, GetCommissionParams } from "../types/express";
 import * as InstructorCommissionService from "../services/instructorCommissionService";
 
-export const getAllCommissions = async (_req: Request, res: CustomResponse) => {
+export const getAllCommissions = async (_req: CreateCommissionRequest, res: CustomResponse) => {
     try {
         const commissions = await InstructorCommissionService.getAllCommissions();
         if (!commissions || commissions.length === 0) {
@@ -26,11 +26,8 @@ export const getAllCommissions = async (_req: Request, res: CustomResponse) => {
     }
 };
 
-interface CommissionParams {
-    id: string;
-}
 
-export const getCommissionById = async (req: Request<CommissionParams>, res: CustomResponse) => {
+export const getCommissionById = async (req: GetCommissionParams, res: CustomResponse) => {
     const commissionId = parseInt(req.params.id);
     if (isNaN(commissionId)) {
         res.status(400).json({
@@ -62,15 +59,8 @@ export const getCommissionById = async (req: Request<CommissionParams>, res: Cus
     }
 };
 
-export const createCommission = async (req: Request, res: CustomResponse) => {
+export const createCommission = async (req: CreateCommissionRequest, res: CustomResponse) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Body is missing",
-                message: "Request body is missing. Make sure to use express.json() middleware."
-            });
-            return;
-        }
 
         const { instructorId, courseId, videoId, documentId, commissionPercentage, commissionAmount } = req.body;
 

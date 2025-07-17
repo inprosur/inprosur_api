@@ -29,13 +29,219 @@ interface AdvertisingBody {
   status: boolean;
 }
 
+interface CreateRoleBody {
+  name: string;
+  description: string;
+  permissionId: number;
+}
+
+interface CreatePermissionBody {
+  name: string;
+  description: string;
+}
+
+interface CreateInstructorBody {
+  name: string;
+  biography: string;
+  phone: string;
+  userId: number;
+}
+
+interface CreateDegreeBody {
+  name: string;
+  description: string;
+}
+
+interface CreatePromotionBody {
+  courseId: number;
+  startDate: Date;
+  endDate: Date;
+  discountPercentage: number;
+  status: boolean;
+}
+
+interface CreateCourseDocumentBody {
+  title: string;
+  description: string;
+  fileUrl: string;
+  courseId: number;
+  price: number;
+}
+
+interface CreateCourseVideoBody {
+  courseId: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+  price: number;
+  duration: string;
+  description: string;
+}
+
+interface CreateCommissionBody {
+  instructorId: number;
+  courseId: number;
+  videoId: number;
+  documentId: number;
+  commissionPercentage: number;
+  commissionAmount: number;
+}
+
+interface CreatePaymentHistoryBody {
+  studentId: number;
+  courseId: number;
+  videoId: number;
+  documentId: number;
+  amount: number;
+}
+
+interface CreateAccessLogBody {
+  accessType: string;
+  studentId: number;
+  courseId: number;
+  videoId: number;
+  documentId: number;
+}
+
+interface CreateStudentBody {
+  name: string;
+  address: string;
+  phone: string;
+  fingerprint: string;
+  userId: number;
+}
+
+interface CreateCourseBody {
+  title: string;
+  description: string;
+  instructorId: number;
+  categoryId?: number;
+  price: number;
+  isPublished: boolean;
+  duration?: number;
+  thumbnailUrl?: string;
+}
+
+interface CreateCategoryBody {
+  name: string;
+  degreeId: number;
+}
+
+interface CreateCourseRatingBody {
+  studentId: number;
+  courseId: number;
+  rating: number;
+}
+
+interface CreateEnrollmentBody {
+  studentId: number;
+  courseId: number;
+  amount: number;
+  status: boolean;
+}
+
+interface CreateUserBody {
+  username: string;
+  email: string;
+  password: string;
+  uId: string;
+}
+
+interface UpdateUserBody {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface LoginBody {
+  email: string;
+  password: string;
+}
+
 export interface SearchRequest extends Request {
   query: {
     term?: string;
   };
   params: {
     categoryId?: string;
-  }
+  };
+}
+
+export interface StudentByUserRequest extends Request {
+  query: {
+    userId: string;
+  };
+}
+
+export interface InstructorByDegreeRequest extends Request {
+  query: {
+    degreeId: string;
+  };
+}
+
+export interface GetRoleParams extends Request {
+  params: { id: string };
+}
+
+export interface GetPermissionParams extends Request {
+  params: { id: string };
+}
+
+export interface GetInstructorParams extends Request {
+  params: { id: string };
+}
+
+export interface GetDegreeParams extends Request {
+  params: { id: string };
+}
+
+export interface GetPromotionParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCourseDocumnentParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCourseVideoParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCommissionParams extends Request {
+  params: { id: string };
+}
+
+export interface GetPaymentHistoryParams extends Request {
+  params: { id: string };
+}
+
+export interface GetAccessLogParams extends Request {
+  params: { id: string };
+}
+
+export interface GetStudentParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCourseParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCategoryParams extends Request {
+  params: { id: string };
+}
+
+export interface GetCourseRatingParams extends Request {
+  params: { id: string };
+}
+
+export interface GetEnrollmentParams extends Request {
+  params: { id: string };
+}
+
+export interface GetUserParams extends Request {
+  params: { id: string; email: string };
 }
 
 export interface CommissionRequest extends Request {
@@ -52,4 +258,76 @@ export interface NotificationRequest extends Request {
 
 export interface AdvetisingRequest extends Request {
   body: AdvertisingBody;
+}
+
+export interface CreateRoleRequest extends Request {
+  body: CreateRoleBody;
+}
+
+export interface PermissionRequest extends Request {
+  body: CreatePermissionBody;
+}
+
+export interface InstructorRequest extends Request {
+  body: CreateInstructorBody;
+}
+
+export interface DegreeRequest extends Request {
+  body: CreateDegreeBody;
+}
+
+export interface PromotionRequest extends Request {
+  body: CreatePromotionBody;
+}
+
+export interface CourseDocumentRequest extends Request {
+  body: CreateCourseDocumentBody;
+}
+
+export interface CourseVideoRequest extends Request {
+  body: CreateCourseVideoBody;
+}
+
+export interface CreateCommissionRequest extends Request {
+  body: CreateCommissionBody;
+}
+
+export interface CreatePaymentHistoryRequest extends Request {
+  body: CreatePaymentHistoryBody;
+}
+
+export interface CreateAccessLogRequest extends Request {
+  body: CreateAccessLogBody;
+}
+
+export interface CreateStudentRequest extends Request {
+  body: CreateStudentBody;
+}
+
+export interface CreateCourseRequest extends Request {
+  body: CreateCourseBody;
+}
+
+export interface CreateCategoryRequest extends Request {
+  body: CreateCategoryBody;
+}
+
+export interface CreateCourseRatingRequest extends Request {
+  body: CreateCourseRatingBody;
+}
+
+export interface CreateEnrollmentRequest extends Request {
+  body: CreateEnrollmentBody;
+}
+
+export interface CreateUserRequest extends Request {
+  body: CreateUserBody;
+}
+
+export interface LoginRequest extends Request {
+  body: LoginBody;
+}
+
+export interface UpdateUserRequest extends Request {
+  body: UpdateUserBody;
 }
