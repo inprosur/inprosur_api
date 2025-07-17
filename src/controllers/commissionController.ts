@@ -1,9 +1,12 @@
 import * as CommissionService from "../services/commissionService";
-import { Request, Response } from "express";
+import { Response } from "express";
+import { CommissionRequest } from "../types/express";
 
-export const createCommission = async (req: Request<any, any, CommissionBody>, res: Response) => {
+export const createCommission = async (
+  req: CommissionRequest,
+  res: Response
+) => {
   try {
-
     const { instructorId, percentage } = req.body;
 
     if (!instructorId || !percentage) {
@@ -26,11 +29,9 @@ export const createCommission = async (req: Request<any, any, CommissionBody>, r
     });
   } catch (error) {
     console.error("Error creating commission:", error);
-    res
-      .status(500)
-      .json({
-        error: "Internal server error",
-        message: "Failed to create commission.",
-      });
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to create commission.",
+    });
   }
 };

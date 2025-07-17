@@ -1,12 +1,8 @@
-import { Request, Response } from "express";
+import { Response } from "express";
 import * as UserRolService from "../services/userRolesService";
+import { UserRolRequest } from "../types/express";
 
-
-
-export const createUserRole = async (
-  req: Request<any, any, CreateUserRoleBody>,
-  res: Response
-) => {
+export const createUserRole = async (req: UserRolRequest, res: Response) => {
   try {
     const { userId, roleId } = req.body;
 
@@ -17,7 +13,10 @@ export const createUserRole = async (
       });
     }
 
-    const newUserRol = await UserRolService.createUsuarioRole({ userId, roleId });
+    const newUserRol = await UserRolService.createUsuarioRole({
+      userId,
+      roleId,
+    });
 
     return res.status(201).json({
       success: true,
