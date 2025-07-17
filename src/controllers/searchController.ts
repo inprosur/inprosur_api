@@ -33,9 +33,9 @@ export const searchCoursesByCategory = async (
   req: SearchRequest,
   res: CustomResponse
 ) => {
-  const categoryId = parseInt(req.params.categoryId);
+  const categoryId = req.params.categoryId;
   const term = req.query.term as string;
-  if (isNaN(categoryId)) {
+  if (!categoryId) {
     res.status(400).json({
       error: "Bad request",
       message: "Invalid category ID.",
@@ -44,7 +44,7 @@ export const searchCoursesByCategory = async (
   try {
     let text = term === "" ? "" : "%" + term + "%";
     const results = await SearchService.searchCoursesByCategory(
-      categoryId,
+      Number(categoryId),
       text
     );
     res.status(200).json({

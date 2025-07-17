@@ -33,6 +33,9 @@ export interface SearchRequest extends Request {
   query: {
     term?: string;
   };
+  params: {
+    categoryId?: string;
+  }
 }
 
 export interface CommissionRequest extends Request {
