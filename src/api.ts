@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import serverless from "serverless-http";
 import userRoutes from "./routes/userRoutes";
 import permissionRoutes from "./routes/permissionRoutes";
 import roleRoutes from "./routes/roleRoutes";
@@ -35,6 +34,10 @@ app.use(
   })
 );
 
+app.get("/favicon.ico", (_req, res) => {
+  res.status(204).end();
+});
+
 app.use("/api/users", userRoutes);
 app.use("/api/permissions", permissionRoutes);
 app.use("/api/roles", roleRoutes);
@@ -57,4 +60,4 @@ app.use("/api/advertising", advertisingRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/notifications", notificationRoutes);
 
-export const handler = serverless(app);
+export default app;
