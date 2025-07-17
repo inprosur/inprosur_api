@@ -4,7 +4,7 @@ import * as UserController from "../controllers/userController";
 const router = Router();
 
 //crear un nuevo usuario
-router.post("/new", UserController.createUser);
+router.post("/", UserController.createUser);
 // GET /api/users
 router.get("/", UserController.getAllUsers); // POST /api/users/newUser
 //obtener usuarios por email
