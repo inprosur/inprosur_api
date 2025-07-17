@@ -9,7 +9,7 @@ export const createCourse = async (course: Course): Promise<Course> => {
       course.description,
       course.creationDate.toISOString(),
       course.price,
-      course.duration || null,
+      course.duration || 0,
       course.isPublished ? 1 : 0,
       course.thumbnailUrl || null,
       course.instructorId,
