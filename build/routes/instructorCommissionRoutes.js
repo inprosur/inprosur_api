@@ -40,3 +40,4 @@ router.get("/", InstructorCommissionController.getAllCommissions);
 router.get("/:id", InstructorCommissionController.getCommissionById);
 router.post("/", InstructorCommissionController.createCommission);
 exports.default = router;
+//# sourceMappingURL=instructorCommissionRoutes.js.map

@@ -24,3 +24,4 @@ const getRollPermissionByIds = async (rolePermission) => {
     }
 };
 exports.getRollPermissionByIds = getRollPermissionByIds;
+//# sourceMappingURL=rolPermissionService.js.map

@@ -40,3 +40,4 @@ router.get("/", DegressController.getAllDegrees);
 router.get("/:id", DegressController.getDegreesById);
 router.post("/", DegressController.createDegrees);
 exports.default = router;
+//# sourceMappingURL=degreeRoutes.js.map

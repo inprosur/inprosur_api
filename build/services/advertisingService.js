@@ -27,3 +27,4 @@ const createAdvertising = async (advertising) => {
     return row;
 };
 exports.createAdvertising = createAdvertising;
+//# sourceMappingURL=advertisingService.js.map

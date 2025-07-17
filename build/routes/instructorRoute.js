@@ -40,3 +40,4 @@ router.post("/newInstructor", InstructorController.createInstructor);
 router.get("/", InstructorController.getAllInstructors);
 router.get("/:id", InstructorController.getInstructorById);
 exports.default = router;
+//# sourceMappingURL=instructorRoute.js.map

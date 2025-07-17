@@ -136,3 +136,4 @@ const createCourseVideo = async (req, res) => {
     }
 };
 exports.createCourseVideo = createCourseVideo;
+//# sourceMappingURL=courseVideoController.js.map

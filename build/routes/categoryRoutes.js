@@ -41,3 +41,4 @@ router.get("/degree", CategoryController.getCategoryByDegreeId);
 router.get("/:id", CategoryController.getCategoryById);
 router.post("/", CategoryController.createCategory);
 exports.default = router;
+//# sourceMappingURL=categoryRoutes.js.map

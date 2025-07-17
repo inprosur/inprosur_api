@@ -134,3 +134,4 @@ const createCourseDocument = async (req, res) => {
     }
 };
 exports.createCourseDocument = createCourseDocument;
+//# sourceMappingURL=courseDocumentController.js.map

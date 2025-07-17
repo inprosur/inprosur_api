@@ -41,3 +41,4 @@ router.get("/", CourseController.getAllCourses);
 router.get("/recents", CourseController.getRecentsCreatedCourses);
 router.get("/:id", CourseController.getCourseById);
 exports.default = router;
+//# sourceMappingURL=courseRoutes.js.map

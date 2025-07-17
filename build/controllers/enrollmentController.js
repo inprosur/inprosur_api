@@ -170,3 +170,4 @@ const getStudentCourses = async (req, res) => {
     }
 };
 exports.getStudentCourses = getStudentCourses;
+//# sourceMappingURL=enrollmentController.js.map

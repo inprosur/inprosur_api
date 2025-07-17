@@ -42,3 +42,4 @@ router.post("/newRole", RoleController.createRole);
 router.get("/", RoleController.getAllRoles);
 router.get("/:id", RoleController.getRoleById);
 exports.default = router;
+//# sourceMappingURL=roleRoutes.js.map

@@ -162,3 +162,4 @@ const getRecentsCreatedCourses = async (_req, res) => {
     }
 };
 exports.getRecentsCreatedCourses = getRecentsCreatedCourses;
+//# sourceMappingURL=courseController.js.map

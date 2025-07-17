@@ -33,3 +33,4 @@ const createDegrees = async (degress) => {
     };
 };
 exports.createDegrees = createDegrees;
+//# sourceMappingURL=degreeService.js.map

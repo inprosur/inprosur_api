@@ -41,3 +41,4 @@ router.get("/:id", EnrollmentController.getEnrollmentById);
 router.post("/", EnrollmentController.createEnrollment);
 router.get("/studentCourses", EnrollmentController.getStudentCourses);
 exports.default = router;
+//# sourceMappingURL=enrollmentRoutes.js.map

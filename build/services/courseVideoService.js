@@ -26,3 +26,4 @@ const createCourseVideo = async (video) => {
     };
 };
 exports.createCourseVideo = createCourseVideo;
+//# sourceMappingURL=courseVideoService.js.map

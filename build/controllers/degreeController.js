@@ -83,3 +83,4 @@ const createDegrees = async (req, res) => {
     }
 };
 exports.createDegrees = createDegrees;
+//# sourceMappingURL=degreeController.js.map

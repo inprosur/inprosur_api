@@ -87,3 +87,4 @@ const deleteUser = async (id) => {
     return user; // Retornar el usuario eliminado
 };
 exports.deleteUser = deleteUser;
+//# sourceMappingURL=userService.js.map

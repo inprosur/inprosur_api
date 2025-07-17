@@ -41,3 +41,4 @@ router.get("/user", StudentController.getStudentByUserId);
 router.get("/", StudentController.getAllStudents);
 router.get("/:id", StudentController.getStudentById);
 exports.default = router;
+//# sourceMappingURL=studentRoutes.js.map

@@ -152,3 +152,4 @@ const searchCoursesByCategory = async (categoryId, term) => {
     }
 };
 exports.searchCoursesByCategory = searchCoursesByCategory;
+//# sourceMappingURL=searchServices.js.map

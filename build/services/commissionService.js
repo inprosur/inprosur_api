@@ -26,3 +26,4 @@ const getCommissionById = async (id) => {
     }
 };
 exports.getCommissionById = getCommissionById;
+//# sourceMappingURL=commissionService.js.map

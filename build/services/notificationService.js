@@ -24,3 +24,4 @@ const createNotification = async (notification) => {
     return row;
 };
 exports.createNotification = createNotification;
+//# sourceMappingURL=notificationService.js.map

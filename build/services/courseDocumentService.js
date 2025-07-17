@@ -27,3 +27,4 @@ const createCourseDocument = async (doc) => {
     };
 };
 exports.createCourseDocument = createCourseDocument;
+//# sourceMappingURL=courseDocumentService.js.map

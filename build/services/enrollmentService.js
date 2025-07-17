@@ -50,3 +50,4 @@ const getStundentCourses = async (studentId) => {
     return rows;
 };
 exports.getStundentCourses = getStundentCourses;
+//# sourceMappingURL=enrollmentService.js.map

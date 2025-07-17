@@ -44,3 +44,4 @@ router.get("/:id", PermissionController.getPermissionById);
 // POST /api/permissions/newPermission
 router.post("/newPermission", PermissionController.createPermission);
 exports.default = router;
+//# sourceMappingURL=permissionRoutes.js.map

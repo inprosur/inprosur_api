@@ -52,3 +52,4 @@ router.patch("/:id", UserController.updateUser);
 //eliminar usuario por id
 router.delete("/:id", UserController.deleteUser);
 exports.default = router;
+//# sourceMappingURL=userRoutes.js.map

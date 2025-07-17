@@ -40,3 +40,4 @@ router.get("/", CourseVideoController.getAllCourseVideos);
 router.get("/:id", CourseVideoController.getCourseVideoById);
 router.post("/", CourseVideoController.createCourseVideo);
 exports.default = router;
+//# sourceMappingURL=courseVideoRoutes.js.map

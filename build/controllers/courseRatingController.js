@@ -196,3 +196,4 @@ const getRankingCourseRating = async (_req, res) => {
     }
 };
 exports.getRankingCourseRating = getRankingCourseRating;
+//# sourceMappingURL=courseRatingController.js.map

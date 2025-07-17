@@ -43,3 +43,4 @@ const createCommission = async (commission) => {
     };
 };
 exports.createCommission = createCommission;
+//# sourceMappingURL=instructorCommissionService.js.map

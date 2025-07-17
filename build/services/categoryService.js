@@ -40,3 +40,4 @@ const getCategoriesByDegreeId = async (degreeId) => {
     return rows;
 };
 exports.getCategoriesByDegreeId = getCategoriesByDegreeId;
+//# sourceMappingURL=categoryService.js.map

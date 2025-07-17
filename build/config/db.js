@@ -13,3 +13,4 @@ const db = (0, client_1.createClient)({
     authToken: process.env.TURSO_AUTH_TOKEN,
 });
 exports.default = db;
+//# sourceMappingURL=db.js.map

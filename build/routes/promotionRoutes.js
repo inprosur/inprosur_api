@@ -40,3 +40,4 @@ router.get("/", PromotionController.getAllPromotions);
 router.get("/:id", PromotionController.getPromotionById);
 router.post("/", PromotionController.createPromotion);
 exports.default = router;
+//# sourceMappingURL=promotionRoutes.js.map

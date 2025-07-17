@@ -33,3 +33,4 @@ const createAccessLog = async (accessLog) => {
     };
 };
 exports.createAccessLog = createAccessLog;
+//# sourceMappingURL=accessLogService.js.map

@@ -54,3 +54,4 @@ const getRecentsCreatedCourses = async () => {
     return rows;
 };
 exports.getRecentsCreatedCourses = getRecentsCreatedCourses;
+//# sourceMappingURL=courseService.js.map

@@ -58,3 +58,4 @@ app.use("/api/advertising", advertisingRoutes_1.default);
 app.use("/api/search", searchRoutes_1.default);
 app.use("/api/notifications", notificationRoute_1.default);
 exports.handler = (0, serverless_http_1.default)(app);
+//# sourceMappingURL=api.js.map

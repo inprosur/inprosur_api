@@ -47,3 +47,4 @@ const getRoleByName = async (name) => {
     }
 };
 exports.getRoleByName = getRoleByName;
+//# sourceMappingURL=roleService.js.map

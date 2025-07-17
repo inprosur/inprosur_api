@@ -38,3 +38,4 @@ const NotificationController = __importStar(require("../controllers/notification
 const router = (0, express_1.Router)();
 router.post("/newNotification", NotificationController.createNotification);
 exports.default = router;
+//# sourceMappingURL=notificationRoute.js.map

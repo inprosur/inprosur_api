@@ -135,3 +135,4 @@ const createAccessLog = async (req, res) => {
     }
 };
 exports.createAccessLog = createAccessLog;
+//# sourceMappingURL=accessLogController.js.map

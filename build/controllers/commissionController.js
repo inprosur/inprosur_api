@@ -37,13 +37,6 @@ exports.createCommission = void 0;
 const CommissionService = __importStar(require("../services/commissionService"));
 const createCommission = async (req, res) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Bad Request",
-                message: "Request body is required.",
-            });
-            return;
-        }
         const { instructorId, percentage } = req.body;
         if (!instructorId || !percentage) {
             res.status(400).json({
@@ -64,12 +57,11 @@ const createCommission = async (req, res) => {
     }
     catch (error) {
         console.error("Error creating commission:", error);
-        res
-            .status(500)
-            .json({
+        res.status(500).json({
             error: "Internal server error",
             message: "Failed to create commission.",
         });
     }
 };
 exports.createCommission = createCommission;
+//# sourceMappingURL=commissionController.js.map

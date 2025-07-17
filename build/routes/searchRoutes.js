@@ -39,3 +39,4 @@ const router = (0, express_1.Router)();
 router.get("/content", SearchController.searchCourses);
 router.get("/content/category/:categoryId", SearchController.searchCoursesByCategory);
 exports.default = router;
+//# sourceMappingURL=searchRoutes.js.map

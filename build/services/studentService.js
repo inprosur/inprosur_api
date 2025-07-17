@@ -52,3 +52,4 @@ const getStudentByUserId = async (userId) => {
     }
 };
 exports.getStudentByUserId = getStudentByUserId;
+//# sourceMappingURL=studentService.js.map

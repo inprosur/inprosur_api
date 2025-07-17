@@ -154,3 +154,4 @@ const getCategoryByDegreeId = async (req, res) => {
     }
 };
 exports.getCategoryByDegreeId = getCategoryByDegreeId;
+//# sourceMappingURL=categoryController.js.map

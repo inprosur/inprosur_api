@@ -40,3 +40,4 @@ router.get("/", AccessLogController.getAllAccessLogs);
 router.get("/:id", AccessLogController.getAccessLogById);
 router.post("/newAccessLog", AccessLogController.createAccessLog);
 exports.default = router;
+//# sourceMappingURL=accessLogRoutes.js.map

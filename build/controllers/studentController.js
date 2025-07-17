@@ -168,3 +168,4 @@ const getStudentByUserId = async (req, res) => {
     }
 };
 exports.getStudentByUserId = getStudentByUserId;
+//# sourceMappingURL=studentController.js.map

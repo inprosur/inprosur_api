@@ -37,13 +37,6 @@ exports.createNotification = void 0;
 const NotificationService = __importStar(require("../services/notificationService"));
 const createNotification = async (req, res) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Bad request",
-                message: "Request body is required",
-            });
-            return;
-        }
         const { destination, studentId, instructorId, message } = req.body;
         if (!destination || !message) {
             res.status(400).json({
@@ -55,8 +48,8 @@ const createNotification = async (req, res) => {
         const newNotification = await NotificationService.createNotification({
             destination,
             message,
-            studentId: studentId !== undefined ? studentId : null,
-            instructorId: instructorId !== undefined ? instructorId : null,
+            studentId,
+            instructorId,
             status: true,
             date: new Date(),
         });
@@ -75,3 +68,4 @@ const createNotification = async (req, res) => {
     }
 };
 exports.createNotification = createNotification;
+//# sourceMappingURL=notificationController.js.map

@@ -41,3 +41,4 @@ router.get("/courseRanking", CourseRatingController.getRankingCourseRating);
 router.post("/", CourseRatingController.createCourseRating);
 router.get("/:id", CourseRatingController.getCourseRating);
 exports.default = router;
+//# sourceMappingURL=courseRatingRoutes.js.map

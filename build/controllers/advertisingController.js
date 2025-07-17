@@ -102,3 +102,4 @@ const getAllAdvertisings = async (_req, res) => {
     }
 };
 exports.getAllAdvertisings = getAllAdvertisings;
+//# sourceMappingURL=advertisingController.js.map

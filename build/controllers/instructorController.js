@@ -133,3 +133,4 @@ const getInstructorById = async (req, res) => {
     }
 };
 exports.getInstructorById = getInstructorById;
+//# sourceMappingURL=instructorController.js.map

@@ -143,3 +143,4 @@ const getRoleById = async (req, res) => {
     }
 };
 exports.getRoleById = getRoleById;
+//# sourceMappingURL=roleController.js.map

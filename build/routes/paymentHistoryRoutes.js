@@ -40,3 +40,4 @@ router.get("/", PaymentHistoryController.getAllPaymentHistories);
 router.get("/:id", PaymentHistoryController.getPaymentHistoryById);
 router.post("/", PaymentHistoryController.createPaymentHistory);
 exports.default = router;
+//# sourceMappingURL=paymentHistoryRoutes.js.map

@@ -38,3 +38,4 @@ const UserRoleController = __importStar(require("../controllers/userRoleControll
 const router = (0, express_1.Router)();
 router.post("/newUserRole", UserRoleController.createUserRole);
 exports.default = router;
+//# sourceMappingURL=userRoleRoutes.js.map

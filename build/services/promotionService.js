@@ -32,3 +32,4 @@ const createPromotion = async (promotion) => {
     };
 };
 exports.createPromotion = createPromotion;
+//# sourceMappingURL=promotionService.js.map

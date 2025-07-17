@@ -88,3 +88,4 @@ const searchCoursesByCategory = async (req, res) => {
     }
 };
 exports.searchCoursesByCategory = searchCoursesByCategory;
+//# sourceMappingURL=searchController.js.map

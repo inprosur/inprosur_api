@@ -134,3 +134,4 @@ const createPromotion = async (req, res) => {
     }
 };
 exports.createPromotion = createPromotion;
+//# sourceMappingURL=promotionController.js.map

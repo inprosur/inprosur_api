@@ -38,3 +38,4 @@ const getInstructorById = async (id) => {
     }
 };
 exports.getInstructorById = getInstructorById;
+//# sourceMappingURL=instructorService.js.map

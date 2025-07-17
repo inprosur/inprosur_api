@@ -39,3 +39,4 @@ const router = (0, express_1.Router)();
 router.get("/", AdvertisingController.getAllAdvertisings);
 router.post("/", AdvertisingController.createAdvertising);
 exports.default = router;
+//# sourceMappingURL=advertisingRoutes.js.map

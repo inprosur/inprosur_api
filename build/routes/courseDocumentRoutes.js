@@ -40,3 +40,4 @@ router.get("/", CourseDocumentController.getAllCourseDocuments);
 router.get("/:id", CourseDocumentController.getCourseDocumentById);
 router.post("/", CourseDocumentController.createCourseDocument);
 exports.default = router;
+//# sourceMappingURL=courseDocumentRoutes.js.map

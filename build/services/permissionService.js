@@ -37,3 +37,4 @@ const getPermissionById = async (id) => {
     }
 };
 exports.getPermissionById = getPermissionById;
+//# sourceMappingURL=permissionService.js.map

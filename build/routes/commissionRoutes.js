@@ -38,3 +38,4 @@ const CommissionController = __importStar(require("../controllers/commissionCont
 const router = (0, express_1.Router)();
 router.post("/newCommission", CommissionController.createCommission);
 exports.default = router;
+//# sourceMappingURL=commissionRoutes.js.map

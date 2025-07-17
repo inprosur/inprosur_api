@@ -16,3 +16,4 @@ const createUsuarioRole = async (userRole) => {
     return row;
 };
 exports.createUsuarioRole = createUsuarioRole;
+//# sourceMappingURL=userRolesService.js.map
