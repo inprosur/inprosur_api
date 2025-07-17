@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as CourseVideoService from "../services/courseVideoService";
 
-export const getAllCourseVideos = async (_req: Request, res: Response) => {
+export const getAllCourseVideos = async (_req: Request, res: CustomResponse) => {
     try {
         const videos = await CourseVideoService.getAllCourseVideos();
         if (!videos || videos.length === 0) {
@@ -29,7 +30,7 @@ interface CourseVideoParams {
     id: string;
 }
 
-export const getCourseVideoById = async (req: Request<CourseVideoParams>, res: Response) => {
+export const getCourseVideoById = async (req: Request<CourseVideoParams>, res: CustomResponse) => {
     const videoId = parseInt(req.params.id);
     if (isNaN(videoId)) {
         res.status(400).json({
@@ -61,7 +62,7 @@ export const getCourseVideoById = async (req: Request<CourseVideoParams>, res: R
     }
 };
 
-export const createCourseVideo = async (req: Request, res: Response) => {
+export const createCourseVideo = async (req: Request, res: CustomResponse) => {
     try {
         if (!req.body) {
             res.status(400).json({

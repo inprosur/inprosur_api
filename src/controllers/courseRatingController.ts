@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as CourseRatingService from "../services/courseRatingService";
 
-export const getAllCourseRatings = async (_req: Request, res: Response) => {
+export const getAllCourseRatings = async (_req: Request, res: CustomResponse) => {
   try {
     const ratings = await CourseRatingService.getAllCourseRatings();
     if (!ratings || ratings.length === 0) {
@@ -29,7 +30,7 @@ interface CourseRatingParams {
   id: string;
 }
 
-export const getCourseRating = async (req: Request<CourseRatingParams>, res: Response) => {
+export const getCourseRating = async (req: Request<CourseRatingParams>, res: CustomResponse) => {
   const courseId = parseInt(req.params.id);
   if (isNaN(courseId)) {
     res.status(400).json({
@@ -61,7 +62,7 @@ export const getCourseRating = async (req: Request<CourseRatingParams>, res: Res
   }
 };
 
-export const createCourseRating = async (req: Request, res: Response) => {
+export const createCourseRating = async (req: Request, res: CustomResponse) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -112,7 +113,7 @@ export const createCourseRating = async (req: Request, res: Response) => {
   }
 };
 
-export const getCourseRatingByStudent = async (req: Request<CourseRatingParams>, res: Response) => {
+export const getCourseRatingByStudent = async (req: Request<CourseRatingParams>, res: CustomResponse) => {
   const studentId = parseInt(req.params.id);
   if (isNaN(studentId)) {
     res.status(400).json({
@@ -148,7 +149,7 @@ export const getCourseRatingByStudent = async (req: Request<CourseRatingParams>,
   }
 };
 
-export const getRankingCourseRating = async (_req: Request, res: Response) => {
+export const getRankingCourseRating = async (_req: Request, res: CustomResponse) => {
   try {
     const result = await CourseRatingService.getRankingCourseRating();
     res.status(200).json({

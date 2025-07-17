@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as PromotionService from "../services/promotionService";
 
-export const getAllPromotions = async (_req: Request, res: Response) => {
+export const getAllPromotions = async (_req: Request, res: CustomResponse) => {
     try {
         const promotions = await PromotionService.getAllPromotions();
         if (!promotions || promotions.length === 0) {
@@ -28,7 +29,7 @@ export const getAllPromotions = async (_req: Request, res: Response) => {
 interface PromotionParams {
     id: string;
 }
-export const getPromotionById = async (req: Request<PromotionParams>, res: Response) => {
+export const getPromotionById = async (req: Request<PromotionParams>, res: CustomResponse) => {
     const promotionId = parseInt(req.params.id);
     if (isNaN(promotionId)) {
         res.status(400).json({
@@ -60,7 +61,7 @@ export const getPromotionById = async (req: Request<PromotionParams>, res: Respo
     }
 };
 
-export const createPromotion = async (req: Request, res: Response) => {
+export const createPromotion = async (req: Request, res: CustomResponse) => {
     try {
         if (!req.body) {
             res.status(400).json({

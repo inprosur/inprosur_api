@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as StudentService from "../services/studentService";
 
-export const createStudent = async (req: Request, res: Response) => {
+export const createStudent = async (req: Request, res: CustomResponse) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -43,7 +44,7 @@ export const createStudent = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllStudents = async (_req: Request, res: Response) => {
+export const getAllStudents = async (_req: Request, res: CustomResponse) => {
   try {
     const students = await StudentService.getAllStudents();
     if (!students || students.length === 0) {
@@ -72,7 +73,7 @@ interface StudentIdParams {
   id: string;
 }
 
-export const getStudentById = async (req: Request<StudentIdParams>, res: Response) => {
+export const getStudentById = async (req: Request<StudentIdParams>, res: CustomResponse) => {
   try {
     const studentId = parseInt(req.params.id);
     if (!studentId) {
@@ -105,7 +106,7 @@ export const getStudentById = async (req: Request<StudentIdParams>, res: Respons
   }
 };
 
-export const getStudentByUserId = async (req: Request, res: Response) => {
+export const getStudentByUserId = async (req: Request, res: CustomResponse) => {
   try {
     const userId = parseInt(req.query.userId as string);
     if (!userId || isNaN(userId)) {

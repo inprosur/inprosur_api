@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as InstructorCommissionService from "../services/instructorCommissionService";
 
-export const getAllCommissions = async (_req: Request, res: Response) => {
+export const getAllCommissions = async (_req: Request, res: CustomResponse) => {
     try {
         const commissions = await InstructorCommissionService.getAllCommissions();
         if (!commissions || commissions.length === 0) {
@@ -29,7 +30,7 @@ interface CommissionParams {
     id: string;
 }
 
-export const getCommissionById = async (req: Request<CommissionParams>, res: Response) => {
+export const getCommissionById = async (req: Request<CommissionParams>, res: CustomResponse) => {
     const commissionId = parseInt(req.params.id);
     if (isNaN(commissionId)) {
         res.status(400).json({
@@ -61,7 +62,7 @@ export const getCommissionById = async (req: Request<CommissionParams>, res: Res
     }
 };
 
-export const createCommission = async (req: Request, res: Response) => {
+export const createCommission = async (req: Request, res: CustomResponse) => {
     try {
         if (!req.body) {
             res.status(400).json({

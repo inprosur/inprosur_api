@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as AccessLogService from "../services/accessLogService";
 
-export const getAllAccessLogs = async (_req: Request, res: Response) => {
+export const getAllAccessLogs = async (_req: Request, res: CustomResponse) => {
     try {
         const accessLogs = await AccessLogService.getAllAccessLogs();
         if (!accessLogs || accessLogs.length === 0) {
@@ -29,7 +30,7 @@ interface AccessLogParams {
     id: string;
 }
 
-export const getAccessLogById = async (req: Request<AccessLogParams>, res: Response) => {
+export const getAccessLogById = async (req: Request<AccessLogParams>, res: CustomResponse) => {
     const accessLogId = parseInt(req.params.id);
     if (isNaN(accessLogId)) {
         res.status(400).json({ 
@@ -61,7 +62,7 @@ export const getAccessLogById = async (req: Request<AccessLogParams>, res: Respo
     }
 };
 
-export const createAccessLog = async (req: Request, res: Response) => {
+export const createAccessLog = async (req: Request, res: CustomResponse) => {
     try {
         if (!req.body) {
             res.status(400).json({

@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as CourseService from "../services/courseService";
 
-export const createCourse = async (req: Request, res: Response) => {
+export const createCourse = async (req: Request, res: CustomResponse) => {
   try {
     if (!req.body) {
       res.status(400).json({
@@ -58,7 +59,7 @@ export const createCourse = async (req: Request, res: Response) => {
   }
 };
 
-export const getAllCourses = async (_req: Request, res: Response) => {
+export const getAllCourses = async (_req: Request, res: CustomResponse) => {
   try {
     const courses = await CourseService.getAllCourses();
     if (!courses) {
@@ -87,7 +88,7 @@ interface CourseParams {
   id: string;
 }
 
-export const getCourseById = async (req: Request<CourseParams>, res: Response) => {
+export const getCourseById = async (req: Request<CourseParams>, res: CustomResponse) => {
   try {
     const courseId = parseInt(req.params.id);
     if (!courseId) {
@@ -123,7 +124,7 @@ export const getCourseById = async (req: Request<CourseParams>, res: Response) =
 
 export const getRecentsCreatedCourses = async (
   _req: Request,
-  res: Response
+  res: CustomResponse
 ) => {
   try {
     const courses = await CourseService.getRecentsCreatedCourses();

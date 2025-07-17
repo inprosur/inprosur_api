@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as PaymentHistoryService from "../services/paymentHistoryService";
 
-export const getAllPaymentHistories = async (_req: Request, res: Response) => {
+export const getAllPaymentHistories = async (_req: Request, res: CustomResponse) => {
     try {
         const payments = await PaymentHistoryService.getAllPaymentHistories();
         if (!payments || payments.length === 0) {
@@ -29,7 +30,7 @@ interface PaymentHistoryParams {
     id: string;
 }
 
-export const getPaymentHistoryById = async (req: Request<PaymentHistoryParams>, res: Response) => {
+export const getPaymentHistoryById = async (req: Request<PaymentHistoryParams>, res: CustomResponse) => {
     const paymentId = parseInt(req.params.id);
     if (isNaN(paymentId)) {
         res.status(400).json({
@@ -61,7 +62,7 @@ export const getPaymentHistoryById = async (req: Request<PaymentHistoryParams>, 
     }
 };
 
-export const createPaymentHistory = async (req: Request, res: Response) => {
+export const createPaymentHistory = async (req: Request, res: CustomResponse) => {
     try {
         if (!req.body) {
             res.status(400).json({

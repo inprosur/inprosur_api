@@ -1,9 +1,10 @@
-import { Request, Response } from "express";
+import { Request } from "express";
+import { CustomResponse } from "../types/express";
 import * as RoleService from "../services/roleService";
 import * as RolePermissionService from "../services/rolPermissionService";
 
 // Función para agregar un nuevo rol usando el servicio de rol. Se espera que el cuerpo de la solicitud contenga las IDs de Rol y Permiso. Se maneja un error 400 en caso de que falten los IDs.
-export const createRole = async (req: Request, res: Response) => {
+export const createRole = async (req: Request, res: CustomResponse) => {
   try {
     // Verifica si el cuerpo de la solicitud está vacío y devuelve un error 400 si es así
     if (!req.body) {
@@ -54,7 +55,7 @@ export const createRole = async (req: Request, res: Response) => {
 };
 
 // Función para obtener todos los roles usando el servicio del rolService. Se maneja un error 404 si no se encuentran roles en la base de datos.
-export const getAllRoles = async (_req: Request, res: Response) => {
+export const getAllRoles = async (_req: Request, res: CustomResponse) => {
   try {
     const roles = await RoleService.getAllRoles();
     if (!roles || roles.length === 0) {
@@ -82,7 +83,7 @@ interface RoleParams {
   id: string;
 }
 
-export const getRoleById = async (req: Request<RoleParams>, res: Response) => {
+export const getRoleById = async (req: Request<RoleParams>, res: CustomResponse) => {
   try {
     const roleId = Number(req.params.id);
     if (!Number.isInteger(roleId) || roleId <= 0) {
