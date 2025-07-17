@@ -1,16 +1,13 @@
 import * as CommissionService from "../services/commissionService";
 import { Request, Response } from "express";
-import { CommissionRequestBody } from "../types/express";
 
-export const createCommission = async (req: Request<{}, any, CommissionRequestBody>, res: Response) => {
+interface CommissionBody {
+  instructorId: number;
+  percentage: number;
+} 
+
+export const createCommission = async (req: Request<any, any, CommissionBody>, res: Response) => {
   try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Bad Request",
-        message: "Request body is required.",
-      });
-      return;
-    }
 
     const { instructorId, percentage } = req.body;
 

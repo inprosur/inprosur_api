@@ -15,7 +15,7 @@
     "noImplicitReturns": true,                        
     "noFallthroughCasesInSwitch": true,               
     "skipLibCheck": true,
-    "typeRoots": ["node_modules/@types"],
+    "typeRoots": ["node_modules/@types", "./src/types"],
     "allowJs": true,
     "sourceMap": true
   },

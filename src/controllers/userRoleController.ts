@@ -6,23 +6,10 @@ interface CreateUserRoleBody {
   roleId: number;
 }
 
-interface SuccessResponse<T> {
-  success: true;
-  data: T;
-  message: string;
-}
-
-interface ErrorResponse {
-  error: string;
-  message: string;
-}
-
-type UserRoleResponse = SuccessResponse<any> | ErrorResponse;
-
 export const createUserRole = async (
   req: Request<any, any, CreateUserRoleBody>,
-  res: Response<UserRoleResponse>
-): Promise<Response<UserRoleResponse>> => {
+  res: Response
+) => {
   try {
     const { userId, roleId } = req.body;
 
