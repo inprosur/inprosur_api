@@ -1,10 +1,7 @@
 import { Request, Response } from "express";
 import * as UserRolService from "../services/userRolesService";
 
-interface CreateUserRoleBody {
-  userId: number;
-  roleId: number;
-}
+
 
 export const createUserRole = async (
   req: Request<any, any, CreateUserRoleBody>,

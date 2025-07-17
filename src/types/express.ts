@@ -1,7 +1,9 @@
-
-
-// Tipos específicos para diferentes controladores
-export interface CommissionRequestBody {
+interface CommissionBody {
   instructorId: number;
   percentage: number;
+}
+
+interface CreateUserRoleBody {
+  userId: number;
+  roleId: number;
 }

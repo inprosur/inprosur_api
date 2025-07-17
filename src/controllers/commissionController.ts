@@ -1,11 +1,6 @@
 import * as CommissionService from "../services/commissionService";
 import { Request, Response } from "express";
 
-interface CommissionBody {
-  instructorId: number;
-  percentage: number;
-} 
-
 export const createCommission = async (req: Request<any, any, CommissionBody>, res: Response) => {
   try {
 
