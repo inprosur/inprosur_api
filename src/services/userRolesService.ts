@@ -1,11 +1,12 @@
-import db from "../config/db";
+import { getTursoClient } from "../config/db";
 import { UserRole } from "../models/UserRole";
 
 // Función para crear una nueva relación entre usuario y role
 export const createUsuarioRole = async (
   userRole: UserRole
 ): Promise<UserRole> => {
-  const result = await db.execute(
+  const client = getTursoClient();
+  const result = await client.execute(
     "INSERT INTO UserRoles (userId, roleId) VALUES (?, ?)",
     [userRole.userId, userRole.roleId]
   );
