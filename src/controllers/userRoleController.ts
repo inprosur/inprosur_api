@@ -1,16 +1,13 @@
 import { Request, Response } from "express";
 import * as UserRolService from "../services/userRolesService";
 
-export const createUserRole = async (req: Request, res: Response) => {
-  try {
-    if (!req.body) {
-      res.status(400).json({
-        error: "Bad Request",
-        message: "Request body is required.",
-      });
-      return;
-    }
+interface CreateUserRoleBody {
+  userId: number;
+  roleId: number;
+}
 
+export const createUserRole = async (req: Request<{}, {}, CreateUserRoleBody>, res: Response) => {
+  try {
     const { userId, roleId } = req.body;
     if (!userId || !roleId) {
       res.status(400).json({
