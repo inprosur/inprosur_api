@@ -37,13 +37,6 @@ exports.createUserRole = void 0;
 const UserRolService = __importStar(require("../services/userRolesService"));
 const createUserRole = async (req, res) => {
     try {
-        if (!req.body) {
-            res.status(400).json({
-                error: "Bad Request",
-                message: "Request body is required.",
-            });
-            return;
-        }
         const { userId, roleId } = req.body;
         if (!userId || !roleId) {
             res.status(400).json({
