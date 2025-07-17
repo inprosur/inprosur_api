@@ -6,7 +6,7 @@ interface CreateUserRoleBody {
   roleId: number;
 }
 
-export const createUserRole = async (req: Request<{}, {}, CreateUserRoleBody>, res: Response) => {
+export const createUserRole = async (req: Request<any, any, CreateUserRoleBody>, res: Response) => {
   try {
     const { userId, roleId } = req.body;
     if (!userId || !roleId) {
