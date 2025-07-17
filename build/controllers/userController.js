@@ -232,7 +232,7 @@ const updateUser = async (req, res) => {
             return;
         }
         const updatedUser = await UserService.updateUser(Number(id), updates);
-        if (!exports.updateUser) {
+        if (!updatedUser) {
             res.status(404).json({
                 error: "User not found",
                 message: `No user found with ID: ${id}`,
