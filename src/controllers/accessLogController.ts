@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as AccessLogService from "../services/accessLogService";
 
 export const getAllAccessLogs = async (_req: Request, res: Response) => {

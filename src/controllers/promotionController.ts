@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as PromotionService from "../services/promotionService";
 
 export const getAllPromotions = async (_req: Request, res: Response) => {

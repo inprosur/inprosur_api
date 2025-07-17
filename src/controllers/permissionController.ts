@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as PermissionService from "../services/permissionService";
 
 // Función para crear un nuevo permiso, pasamos el permiso al servicio de permisos

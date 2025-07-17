@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as NotificationService from "../services/notificationService";
 
 export const createNotification = async (req: Request, res: Response) => {

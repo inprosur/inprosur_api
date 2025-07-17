@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as SearchService from "../services/searchServices";
 
 export const searchCourses = async (req: Request, res: Response) => {

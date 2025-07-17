@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as PaymentHistoryService from "../services/paymentHistoryService";
 
 export const getAllPaymentHistories = async (_req: Request, res: Response) => {

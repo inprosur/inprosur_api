@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as UserRolService from "../services/userRolesService";
 
 export const createUserRole = async (req: Request, res: Response) => {

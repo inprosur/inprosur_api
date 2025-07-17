@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as CourseDocumentService from "../services/courseDocumentService";
 
 export const getAllCourseDocuments = async (_req: Request, res: Response) => {

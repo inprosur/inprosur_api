@@ -1,4 +1,4 @@
-import { Request, Response as ExpressResponse} from "../types/express";
+import { Request, Response as ExpressResponse} from "express";
 import * as UserService from "../services/userService";
 import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";

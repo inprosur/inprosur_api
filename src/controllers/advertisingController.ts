@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as AdvertisingService from "../services/advertisingService";
 
 export const createAdvertising = async (req: Request, res: Response) => {

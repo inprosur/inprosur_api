@@ -1,4 +1,4 @@
-import { Request, Response } from "../types/express";
+import { Request, Response } from "express";
 import * as RoleService from "../services/roleService";
 import * as RolePermissionService from "../services/rolPermissionService";
 
