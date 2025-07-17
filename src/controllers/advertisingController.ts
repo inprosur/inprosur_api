@@ -1,5 +1,6 @@
 import * as AdvertisingService from "../services/advertisingService";
 import { AdvetisingRequest, CustomResponse } from "../types/express";
+import {Request} from "express";
 
 export const createAdvertising = async (
   req: AdvetisingRequest,
