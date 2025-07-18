@@ -4,7 +4,7 @@ import { Course } from "../models/Course";
 export const createCourse = async (course: Course): Promise<Course> => {
   const client = getTursoClient();
   const result = await client.execute(
-    "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId, subcategoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
     [
       course.title,
       course.description,
