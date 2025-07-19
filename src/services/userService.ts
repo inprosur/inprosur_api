@@ -23,7 +23,7 @@ export const createUser = async (user: User): Promise<User> => {
       user.uId,
       user.createdAt.toISOString(),
       user.photo,
-      user.status,
+      user.status ? 1 : 0, // Convert boolean to integer for status
     ]
   );
 
