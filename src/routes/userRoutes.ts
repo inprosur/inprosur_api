@@ -1,8 +1,8 @@
 import { Router } from "express";
-import * as CourseController from "../controllers/courseController";
+import * as UserController from "../controllers/userController";
 
 const router = Router();
 
-router.post("/newUser", CourseController.createCourse);
+router.post("/newUser", UserController.createUser);
 
-export default router; 
+export default router;
