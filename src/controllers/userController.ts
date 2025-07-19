@@ -17,9 +17,9 @@ export const createUser = async (
     const newUser = await UserService.createUser({
       username,
       email,
-      password: password,
+      password,
       createdAt: new Date(),
-      uId: uId,
+      uId,
       photo: photo || "",
       status: true,
     });
