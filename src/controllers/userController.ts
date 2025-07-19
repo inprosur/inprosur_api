@@ -1,5 +1,6 @@
 import { CreateUserRequest, CustomResponse } from "../types/express";
 import * as UserService from "../services/userService";
+import { hashedPassword } from "../utils/hashPassword";
 
 export const createUser = async (
   req: CreateUserRequest,
@@ -13,11 +14,11 @@ export const createUser = async (
         message: "Field usernamr, email, password, uId are required",
       });
     }
-
+    const passwordHashed = await hashedPassword(password);
     const newUser = await UserService.createUser({
       username,
       email,
-      password,
+      password: passwordHashed,
       createdAt: new Date(),
       uId,
       photo: photo || "",
