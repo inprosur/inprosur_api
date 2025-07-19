@@ -5,4 +5,6 @@ export interface User {
   password: string;
   uId: string;
   createdAt: Date;
+  photo: string;
+  status:string;
 }

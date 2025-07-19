@@ -1,100 +1,58 @@
 import { getTursoClient } from "../config/db";
 import { User } from "../models/User";
-import { hashedPassword } from "../utils/hashPassword";
 
-// Función para obtener todos los usuarios, se conecta a la base de datos y devuelve un array con todos los usuarios
-export const getAllUsers = async (): Promise<User[]> => {
-  const client = getTursoClient();
-  const result = await client.execute("SELECT * FROM users");
-  const rows = Array.isArray(result) ? result[0] : result.rows;
-  return rows as User[];
-};
+interface UserRow {
+  id: number;
+  username: string;
+  email: string;
+  password: string;
+  uId: string;
+  photo: string | null;
+  status: string;
+  createdAt: string | Date;
+}
 
-// Función para obtener un usuario por su ID, se conecta a la base de datos y devuelve un usuario o null si no existe
-export const getUserById = async (id: number): Promise<User | null> => {
-  const client = getTursoClient();
-  const result = await client.execute("SELECT * FROM users WHERE id =?", [id]);
-  const rows = Array.isArray(result) ? result[0] : result.rows;
-  if (rows.length == 1) {
-    return rows[0] as User;
-  } else {
-    return null;
-  }
-};
-
-// Función para crear un nuevo usuario, se conecta a la base de datos y devuelve el usuario creado
 export const createUser = async (user: User): Promise<User> => {
   const client = getTursoClient();
+  
   const result = await client.execute(
-    "INSERT INTO Users (username, email, password, uId, createdAt) VALUES (?,?,?,?,?)",
+    "INSERT INTO users (username, email, password, uId, createdAt, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
       user.username,
       user.email,
       user.password,
       user.uId,
       user.createdAt.toISOString(),
+      user.photo,
+      user.status
     ]
   );
-  const id = result.lastInsertRowid;
-  const row = {
+
+  return {
     ...user,
-    id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
+    id: Number(result.lastInsertRowid)
   };
-  return row as User;
 };
 
-//funsion para obtener usuariospor email
-export const getUserByEmail = async (email: string): Promise<User | null> => {
+export const getAllUsers = async (): Promise<User[]> => {
   const client = getTursoClient();
-  const result = await client.execute("SELECT * FROM users WHERE email = ?", [
-    email,
-  ]);
-  const row = Array.isArray(result) ? result[0] : result.rows;
-  if (row.length == 1) {
-    return row[0] as User;
-  } else {
-    return null;
+  
+  try {
+    const result = await client.execute("SELECT * FROM users");
+    const rows = Array.isArray(result) ? result[0] : result.rows;
+    
+    return rows.map((row: UserRow) => ({
+      id: row.id,
+      username: row.username,
+      email: row.email,
+      password: row.password, // Nota: Esto no debería exponerse en respuestas API
+      uId: row.uId,
+      photo: row.photo,
+      status: row.status,
+      createdAt: new Date(row.createdAt)
+    }));
+  } catch (error) {
+    console.error("Error en userService.getAllUsers:", error);
+    throw new Error("Error al obtener usuarios de la base de datos");
   }
-};
-
-export const updateUser = async (
-  id: number,
-  updates: Partial<User>
-): Promise<User | null> => {
-  const client = getTursoClient();
-  if (updates.password) {
-    updates.password = await hashedPassword(updates.password);
-  }
-
-  const fields = Object.keys(updates)
-    .map((key) => `${key} = ?`)
-    .join(", ");
-  const values = Object.values(updates);
-
-  if (fields.length === 0) {
-    throw new Error("No fields provides to update");
-  }
-
-  const result = await client.execute(
-    `UPDATE users SET ${fields} WHERE id = ?`,
-    [...values, id]
-  );
-
-  if (result.rowsAffected === 0) {
-    return null;
-  }
-
-  return getUserById(id);
-};
-
-export const deleteUser = async (id: number): Promise<User | null> => {
-  const client = getTursoClient();
-  // Verificar si el usuario existe
-  const user = await getUserById(id);
-  if (!user) return null;
-
-  // Ejecutar la eliminación
-  await client.execute("DELETE FROM users WHERE id = ?", [id]);
-
-  return user; // Retornar el usuario eliminado
 };
