@@ -1,7 +1,7 @@
 import {
   CreateCourseRatingRequest,
   CustomResponse,
-  GetCourseRatingParams,
+  RequestWithIdParams,
 } from "../types/express";
 import * as CourseRatingService from "../services/courseRatingService";
 
@@ -33,7 +33,7 @@ export const getAllCourseRatings = async (
 };
 
 export const getCourseRating = async (
-  req: GetCourseRatingParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   const courseId = parseInt(req.params.id);
@@ -113,7 +113,7 @@ export const createCourseRating = async (
 };
 
 export const getCourseRatingByStudent = async (
-  req: GetCourseRatingParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   const studentId = parseInt(req.params.id);

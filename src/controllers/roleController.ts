@@ -1,10 +1,16 @@
-
-import { CustomResponse, CreateRoleRequest, GetRoleParams } from "../types/express";
+import {
+  CustomResponse,
+  CreateRoleRequest,
+  RequestWithIdParams,
+} from "../types/express";
 import * as RoleService from "../services/roleService";
 import * as RolePermissionService from "../services/rolPermissionService";
 
 // Función para agregar un nuevo rol usando el servicio de rol. Se espera que el cuerpo de la solicitud contenga las IDs de Rol y Permiso. Se maneja un error 400 en caso de que falten los IDs.
-export const createRole = async (req: CreateRoleRequest, res: CustomResponse) => {
+export const createRole = async (
+  req: CreateRoleRequest,
+  res: CustomResponse
+) => {
   try {
     // Verifica si el cuerpo de la solicitud contiene los campos requeridos: name, descirption y permissionId. Si falta alguno de ellos, devuelve un error 400
     const { name, description, permissionId } = req.body;
@@ -46,7 +52,10 @@ export const createRole = async (req: CreateRoleRequest, res: CustomResponse) =>
 };
 
 // Función para obtener todos los roles usando el servicio del rolService. Se maneja un error 404 si no se encuentran roles en la base de datos.
-export const getAllRoles = async (_req: CreateRoleRequest, res: CustomResponse) => {
+export const getAllRoles = async (
+  _req: CreateRoleRequest,
+  res: CustomResponse
+) => {
   try {
     const roles = await RoleService.getAllRoles();
     if (!roles || roles.length === 0) {
@@ -70,7 +79,10 @@ export const getAllRoles = async (_req: CreateRoleRequest, res: CustomResponse) 
   }
 };
 
-export const getRoleById = async (req: GetRoleParams, res: CustomResponse) => {
+export const getRoleById = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
   try {
     const roleId = Number(req.params.id);
     if (!Number.isInteger(roleId) || roleId <= 0) {
@@ -103,4 +115,3 @@ export const getRoleById = async (req: GetRoleParams, res: CustomResponse) => {
     });
   }
 };
-

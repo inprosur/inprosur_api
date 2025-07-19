@@ -1,7 +1,7 @@
 import {
   CreateEnrollmentRequest,
   CustomResponse,
-  GetEnrollmentParams,
+  RequestWithIdParams,
 } from "../types/express";
 import * as EnrollmentService from "../services/enrollmentService";
 
@@ -33,7 +33,7 @@ export const getAllEnrollments = async (
 };
 
 export const getEnrollmentById = async (
-  req: GetEnrollmentParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   const enrollmentId = parseInt(req.params.id);
@@ -110,7 +110,7 @@ export const createEnrollment = async (
 };
 
 export const getStudentCourses = async (
-  req: GetEnrollmentParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   const enrollmentId = parseInt(req.params.id);

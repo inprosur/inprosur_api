@@ -1,10 +1,16 @@
-
-import { CreateStudentRequest, CustomResponse, GetStudentParams, StudentByUserRequest } from "../types/express";
+import {
+  CreateStudentRequest,
+  CustomResponse,
+  RequestWithIdParams,
+  StudentByUserRequest,
+} from "../types/express";
 import * as StudentService from "../services/studentService";
 
-export const createStudent = async (req: CreateStudentRequest, res: CustomResponse) => {
+export const createStudent = async (
+  req: CreateStudentRequest,
+  res: CustomResponse
+) => {
   try {
-
     const { name, phone, address, fingerprint, userId } = req.body;
     if (!name || !address || !phone || !userId) {
       res.status(400).json({
@@ -24,7 +30,7 @@ export const createStudent = async (req: CreateStudentRequest, res: CustomRespon
     };
     const newStudent = await StudentService.createStudent({
       ...student,
-      fingerprint: fingerprint || undefined
+      fingerprint: fingerprint || undefined,
     });
     res.status(201).json({
       success: true,
@@ -40,7 +46,10 @@ export const createStudent = async (req: CreateStudentRequest, res: CustomRespon
   }
 };
 
-export const getAllStudents = async (_req: CreateStudentRequest, res: CustomResponse) => {
+export const getAllStudents = async (
+  _req: CreateStudentRequest,
+  res: CustomResponse
+) => {
   try {
     const students = await StudentService.getAllStudents();
     if (!students || students.length === 0) {
@@ -65,7 +74,10 @@ export const getAllStudents = async (_req: CreateStudentRequest, res: CustomResp
   }
 };
 
-export const getStudentById = async (req: GetStudentParams, res: CustomResponse) => {
+export const getStudentById = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
   try {
     const studentId = parseInt(req.params.id);
     if (!studentId) {
@@ -98,7 +110,10 @@ export const getStudentById = async (req: GetStudentParams, res: CustomResponse)
   }
 };
 
-export const getStudentByUserId = async (req: StudentByUserRequest, res: CustomResponse) => {
+export const getStudentByUserId = async (
+  req: StudentByUserRequest,
+  res: CustomResponse
+) => {
   try {
     const userId = parseInt(req.query.userId);
     if (!userId || isNaN(userId)) {

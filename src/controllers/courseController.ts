@@ -1,7 +1,7 @@
 import {
   CreateCourseRequest,
   CustomResponse,
-  GetCourseParams,
+  RequestWithIdParams,
 } from "../types/express";
 import * as CourseService from "../services/courseService";
 
@@ -92,7 +92,7 @@ export const getAllCourses = async (
 };
 
 export const getCourseById = async (
-  req: GetCourseParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   try {
@@ -129,7 +129,7 @@ export const getCourseById = async (
 };
 
 export const getRecentsCreatedCourses = async (
-  _req: GetCourseParams,
+  _req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   try {

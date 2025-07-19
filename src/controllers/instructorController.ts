@@ -1,10 +1,15 @@
-
-import { CustomResponse, GetInstructorParams, InstructorRequest } from "../types/express";
+import {
+  CustomResponse,
+  InstructorRequest,
+  RequestWithIdParams,
+} from "../types/express";
 import * as InstructorService from "../services/instructorService";
 
-export const createInstructor = async (req: InstructorRequest, res: CustomResponse) => {
+export const createInstructor = async (
+  req: InstructorRequest,
+  res: CustomResponse
+) => {
   try {
-
     const { name, biography, phone, userId } = req.body;
     if (!name || !biography || !phone || !userId) {
       res.status(400).json({
@@ -36,7 +41,10 @@ export const createInstructor = async (req: InstructorRequest, res: CustomRespon
   }
 };
 
-export const getAllInstructors = async (_req: InstructorRequest, res: CustomResponse) => {
+export const getAllInstructors = async (
+  _req: InstructorRequest,
+  res: CustomResponse
+) => {
   try {
     const instructors = await InstructorService.getAllInstructors();
     if (!instructors || instructors.length === 0) {
@@ -60,7 +68,10 @@ export const getAllInstructors = async (_req: InstructorRequest, res: CustomResp
   }
 };
 
-export const getInstructorById = async (req: GetInstructorParams, res: CustomResponse) => {
+export const getInstructorById = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
   try {
     const instructorId = Number(req.params.id);
     if (!Number.isInteger(instructorId) || instructorId <= 0) {

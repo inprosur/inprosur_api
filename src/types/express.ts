@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 
+/// Custom response interface to extend Express Response
 export interface CustomResponse extends Response {
   status: (code: number) => this;
   json: (body: any) => this;
+}
+
+/// Request interface for handling ID parameters
+export interface RequestWithIdParams extends Request {
+  params: { id: string };
 }
 
 interface CommissionBody {
@@ -145,6 +151,7 @@ interface CreateUserBody {
   email: string;
   password: string;
   uId: string;
+  photo?: string;
 }
 
 interface UpdateUserBody {
@@ -178,66 +185,6 @@ export interface InstructorByDegreeRequest extends Request {
   query: {
     degreeId: string;
   };
-}
-
-export interface GetRoleParams extends Request {
-  params: { id: string };
-}
-
-export interface GetPermissionParams extends Request {
-  params: { id: string };
-}
-
-export interface GetInstructorParams extends Request {
-  params: { id: string };
-}
-
-export interface GetDegreeParams extends Request {
-  params: { id: string };
-}
-
-export interface GetPromotionParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCourseDocumnentParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCourseVideoParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCommissionParams extends Request {
-  params: { id: string };
-}
-
-export interface GetPaymentHistoryParams extends Request {
-  params: { id: string };
-}
-
-export interface GetAccessLogParams extends Request {
-  params: { id: string };
-}
-
-export interface GetStudentParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCourseParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCategoryParams extends Request {
-  params: { id: string };
-}
-
-export interface GetCourseRatingParams extends Request {
-  params: { id: string };
-}
-
-export interface GetEnrollmentParams extends Request {
-  params: { id: string };
 }
 
 export interface GetUserParams extends Request {

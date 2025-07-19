@@ -1,8 +1,8 @@
 import {
   CreateCategoryRequest,
   CustomResponse,
-  GetCategoryParams,
   InstructorByDegreeRequest,
+  RequestWithIdParams,
 } from "../types/express";
 import * as CategoryService from "../services/categoryService";
 
@@ -34,7 +34,7 @@ export const getAllCategories = async (
 };
 
 export const getCategoryById = async (
-  req: GetCategoryParams,
+  req: RequestWithIdParams,
   res: CustomResponse
 ) => {
   const categoryId = parseInt(req.params.id);

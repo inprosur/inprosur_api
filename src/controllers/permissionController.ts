@@ -1,11 +1,16 @@
-
-import { CustomResponse, GetPermissionParams, PermissionRequest } from "../types/express";
+import {
+  CustomResponse,
+  PermissionRequest,
+  RequestWithIdParams,
+} from "../types/express";
 import * as PermissionService from "../services/permissionService";
 
 // Función para crear un nuevo permiso, pasamos el permiso al servicio de permisos
-export const createPermission = async (req: PermissionRequest, res: CustomResponse) => {
+export const createPermission = async (
+  req: PermissionRequest,
+  res: CustomResponse
+) => {
   try {
-
     const { name, description } = req.body;
     if (!name || !description) {
       res.status(400).json({
@@ -34,7 +39,10 @@ export const createPermission = async (req: PermissionRequest, res: CustomRespon
 };
 
 //Función para obtener todos los permisos, llamando al servicio de permisos
-export const getAllPermissions = async (_req: PermissionRequest, res: CustomResponse) => {
+export const getAllPermissions = async (
+  _req: PermissionRequest,
+  res: CustomResponse
+) => {
   try {
     const users = await PermissionService.getAllPermissions();
     res.status(200).json(users);
@@ -45,7 +53,10 @@ export const getAllPermissions = async (_req: PermissionRequest, res: CustomResp
 };
 
 // Función para obtener un permiso por su ID, llamando al servicio de permisos
-export const getPermissionById = async (req: GetPermissionParams, res: CustomResponse) => {
+export const getPermissionById = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
   const permissionId = parseInt(req.params.id);
   if (isNaN(permissionId)) {
     res.status(400).json({ error: "Invalid permission ID" });
