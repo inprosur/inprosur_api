@@ -16,7 +16,7 @@ export const createUser = async (
       password: await hashedPassword(password),
       uId,
       photo: photo ?? "",
-      status: "active",
+      status: true,
       createdAt: new Date(),
     });
 

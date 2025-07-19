@@ -14,7 +14,6 @@ interface UserRow {
 
 export const createUser = async (user: User): Promise<User> => {
   const client = getTursoClient();
-  
   const result = await client.execute(
     "INSERT INTO users (username, email, password, uId, createdAt, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
@@ -24,23 +23,23 @@ export const createUser = async (user: User): Promise<User> => {
       user.uId,
       user.createdAt.toISOString(),
       user.photo,
-      user.status
+      user.status,
     ]
   );
 
   return {
     ...user,
-    id: Number(result.lastInsertRowid)
+    id: Number(result.lastInsertRowid),
   };
 };
 
 export const getAllUsers = async (): Promise<User[]> => {
   const client = getTursoClient();
-  
+
   try {
     const result = await client.execute("SELECT * FROM users");
     const rows = Array.isArray(result) ? result[0] : result.rows;
-    
+
     return rows.map((row: UserRow) => ({
       id: row.id,
       username: row.username,
@@ -49,7 +48,7 @@ export const getAllUsers = async (): Promise<User[]> => {
       uId: row.uId,
       photo: row.photo,
       status: row.status,
-      createdAt: new Date(row.createdAt)
+      createdAt: new Date(row.createdAt),
     }));
   } catch (error) {
     console.error("Error en userService.getAllUsers:", error);

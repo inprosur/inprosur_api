@@ -6,5 +6,5 @@ export interface User {
   uId: string;
   createdAt: Date;
   photo: string;
-  status:string;
+  status: boolean;
 }
