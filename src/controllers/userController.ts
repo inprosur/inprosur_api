@@ -1,4 +1,3 @@
-import { Request } from "express";
 import {
   CreateUserRequest,
   CustomResponse,
@@ -11,7 +10,10 @@ import { hashedPassword } from "../utils/hashPassword";
 import bcrypt from "bcryptjs";
 
 // Función para obtener todos los usuarios usando el servicio de usuario
-export const getAllUsers = async (_req: Request, res: CustomResponse) => {
+export const getAllUsers = async (
+  _req: CreateUserRequest,
+  res: CustomResponse
+) => {
   try {
     const users = await UserService.getAllUsers();
     if (!users || users.length === 0) {
