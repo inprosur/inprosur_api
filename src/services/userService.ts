@@ -3,7 +3,7 @@ import { User } from "../models/User";
 import { hashedPassword } from "../utils/hashPassword";
 
 export const createUser = async (user: User): Promise<User> => {
-  const turso = await getTursoClient();
+  const turso = getTursoClient();
   const newPassword = await hashedPassword(user.password);
   const result = await turso.execute({
     sql: "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
