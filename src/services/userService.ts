@@ -6,7 +6,7 @@ export const createUser = async (user: User): Promise<User> => {
   const turso = await getTursoClient();
   const newPassword = await hashedPassword(user.password);
   const result = await turso.execute({
-    sql: "INSERT INTO users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    sql: "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
     args: [
       user.username,
       user.email,
