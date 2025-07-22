@@ -24,3 +24,10 @@ export const createUser = async (user: User): Promise<User> => {
   };
   return newUser;
 };
+
+export const getAllUsers = async (): Promise<User[]> => {
+  const client = getTursoClient();
+  const result = await client.execute("SELECT * FROM users");
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  return rows as User[];
+};
