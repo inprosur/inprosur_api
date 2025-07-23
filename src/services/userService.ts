@@ -37,9 +37,9 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   const result = await client.execute("SELECT * FROM users WHERE email = ?", [
     email,
   ]);
-  const rows = Array.isArray(result) ? result[0] : result.rows;
-  if (rows.length === 1) {
-    return rows[0] as User;
+
+  if (result.rows.length === 1) {
+    return result.rows[0] as unknown as User;
   } else {
     return null;
   }

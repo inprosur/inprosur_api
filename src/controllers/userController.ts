@@ -95,8 +95,8 @@ export const getAllUsers = async (
 };
 
 export const getUserByEmail = async (
-  res: CustomResponse,
-  req: GetUserParams
+  req: GetUserParams,
+  res: CustomResponse
 ): Promise<void> => {
   try {
     const { email } = req.params;
