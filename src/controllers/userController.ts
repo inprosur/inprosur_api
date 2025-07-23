@@ -38,3 +38,51 @@ export const createUser = async (
     });
   }
 };
+
+export const getAllUsers = async (
+  _req: CreateUserRequest,
+  res: CustomResponse
+): Promise<void> => {
+  try {
+    const users = await UserService.getAllUsers();
+    
+    if (!users || users.length === 0) {
+      res.status(404).json({
+        success: false,
+        error: "UsersNotFound",
+        message: "No se encontraron usuarios en la base de datos",
+        details: {
+          suggestion: "Verifique si hay usuarios registrados",
+          timestamp: new Date().toISOString()
+        }
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: users,
+      message: "Usuarios obtenidos exitosamente",
+      count: users.length,
+      pagination: {
+        total: users.length,
+        returned: users.length
+      }
+    });
+  } catch (error) {
+    console.error("[UsersController] Error al obtener usuarios:", error);
+    
+    const errorMessage = error instanceof Error ? error.message : "Error desconocido al obtener usuarios";
+    
+    res.status(500).json({
+      success: false,
+      error: "DatabaseError",
+      message: "Error interno del servidor",
+      details: {
+        technical: errorMessage,
+        timestamp: new Date().toISOString(),
+        requestId: res.locals.requestId // Asumiendo que tienes un requestId
+      }
+    });
+  }
+};
