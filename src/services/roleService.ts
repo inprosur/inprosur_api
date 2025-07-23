@@ -49,3 +49,12 @@ export const getRoleByName = async (name: string): Promise<Role | null> => {
     return null;
   }
 };
+
+// Función utilitaria para obtener solo el id de un rol por su nombre
+export const getRoleIdByName = async (name: string): Promise<number | null> => {
+  const role = await getRoleByName(name);
+  if (role && typeof role.id === "number") {
+    return role.id;
+  }
+  return null;
+};

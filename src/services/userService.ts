@@ -1,5 +1,8 @@
 import { getTursoClient } from "../config/db";
 import { User } from "../models/User";
+import { getRoleIdByName } from "./roleService";
+import { hashedPassword } from "../utils/hashPassword";
+
 //import { hashedPassword } from "../utils/hashPassword";
 
 export const createUser = async (user: User): Promise<User> => {
@@ -42,5 +45,80 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
     return result.rows[0] as unknown as User;
   } else {
     return null;
+  }
+};
+
+export const registerInstructor = async (data: {
+  username: string;
+  email: string;
+  password: string;
+  uId: string;
+  photo?: string;
+  biography?: string;
+  phone?: string;
+}) => {
+  const turso = getTursoClient();
+  const { username, email, password, uId, photo, biography, phone } = data;
+
+  const transaction = await turso.transaction();
+
+  try {
+    const hashed = await hashedPassword(password);
+
+    // Insert user
+    const userResult = await transaction.execute({
+      sql: "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      args: [
+        username,
+        email,
+        hashed,
+        new Date().toISOString(),
+        uId,
+        photo ?? null,
+        1,
+      ],
+    });
+
+    const userId = userResult.lastInsertRowid;
+    if (!userId) throw new Error("Failed to insert user");
+
+    // Insert instructor
+    const instructorResult = await transaction.execute({
+      sql: "INSERT INTO Instructors (name, biography, phone, userId) VALUES (?, ?, ?, ?)",
+      args: [username, biography ?? "", phone ?? "", userId],
+    });
+
+    if (instructorResult.rowsAffected === 0)
+      throw new Error("Failed to insert instructor");
+
+    // Insert UserRole (get instructor roleId)
+    const roleId = await getRoleIdByName("instructor");
+    if (!roleId) throw new Error("Instructor role not found");
+
+    const roleResult = await transaction.execute({
+      sql: "INSERT INTO UserRoles (userId, roleId) VALUES (?, ?)",
+      args: [userId, roleId],
+    });
+
+    if (roleResult.rowsAffected === 0)
+      throw new Error("Failed to insert user role");
+
+    await transaction.commit();
+
+    return {
+      id: userId,
+      username,
+      email,
+      uId,
+      photo: photo ?? "",
+      status: true,
+      biography: biography ?? "",
+      phone: phone ?? "",
+      roleId,
+    };
+  } catch (error) {
+    await transaction.rollback();
+    console.error("[registerInstructorService] Error:", error);
+    throw error;
   }
 };

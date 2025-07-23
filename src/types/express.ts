@@ -11,6 +11,20 @@ export interface RequestWithIdParams extends Request {
   params: { id: string };
 }
 
+interface RegisterInstructorBody {
+  username: string;
+  email: string;
+  password: string;
+  uId: string;
+  photo?: string;
+  biography?: string;
+  phone?: string;
+}
+
+export interface RegisterInstructorRequest extends Request {
+  body: RegisterInstructorBody;
+}
+
 interface CommissionBody {
   instructorId: number;
   percentage: number;
