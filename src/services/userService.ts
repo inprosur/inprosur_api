@@ -1,8 +1,10 @@
 import { getTursoClient } from "../config/db";
 import { User } from "../models/User";
+import { Instructor } from "../models/Instructor";
+import { createInstructor } from "./instructorService";
 import { getRoleIdByName } from "./roleService";
+import { createUsuarioRole } from "./userRolesService";
 import { hashedPassword } from "../utils/hashPassword";
-
 //import { hashedPassword } from "../utils/hashPassword";
 
 export const createUser = async (user: User): Promise<User> => {
@@ -48,7 +50,7 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   }
 };
 
-export const registerInstructor = async (data: {
+export const createUserWithTransaction = async (data: {
   username: string;
   email: string;
   password: string;
@@ -56,25 +58,27 @@ export const registerInstructor = async (data: {
   photo?: string;
   biography?: string;
   phone?: string;
-}) => {
+}): Promise<{
+  user: User;
+  instructor: Instructor;
+  roleId: number;
+}> => {
   const turso = getTursoClient();
-  const { username, email, password, uId, photo, biography, phone } = data;
-
   const transaction = await turso.transaction();
 
   try {
-    const hashed = await hashedPassword(password);
+    const hashed = await hashedPassword(data.password);
 
     // Insert user
     const userResult = await transaction.execute({
       sql: "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
       args: [
-        username,
-        email,
+        data.username,
+        data.email,
         hashed,
         new Date().toISOString(),
-        uId,
-        photo ?? null,
+        data.uId,
+        data.photo ?? null,
         1,
       ],
     });
@@ -84,14 +88,21 @@ export const registerInstructor = async (data: {
 
     // Insert instructor
     const instructorResult = await transaction.execute({
-      sql: "INSERT INTO Instructors (name, biography, phone, userId) VALUES (?, ?, ?, ?)",
-      args: [username, biography ?? "", phone ?? "", userId],
+      sql: "INSERT INTO Instructors (name, biography, phone, createdAt, userId) VALUES (?, ?, ?, ?, ?)",
+      args: [
+        data.username,
+        data.biography ?? "",
+        data.phone ?? "",
+        new Date().toISOString(),
+        userId,
+      ],
     });
 
-    if (instructorResult.rowsAffected === 0)
+    if (instructorResult.rowsAffected === 0) {
       throw new Error("Failed to insert instructor");
+    }
 
-    // Insert UserRole (get instructor roleId)
+    // Insert UserRole
     const roleId = await getRoleIdByName("instructor");
     if (!roleId) throw new Error("Instructor role not found");
 
@@ -100,25 +111,38 @@ export const registerInstructor = async (data: {
       args: [userId, roleId],
     });
 
-    if (roleResult.rowsAffected === 0)
+    if (roleResult.rowsAffected === 0) {
       throw new Error("Failed to insert user role");
+    }
 
     await transaction.commit();
 
-    return {
-      id: userId,
-      username,
-      email,
-      uId,
-      photo: photo ?? "",
+    const user: User = {
+      id: typeof userId === "bigint" ? Number(userId) : userId,
+      username: data.username,
+      email: data.email,
+      password: hashed,
+      createdAt: new Date(),
+      uId: data.uId,
+      photo: data.photo ?? "",
       status: true,
-      biography: biography ?? "",
-      phone: phone ?? "",
-      roleId,
     };
+
+    const instructor: Instructor = {
+      id: instructorResult.lastInsertRowid
+        ? Number(instructorResult.lastInsertRowid)
+        : undefined,
+      name: data.username,
+      biography: data.biography ?? "",
+      phone: data.phone ?? "",
+      createdAt: new Date(),
+      userId: typeof userId === "bigint" ? Number(userId) : userId,
+    };
+
+    return { user, instructor, roleId };
   } catch (error) {
     await transaction.rollback();
-    console.error("[registerInstructorService] Error:", error);
+    console.error("[createUserWithTransaction] Error:", error);
     throw error;
   }
 };

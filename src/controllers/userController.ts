@@ -125,23 +125,15 @@ export const getUserByEmail = async (
   }
 };
 
-export const registerInstructorController = async (
+export const registerInstructor = async (
   req: RegisterInstructorRequest,
   res: CustomResponse
 ) => {
   try {
-    const { username, email, password, uId, photo, biography, phone } = req.body;
+    const { username, email, password, uId, photo, biography, phone } =
+      req.body;
 
-    if (!username || !email || !password || !uId) {
-      return res.status(400).json({
-        success: false,
-        error: "MissingFields",
-        message: "Fields username, email, password, and uId are required.",
-      });
-    }
-
-    // Llama a tu servicio que maneja la transacción
-    const result = await UserService.registerInstructor({
+    const result = await UserService.createUserWithTransaction({
       username,
       email,
       password,
@@ -151,24 +143,12 @@ export const registerInstructorController = async (
       phone,
     });
 
-    return res.status(201).json({
-      success: true,
+    res.status(201).json({
+      message: "Instructor registered successfully",
       data: result,
-      message: "Instructor registered successfully.",
     });
   } catch (error) {
-    console.error("[registerInstructorController] Error registering instructor:", error);
-
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error registering instructor.";
-
-    return res.status(500).json({
-      success: false,
-      error: "InternalServerError",
-      message: errorMessage,
-      details: {
-        timestamp: new Date().toISOString(),
-      },
-    });
+    console.error("[registerInstructor] Error:", error);
+    res.status(500).json({ message: "Failed to register instructor", error });
   }
 };
