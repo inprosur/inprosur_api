@@ -11,7 +11,7 @@ export const createUser = async (
     if (!username || !email || !password || !uId) {
       res.status(400).json({
         error: "Missing required fields",
-        message: "Field usernamr, email, password, uId are required",
+        message: "Field username, email, password, uId are required",
       });
     }
     const passwordHashed = await hashedPassword(password);
