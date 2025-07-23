@@ -8,3 +8,4 @@ router.get("/", InstructorController.getAllInstructors);
 router.get("/:id", InstructorController.getInstructorById);
 
 export default router;
+
