@@ -38,3 +38,30 @@ export const createDegrees = async (
     description: degress.description,
   };
 };
+
+export const updateDegrees = async (
+  id: number,
+  updatedData: Omit<Degree, "id">
+): Promise<Degree | null> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "UPDATE degrees SET name = ?, description = ? WHERE id = ?",
+    [updatedData.name, updatedData.description, id]
+  );
+
+  // Verificar si se actualizó algún registro
+  if (result.rowsAffected && result.rowsAffected > 0) {
+    return {
+      id,
+      ...updatedData,
+    };
+  }
+
+  return null;
+};
+
+export const deleteDegrees = async (id: number): Promise<boolean> => {
+  const client = getTursoClient();
+  const result = await client.execute("DELETE FROM degrees WHERE id = ?", [id]);
+  return (result.rowsAffected ?? 0) > 0;
+};
