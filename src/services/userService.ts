@@ -1,9 +1,9 @@
 import { getTursoClient } from "../config/db";
 import { User } from "../models/User";
 import { Instructor } from "../models/Instructor";
-import { createInstructor } from "./instructorService";
+//import { createInstructor } from "./instructorService";
 import { getRoleIdByName } from "./roleService";
-import { createUsuarioRole } from "./userRolesService";
+//import { createUsuarioRole } from "./userRolesService";
 import { hashedPassword } from "../utils/hashPassword";
 //import { hashedPassword } from "../utils/hashPassword";
 
