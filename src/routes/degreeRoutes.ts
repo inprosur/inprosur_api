@@ -6,7 +6,9 @@ const router = Router();
 router.post("/newDegree", DegressController.createDegrees);
 router.get("/", DegressController.getAllDegrees);
 router.get("/:id", DegressController.getDegreesById);
+//editar grado
 router.put("/editDegree/:id", DegressController.updateDegrees);
+//eliminar grado
 router.delete("/deleteDegree/:id", DegressController.deleteDegrees);
 
 
