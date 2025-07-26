@@ -4,7 +4,7 @@ import {
   GetUserParams,
 } from "../types/express";
 import * as UserService from "../services/userService";
-//import { hashedPassword } from "../utils/hashPassword";
+import { hashedPassword } from "../utils/hashPassword";
 import * as instructorService from "../services/instructorService";
 import * as userRoleService from "../services/userRolesService";
 
@@ -20,11 +20,11 @@ export const createUser = async (
         message: "Field username, email, password, uId are required",
       });
     }
-    //const passwordHashed = await hashedPassword(password);
+    const passwordHashed = await hashedPassword(password);
     const newUser = await UserService.createUser({
       username,
       email,
-      //password: passwordHashed,
+      password: passwordHashed,
       createdAt: new Date(),
       uId,
       photo: photo || "",
