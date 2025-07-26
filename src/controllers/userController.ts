@@ -13,8 +13,8 @@ export const createUser = async (
   res: CustomResponse
 ) => {
   try {
-    const { username, email, password, uId, photo } = req.body;
-    if (!username || !email || !password || !uId) {
+    const { username, email, uId, photo } = req.body;
+    if (!username || !email || !uId) {
       res.status(400).json({
         error: "Missing required fields",
         message: "Field username, email, password, uId are required",
