@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as UserController from "../controllers/userController";
-import { registerInstructor } from "../controllers/userController";
+
 
 
 const router = Router();
@@ -8,6 +8,5 @@ const router = Router();
 router.post("/newUser", UserController.createUser);
 router.get("/", UserController.getAllUsers);
 router.get("/email/:email", UserController.getUserByEmail);
-router.post("/register/instructor", registerInstructor);
 
 export default router;

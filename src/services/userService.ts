@@ -4,18 +4,17 @@ import { Instructor } from "../models/Instructor";
 //import { createInstructor } from "./instructorService";
 import { getRoleIdByName } from "./roleService";
 //import { createUsuarioRole } from "./userRolesService";
-import { hashedPassword } from "../utils/hashPassword";
+//import { hashedPassword } from "../utils/hashPassword";
 //import { hashedPassword } from "../utils/hashPassword";
 
 export const createUser = async (user: User): Promise<User> => {
   const turso = getTursoClient();
 
   const result = await turso.execute(
-    "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO Users (username, email, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?)",
     [
       user.username,
       user.email,
-      user.password,
       user.createdAt.toISOString(),
       user.uId,
       user.photo ?? null,
@@ -53,7 +52,6 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
 export const createUserWithTransaction = async (data: {
   username: string;
   email: string;
-  password: string;
   uId: string;
   photo?: string;
   biography?: string;
@@ -67,15 +65,15 @@ export const createUserWithTransaction = async (data: {
   const transaction = await turso.transaction();
 
   try {
-    const hashed = await hashedPassword(data.password);
+    //const hashed = await hashedPassword(data.password);
 
     // Insert user
     const userResult = await transaction.execute({
-      sql: "INSERT INTO Users (username, email, password, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      sql: "INSERT INTO Users (username, email, createdAt, uId, photo, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
       args: [
         data.username,
         data.email,
-        hashed,
+        //hashed,
         new Date().toISOString(),
         data.uId,
         data.photo ?? null,
@@ -121,7 +119,7 @@ export const createUserWithTransaction = async (data: {
       id: typeof userId === "bigint" ? Number(userId) : userId,
       username: data.username,
       email: data.email,
-      password: hashed,
+      //password: hashed,
       createdAt: new Date(),
       uId: data.uId,
       photo: data.photo ?? "",

@@ -1,11 +1,12 @@
 import {
   CreateUserRequest,
-  RegisterInstructorRequest,
   CustomResponse,
   GetUserParams,
 } from "../types/express";
 import * as UserService from "../services/userService";
-import { hashedPassword } from "../utils/hashPassword";
+//import { hashedPassword } from "../utils/hashPassword";
+import * as instructorService from "../services/instructorService";
+import * as userRoleService from "../services/userRolesService";
 
 export const createUser = async (
   req: CreateUserRequest,
@@ -19,27 +20,43 @@ export const createUser = async (
         message: "Field username, email, password, uId are required",
       });
     }
-    const passwordHashed = await hashedPassword(password);
+    //const passwordHashed = await hashedPassword(password);
     const newUser = await UserService.createUser({
       username,
       email,
-      password: passwordHashed,
+      //password: passwordHashed,
       createdAt: new Date(),
       uId,
       photo: photo || "",
       status: true,
     });
 
+    const newInstructor = await instructorService.createInstructor({
+      name: username || "Instructor sin nombre",
+      biography: "Biografía por defecto", // Podés dejarlo así o pedirlo en el formulario
+      phone: "000-000-000", // También podés pedirlo en el formulario o dejar uno genérico
+      createdAt: new Date(),
+      userId: newUser.id!,
+    });
+
+    // 3. Asignar rol de instructor (asumimos que roleId 2 = instructor)
+    const newUserRole = await userRoleService.createUsuarioRole({
+      userId: newUser.id!,
+      roleId: 2,
+    });
+
     res.status(201).json({
       success: true,
-      data: newUser,
-      message: "User created successfully",
+      user: newUser,
+      instructor: newInstructor,
+      role: newUserRole,
+      message: "Usuario registrado como instructor correctamente.",
     });
   } catch (error) {
-    console.error("Error creating user: ", error);
+    console.error("Error al registrar instructor: ", error);
     res.status(500).json({
       error: "Internal Server Error",
-      message: "Failed to create user",
+      message: "Failed to create user as instructor",
     });
   }
 };
@@ -89,7 +106,7 @@ export const getAllUsers = async (
       details: {
         technical: errorMessage,
         timestamp: new Date().toISOString(),
-        requestId: res.locals.requestId, // Asumiendo que tienes un requestId
+        requestId: res.locals.requestId,
       },
     });
   }
@@ -122,33 +139,5 @@ export const getUserByEmail = async (
       error: "Internal Server Error",
       message: "Failed to retrieve user by email",
     });
-  }
-};
-
-export const registerInstructor = async (
-  req: RegisterInstructorRequest,
-  res: CustomResponse
-) => {
-  try {
-    const { username, email, password, uId, photo, biography, phone } =
-      req.body;
-
-    const result = await UserService.createUserWithTransaction({
-      username,
-      email,
-      password,
-      uId,
-      photo,
-      biography,
-      phone,
-    });
-
-    res.status(201).json({
-      message: "Instructor registered successfully",
-      data: result,
-    });
-  } catch (error) {
-    console.error("[registerInstructor] Error:", error);
-    res.status(500).json({ message: "Failed to register instructor", error });
   }
 };
