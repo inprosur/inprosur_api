@@ -178,3 +178,31 @@ export const getUserByEmail = async (
     });
   }
 };
+
+export const getFullUserByEmail = async (
+  req: GetUserParams,
+  res: CustomResponse
+) => {
+  try {
+    const { email } = req.params;
+    const user = await UserService.getFullUserByEmail(email);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: `No user found with email ${email}`
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: user
+    });
+  } catch (err) {
+    console.error("Error in getFullUserByEmail:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    });
+  }
+};

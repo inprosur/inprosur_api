@@ -9,5 +9,6 @@ router.post("/newUser", UserController.createUser);
 router.post("/newInstructor", UserController.createInstructorUser);
 router.get("/", UserController.getAllUsers);
 router.get("/email/:email", UserController.getUserByEmail);
+router.get("/email/full/:email", UserController.getFullUserByEmail);
 
 export default router;
