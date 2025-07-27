@@ -150,42 +150,62 @@ export const createUserWithTransaction = async (data: {
 export const getFullUserByEmail = async (email: string): Promise<any | null> => {
   const client = getTursoClient();
   const result = await client.execute(
-    `SELECT u.id AS userId, u.username, u.uId, u.photo, u.status, u.createdAt,
+    `SELECT 
+        u.id AS userId,
+        u.username,
+        u.email,
+        u.uId,
+        u.photo,
+        u.status,
+        u.createdAt,
 
-      i.id AS instructorId, i.name AS instructorName, i.biography, i.phone, i.createdAt AS instructorCreatedAt,
+        i.id AS instructorId,
+        i.name AS instructorName,
+        i.biography,
+        i.phone,
+        i.createdAt AS instructorCreatedAt,
 
-      ur.roleId
+        ur.roleId,
+        p.name AS permissionName
 
-    FROM users u
-    LEFT JOIN instructors i ON u.id = i.userId
-    LEFT JOIN userRoles ur ON u.id = ur.userId
-    WHERE u.email = ?
-    `,
+      FROM users u
+      LEFT JOIN instructors i ON u.id = i.userId
+      LEFT JOIN userRoles ur ON u.id = ur.userId
+      LEFT JOIN rolePermissions rp ON ur.roleId = rp.roleId
+      LEFT JOIN permissions p ON p.id = rp.permissionId
+      WHERE u.email = ?`,
     [email]
   );
 
-  const row = result.rows[0];
+  const rows = result.rows;
 
-  if (!row) return null;
+  if (!rows.length) return null;
+
+  const base = rows[0];
+
+  const permissions = rows
+    .map(row => row.permissionName)
+    .filter(p => !!p); // eliminar nulos si no hay permisos
 
   return {
-    id: row.userId,
-    username: row.username,
-    email: row.email,
-    uId: row.uId,
-    photo: row.photo,
-    status: !!row.status,
-    createdAt: row.createdAt,
-    instructor: row.instructorId
+    id: base.userId,
+    username: base.username,
+    email: base.email,
+    uId: base.uId,
+    photo: base.photo,
+    status: !!base.status,
+    createdAt: base.createdAt,
+    instructor: base.instructorId
       ? {
-          id: row.instructorId,
-          name: row.instructorName,
-          biography: row.biography,
-          phone: row.phone,
-          createdAt: row.instructorCreatedAt,
-          userId: row.userId,
+          id: base.instructorId,
+          name: base.instructorName,
+          biography: base.biography,
+          phone: base.phone,
+          createdAt: base.instructorCreatedAt,
+          userId: base.userId,
         }
       : null,
-    roleId: row.roleId || null,
+    roleId: base.roleId || null,
+    permissions,
   };
 };
