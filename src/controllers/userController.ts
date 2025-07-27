@@ -31,10 +31,47 @@ export const createUser = async (
       status: true,
     });
 
+    res.status(201).json({
+      success: true,
+      user: newUser,
+      message: "Usuario registrado correctamente.",
+    });
+  } catch (error) {
+    console.error("Error al registrar instructor: ", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to create user as instructor",
+    });
+  }
+};
+
+export const createInstructorUser = async (
+  req: CreateUserRequest,
+  res: CustomResponse
+) => {
+  try {
+    const { username, email, password, uId, photo } = req.body;
+    if (!username || !email || !password || !uId) {
+      res.status(400).json({
+        error: "Missing required fields",
+        message: "Field username, email, password, uId are required",
+      });
+    }
+    const passwordHashed = await hashedPassword(password);
+    const newUser = await UserService.createUser({
+      username,
+      email,
+      password: passwordHashed,
+      createdAt: new Date(),
+      uId,
+      photo: photo || "",
+      status: true,
+    });
+
     const newInstructor = await instructorService.createInstructor({
       name: username || "Instructor sin nombre",
-      biography: "Biografía por defecto", // Podés dejarlo así o pedirlo en el formulario
-      phone: "000-000-000", // También podés pedirlo en el formulario o dejar uno genérico
+      biography: "Biografía por defecto", 
+      phone: "000-000-000", 
       createdAt: new Date(),
       userId: newUser.id!,
     });
