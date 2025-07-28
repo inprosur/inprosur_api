@@ -166,11 +166,13 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
         i.createdAt AS instructorCreatedAt,
 
         ur.roleId,
+        r.name AS roleName,
         p.name AS permissionName
 
       FROM users u
       LEFT JOIN instructors i ON u.id = i.userId
       LEFT JOIN userRoles ur ON u.id = ur.userId
+      LEFT JOIN roles r ON ur.roleId = r.id
       LEFT JOIN rolePermissions rp ON ur.roleId = rp.roleId
       LEFT JOIN permissions p ON p.id = rp.permissionId
       WHERE u.email = ?`,
@@ -206,6 +208,7 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
         }
       : null,
     roleId: base.roleId || null,
+    roleName: base.roleName || null,
     permissions,
   };
 };
