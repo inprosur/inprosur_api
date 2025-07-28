@@ -3,7 +3,7 @@ import { Category } from "../models/Category";
 
 export const getAllCategories = async (): Promise<Category[]> => {
   const client = getTursoClient();
-  const result = await client.execute("SELECT c.*, d.name as degreeName FROM categories cLEFT JOIN degrees d ON c.degreeId = d.id");
+  const result = await client.execute("SELECT c.*, d.name as degreeName FROM categories c LEFT JOIN degrees d ON c.degreeId = d.id");
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as (Category & { degreeName: string })[];
 };
