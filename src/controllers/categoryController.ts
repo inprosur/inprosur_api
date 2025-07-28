@@ -124,3 +124,84 @@ export const getCategoryByDegreeId = async (
     });
   }
 };
+
+export const updateCategory = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  const categoryId = parseInt(req.params.id);
+  const { name, degreeId } = req.body;
+
+  if (isNaN(categoryId) || !name || !degreeId) {
+    res.status(400).json({
+      error: "Invalid data or ID",
+      message: "Name and Degree ID are required, and ID must be a number",
+    });
+    return;
+  }
+
+  try {
+    const updatedCategory = await CategoryService.updateCategory(categoryId, {
+      name,
+      degreeId,
+    });
+
+    if (!updatedCategory) {
+      res.status(404).json({
+        error: "Category not found",
+        message: "No category found with the given ID",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedCategory,
+      message: "Category updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating category:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to update category",
+    });
+  }
+};
+
+export const deleteCategory = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  const categoryId = parseInt(req.params.id);
+
+  if (isNaN(categoryId)) {
+    res.status(400).json({
+      error: "Invalid ID",
+      message: "Category ID must be a number",
+    });
+    return;
+  }
+
+  try {
+    const deleted = await CategoryService.deleteCategory(categoryId);
+
+    if (!deleted) {
+      res.status(404).json({
+        error: "Category not found",
+        message: "No category found with the given ID",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Category deleted successfully",
+    });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to delete category",
+    });
+  }
+};

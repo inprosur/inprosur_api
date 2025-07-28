@@ -10,29 +10,9 @@ export const getAllCategories = async (): Promise<Category[]> => {
 
 export const getCategoryById = async (id: number): Promise<Category | null> => {
   const client = getTursoClient();
-  const result = await client.execute("SELECT * FROM categories WHERE id = ?", [
-    id,
-  ]);
+  const result = await client.execute("SELECT * FROM categories WHERE id = ?", [id]);
   const rows = Array.isArray(result) ? result[0] : result.rows;
-  if (rows.length == 1) {
-    return rows[0] as Category;
-  } else {
-    return null;
-  }
-};
-
-export const createCategory = async (category: Category): Promise<Category> => {
-  const client = getTursoClient();
-  const result = await client.execute(
-    "INSERT INTO categories (name, degreeId) VALUES (?, ?)",
-    [category.name, category.degreeId]
-  );
-  const id = result.lastInsertRowid;
-  const row = {
-    ...category,
-    id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
-  };
-  return row as Category;
+  return rows.length ? (rows[0] as Category) : null;
 };
 
 export const getCategoriesByDegreeId = async (
@@ -45,4 +25,40 @@ export const getCategoriesByDegreeId = async (
   );
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Category[];
+};
+
+export const createCategory = async (
+  category: Omit<Category, "id">
+): Promise<Category> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "INSERT INTO categories (name, degreeId) VALUES (?, ?)",
+    [category.name, category.degreeId]
+  );
+  const id = result.lastInsertRowid;
+  return {
+    ...category,
+    id: id !== undefined ? Number.parseInt(id.toString()) : 0,
+  };
+};
+
+export const updateCategory = async (
+  id: number,
+  updatedData: Omit<Category, "id">
+): Promise<Category | null> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "UPDATE categories SET name = ?, degreeId = ? WHERE id = ?",
+    [updatedData.name, updatedData.degreeId, id]
+  );
+
+  return (result.rowsAffected && result.rowsAffected > 0)
+    ? { id, ...updatedData }
+    : null;
+};
+
+export const deleteCategory = async (id: number): Promise<boolean> => {
+  const client = getTursoClient();
+  const result = await client.execute("DELETE FROM categories WHERE id = ?", [id]);
+  return (result.rowsAffected ?? 0) > 0;
 };
