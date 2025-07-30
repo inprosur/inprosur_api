@@ -55,3 +55,44 @@ export const getRecentsCreatedCourses = async (): Promise<Course[]> => {
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows as Course[];
 };
+
+export const updateCourse = async (
+  id: number,
+  updateData: Partial<Course>
+): Promise<Course | null> => {
+  const client = getTursoClient();
+
+  // Filtramos los campos definidos (≠ undefined) y ≠ "id"
+  const fields = Object.entries(updateData)
+    .filter(([key, value]) => key !== "id" && value !== undefined);
+
+  if (fields.length === 0) return null;
+
+  const setClause = fields.map(([key]) => `${key} = ?`).join(", ");
+
+  // Convertimos los valores al formato correcto y nos aseguramos de excluir undefined
+  const values = fields.map(([key, value]) => {
+    if (key === "isPublished") return value ? 1 : 0;
+    if (key === "creationDate" && value instanceof Date) return value.toISOString();
+    return value;
+  });
+
+  // Añadimos el ID al final del array de parámetros
+  const queryParams = [...values, id] as (string | number | boolean | Date)[];
+
+  const result = await client.execute(
+    `UPDATE Courses SET ${setClause} WHERE id = ?`,
+    queryParams
+  );
+
+  if (result.rowsAffected === 0) return null;
+
+  return await getCourseById(id);
+};
+
+
+export const deleteCourse = async (id: number): Promise<boolean> => {
+  const client = getTursoClient();
+  const result = await client.execute("DELETE FROM Courses WHERE id = ?", [id]);
+  return result.rowsAffected > 0;
+};

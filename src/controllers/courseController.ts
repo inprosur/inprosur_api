@@ -2,6 +2,7 @@ import {
   CreateCourseRequest,
   CustomResponse,
   RequestWithIdParams,
+  UpdateCourseRequest,
 } from "../types/express";
 import * as CourseService from "../services/courseService";
 
@@ -152,6 +153,67 @@ export const getRecentsCreatedCourses = async (
     res.status(500).json({
       error: "Internal Server error.",
       message: "Failed to fetch courses.",
+    });
+  }
+};
+
+export const updateCourse = async (
+  req: UpdateCourseRequest,
+  res: CustomResponse
+) => {
+  try {
+    const courseId = parseInt(req.params.id);
+    const updateData = req.body;
+
+    const updatedCourse = await CourseService.updateCourse(courseId, updateData);
+
+    if (!updatedCourse) {
+      res.status(404).json({
+        error: "Not found",
+        message: "Course not found.",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedCourse,
+      message: "Course updated successfully.",
+    });
+  } catch (error) {
+    console.error("Error updating course: ", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to update course.",
+    });
+  }
+};
+
+export const deleteCourse = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  try {
+    const courseId = parseInt(req.params.id);
+    const deleted = await CourseService.deleteCourse(courseId);
+
+    if (!deleted) {
+      res.status(404).json({
+        error: "Not found",
+        message: "Course not found.",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Course deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Error deleting course: ", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to delete course.",
     });
   }
 };

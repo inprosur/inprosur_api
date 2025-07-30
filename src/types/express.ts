@@ -142,6 +142,8 @@ interface CreateCourseBody {
   thumbnailUrl?: string;
 }
 
+interface UpdateCourseBody extends Partial<CreateCourseBody> {}
+
 interface CreateCategoryBody {
   name: string;
   degreeId: number;
@@ -187,6 +189,15 @@ export interface SearchRequest extends Request {
   params: {
     categoryId?: string;
   };
+}
+
+export interface UpdateCourseRequest extends Request {
+  params: { id: string };
+  body: UpdateCourseBody;
+}
+
+export interface DeleteCourseRequest extends Request {
+  params: { id: string };
 }
 
 export interface StudentByUserRequest extends Request {
