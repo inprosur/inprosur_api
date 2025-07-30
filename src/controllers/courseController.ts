@@ -26,7 +26,7 @@ export const createCourse = async (
       !description ||
       !instructorId ||
       !price ||
-      !isPublished ||
+      isPublished === undefined ||
       !categoryId
     ) {
       res.status(400).json({
