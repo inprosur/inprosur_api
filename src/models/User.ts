@@ -11,7 +11,6 @@ export interface User {
   status: boolean;
 }
 
-export interface UserStudent {
-  user: User;
+export interface UserStudent extends User {
   student: Student;
 }

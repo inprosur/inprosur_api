@@ -213,23 +213,26 @@ export const getFullUserByEmail = async (
   };
 };
 
-export const getUserStudentByEmail = async (email: string): Promise<void> => {
+export const getUserStudentByEmail = async (
+  email: string
+): Promise<UserStudent | null> => {
   const client = getTursoClient();
   const result = await client.execute(
     `SELECT 
-        u.id,
+        u.id AS userId,
         u.username,
         u.email,
+        u.password,
         u.uId,
         u.photo,
         u.status,
-        u.createdAt,
+        u.createdAt AS userCreatedAt,
 
-        s.id,
-        s.name,
-        s.phone,
-        s.address,
-        s.createdAt
+        s.id AS studentId,
+        s.name AS studentName,
+        s.phone AS studentPhone,
+        s.address AS studentAddress,
+        s.createdAt AS studentCreatedAt
 
       FROM users u
       LEFT JOIN students s ON u.id = s.userId
@@ -237,7 +240,29 @@ export const getUserStudentByEmail = async (email: string): Promise<void> => {
     [email]
   );
   const rows = result.rows;
-  //if (!rows.length) return null;
+  if (!rows.length) return null;
   const row = rows[0];
-  console.log("UserStudent row:", row);
+
+  if (!row.studentId) return null; // Si no hay estudiante asociado
+
+  const userStudent: UserStudent = {
+    id: row.userId as number,
+    username: row.username as string,
+    email: row.email as string,
+    password: row.password as string,
+    createdAt: row.userCreatedAt as unknown as Date,
+    uId: row.uId as string,
+    photo: row.photo as string,
+    status: !!row.status,
+    student: {
+      id: row.studentId as number,
+      name: row.studentName as string,
+      phone: row.studentPhone as string,
+      address: row.studentAddress as string,
+      createdAt: row.userCreatedAt as unknown as Date,
+      userId: row.userId as number,
+    },
+  };
+
+  return userStudent;
 };
