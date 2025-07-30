@@ -1,5 +1,5 @@
 import { getTursoClient } from "../config/db";
-import { User } from "../models/User";
+import { User, UserStudent } from "../models/User";
 import { Instructor } from "../models/Instructor";
 //import { createInstructor } from "./instructorService";
 import { getRoleIdByName } from "./roleService";
@@ -147,7 +147,9 @@ export const createUserWithTransaction = async (data: {
   }
 };
 
-export const getFullUserByEmail = async (email: string): Promise<any | null> => {
+export const getFullUserByEmail = async (
+  email: string
+): Promise<any | null> => {
   const client = getTursoClient();
   const result = await client.execute(
     `SELECT 
@@ -185,9 +187,7 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
 
   const base = rows[0];
 
-  const permissions = rows
-    .map(row => row.permissionName)
-    .filter(p => !!p); // eliminar nulos si no hay permisos
+  const permissions = rows.map((row) => row.permissionName).filter((p) => !!p); // eliminar nulos si no hay permisos
 
   return {
     id: base.userId,
@@ -211,4 +211,33 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
     roleName: base.roleName || null,
     permissions,
   };
+};
+
+export const getUserStudentByEmail = async (email: string): Promise<void> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    `SELECT 
+        u.id,
+        u.username,
+        u.email,
+        u.uId,
+        u.photo,
+        u.status,
+        u.createdAt,
+
+        s.id,
+        s.name,
+        s.phone,
+        s.address,
+        s.createdAt
+
+      FROM users u
+      LEFT JOIN students s ON u.id = s.userId
+      WHERE u.email = ?`,
+    [email]
+  );
+  const rows = result.rows;
+  //if (!rows.length) return null;
+  const row = rows[0];
+  console.log("UserStudent row:", row);
 };

@@ -70,8 +70,8 @@ export const createInstructorUser = async (
 
     const newInstructor = await instructorService.createInstructor({
       name: username || "Instructor sin nombre",
-      biography: "Biografía por defecto", 
-      phone: "000-000-000", 
+      biography: "Biografía por defecto",
+      phone: "000-000-000",
       createdAt: new Date(),
       userId: newUser.id!,
     });
@@ -190,19 +190,47 @@ export const getFullUserByEmail = async (
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: `No user found with email ${email}`
+        message: `No user found with email ${email}`,
       });
     }
 
     return res.status(200).json({
       success: true,
-      data: user
+      data: user,
     });
   } catch (err) {
     console.error("Error in getFullUserByEmail:", err);
     return res.status(500).json({
       success: false,
-      message: "Internal server error"
+      message: "Internal server error",
+    });
+  }
+};
+
+export const getUserStudentByEmail = async (
+  req: GetUserParams,
+  res: CustomResponse
+): Promise<void> => {
+  try {
+    const { email } = req.params;
+    const userStudent = await UserService.getUserStudentByEmail(email);
+
+    /* if (!userStudent) {
+      res.status(404).json({
+        success: false,
+        message: `No user found with email ${email}`,
+      });
+    } */
+
+    res.status(200).json({
+      success: true,
+      data: userStudent,
+    });
+  } catch (error) {
+    console.error("Error retrieving user student by email:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to retrieve user student by email",
     });
   }
 };
