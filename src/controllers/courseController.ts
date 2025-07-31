@@ -223,8 +223,7 @@ export const getCoursesByInstructor = async (
   res: CustomResponse
 ) => {
   try {
-    const userId = req.params.id;
-    const courses = await CourseService.getCoursesByInstructor(userId);
+    const userId = req.params.id;    const courses = await CourseService.getCoursesByInstructor(userId);
     res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ message: "Error al obtener cursos por instructor", error });
