@@ -97,19 +97,18 @@ export const deleteCourse = async (id: number): Promise<boolean> => {
   return result.rowsAffected > 0;
 };
 
-export const getCoursesByInstructor = async (userId: string) => {
+export const getCoursesByInstructor = async (instructorId: string) => {
   const client = getTursoClient();
   const result = await client.execute(
     `
     SELECT c.*, cat.name as categoryName
     FROM Courses c
     JOIN Instructors i ON c.instructorId = i.id
-    JOIN Users u ON i.userId = u.id
     LEFT JOIN Categories cat ON c.categoryId = cat.id
-    WHERE u.id = ?
+    WHERE i.id = ?
     `,
-    [userId]
+    [instructorId]
   );
 
   return result.rows;
-}
+};
