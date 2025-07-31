@@ -44,3 +44,35 @@ export const getInstructorById = async (
     return null;
   }
 };
+
+export const getPublicInstructors = async () => {
+  const client = getTursoClient();
+  const result = await client.execute(`
+    SELECT 
+      i.id AS instructorId,
+      i.name AS instructorName,
+      i.biography,
+      i.phone,
+      i.createdAt,
+      u.username,
+      u.email,
+      u.photo
+    FROM Instructors i
+    JOIN Users u ON i.userId = u.id
+  `);
+
+  const rows = (Array.isArray(result) ? result[0] : result.rows) as any[];
+
+return rows.map((row) => ({
+  id: row.instructorId,
+  name: row.instructorName,
+  biography: row.biography,
+  phone: row.phone,
+  createdAt: row.createdAt,
+  user: {
+    username: row.username,
+    email: row.email,
+    photo: row.photo,
+  },
+}));
+};

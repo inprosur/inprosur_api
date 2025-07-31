@@ -104,3 +104,31 @@ export const getInstructorById = async (
     });
   }
 };
+
+export const getPublicInstructors = async (
+  _req: InstructorRequest,
+  res: CustomResponse
+) => {
+  try {
+    const instructors = await InstructorService.getPublicInstructors();
+    if (!instructors || instructors.length === 0) {
+      res.status(404).json({
+        error: "No instructors found",
+        message: "No public instructors found in the database.",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: instructors,
+      message: "Public instructors retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error retrieving public instructors:", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to retrieve public instructors.",
+    });
+  }
+};
