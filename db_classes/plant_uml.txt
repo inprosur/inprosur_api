@@ -91,14 +91,27 @@ class Courses {
   + thumbnailUrl: Text
   + instructorId: Integer
   + categoryId: Integer
+  + state: Boolean
 }
 
 Courses --> Instructors : instructorId
 Courses --> Categories : categoryId
 
-class CourseVideos {
+' *************** LECCIONES ***************
+class Lessons {
   + id: Integer [pk]
   + courseId: Integer
+  + title: Text
+  + description: Text
+  + price: Real
+  + state: Boolean
+}
+
+Lessons --> Courses : courseId
+
+class CourseVideos {
+  + id: Integer [pk]
+  + lessonId: Integer
   + title: Text
   + description: Text
   + url: Text
@@ -107,7 +120,20 @@ class CourseVideos {
   + thumbnailUrl: Text
 }
 
-CourseVideos --> Courses : courseId
+CourseVideos --> Lessons : lessonId
+
+class CourseDocuments {
+  + id: Integer [pk]
+  + lessonId: Integer
+  + title: Text
+  + description: Text
+  + fileUrl: Text
+  + thumbnailUrl: Text
+  + price: Real
+  + createdAt: Date
+}
+
+CourseDocuments --> Lessons : lessonId
 
 ' *************** MATRÍCULAS ***************
 class Enrollments {
@@ -135,7 +161,6 @@ class Promotions {
 }
 
 Promotions --> Courses : courseId
-
 
 ' *************** ANUNCIOS ***************
 class Advertisings {
@@ -193,20 +218,6 @@ InstructorCommissions "0..1" --> "*" Courses : courseId
 InstructorCommissions "0..1" --> "*" CourseVideos : videoId
 InstructorCommissions "0..1" --> "*" CourseDocuments : documentId
 
-' *************** DOCUMENTOS DE CURSO ***************
-class CourseDocuments {
-  + id: Integer [pk]
-  + title: Text
-  + description: Text
-  + fileUrl: Text
-  + thumbnailUrl: Text
-  + price: Real
-  + courseId: Integer
-  + createdAt: Date
-}
-
-CourseDocuments --> Courses : courseId
-
 ' *************** REGISTRO DE ACCESOS ***************
 class AccessLog {
   + id: Integer [pk]
@@ -261,3 +272,4 @@ Notifications --> Students : studentId
 Notifications --> Instructors : instructorId
 
 @enduml
+
