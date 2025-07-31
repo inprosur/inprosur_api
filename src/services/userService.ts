@@ -1,5 +1,5 @@
 import { getTursoClient } from "../config/db";
-import { User } from "../models/User";
+import { User, UserStudent } from "../models/User";
 import { Instructor } from "../models/Instructor";
 //import { createInstructor } from "./instructorService";
 import { getRoleIdByName } from "./roleService";
@@ -147,7 +147,9 @@ export const createUserWithTransaction = async (data: {
   }
 };
 
-export const getFullUserByEmail = async (email: string): Promise<any | null> => {
+export const getFullUserByEmail = async (
+  email: string
+): Promise<any | null> => {
   const client = getTursoClient();
   const result = await client.execute(
     `SELECT 
@@ -185,9 +187,7 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
 
   const base = rows[0];
 
-  const permissions = rows
-    .map(row => row.permissionName)
-    .filter(p => !!p); // eliminar nulos si no hay permisos
+  const permissions = rows.map((row) => row.permissionName).filter((p) => !!p); // eliminar nulos si no hay permisos
 
   return {
     id: base.userId,
@@ -211,4 +211,58 @@ export const getFullUserByEmail = async (email: string): Promise<any | null> => 
     roleName: base.roleName || null,
     permissions,
   };
+};
+
+export const getUserStudentByEmail = async (
+  email: string
+): Promise<UserStudent | null> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    `SELECT 
+        u.id AS userId,
+        u.username,
+        u.email,
+        u.password,
+        u.uId,
+        u.photo,
+        u.status,
+        u.createdAt AS userCreatedAt,
+
+        s.id AS studentId,
+        s.name AS studentName,
+        s.phone AS studentPhone,
+        s.address AS studentAddress,
+        s.createdAt AS studentCreatedAt
+
+      FROM users u
+      LEFT JOIN students s ON u.id = s.userId
+      WHERE u.email = ?`,
+    [email]
+  );
+  const rows = result.rows;
+  if (!rows.length) return null;
+  const row = rows[0];
+
+  if (!row.studentId) return null; // Si no hay estudiante asociado
+
+  const userStudent: UserStudent = {
+    id: row.userId as number,
+    username: row.username as string,
+    email: row.email as string,
+    password: row.password as string,
+    createdAt: row.userCreatedAt as unknown as Date,
+    uId: row.uId as string,
+    photo: row.photo as string,
+    status: !!row.status,
+    student: {
+      id: row.studentId as number,
+      name: row.studentName as string,
+      phone: row.studentPhone as string,
+      address: row.studentAddress as string,
+      createdAt: row.userCreatedAt as unknown as Date,
+      userId: row.userId as number,
+    },
+  };
+
+  return userStudent;
 };

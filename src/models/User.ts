@@ -1,3 +1,5 @@
+import { Student } from "./Student";
+
 export interface User {
   id?: number;
   username: string;
@@ -7,4 +9,8 @@ export interface User {
   uId: string;
   photo?: string;
   status: boolean;
+}
+
+export interface UserStudent extends User {
+  student: Student;
 }
