@@ -9,6 +9,8 @@ router.get("/recents", CourseController.getRecentsCreatedCourses);
 router.get("/:id", CourseController.getCourseById);
 router.put("/editCourse/:id", CourseController.updateCourse);
 router.delete("/deleteCourse/:id", CourseController.deleteCourse);
+router.get("/instructor/:userId", CourseController.getCoursesByInstructor);
+
 
 
 export default router;

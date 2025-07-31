@@ -96,3 +96,20 @@ export const deleteCourse = async (id: number): Promise<boolean> => {
   const result = await client.execute("DELETE FROM Courses WHERE id = ?", [id]);
   return result.rowsAffected > 0;
 };
+
+export const getCoursesByInstructor = async (userId: string) => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    `
+    SELECT c.*, cat.name as categoryName
+    FROM Courses c
+    JOIN Instructors i ON c.instructorId = i.id
+    JOIN Users u ON i.userId = u.id
+    LEFT JOIN Categories cat ON c.categoryId = cat.id
+    WHERE u.id = ?
+    `,
+    [userId]
+  );
+
+  return result.rows;
+}
