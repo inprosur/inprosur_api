@@ -215,12 +215,12 @@ export const getUserStudentByEmail = async (
     const { email } = req.params;
     const userStudent = await UserService.getUserStudentByEmail(email);
 
-    /* if (!userStudent) {
+    if (!userStudent) {
       res.status(404).json({
         success: false,
         message: `No user found with email ${email}`,
       });
-    } */
+    }
 
     res.status(200).json({
       success: true,
