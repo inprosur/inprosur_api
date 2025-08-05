@@ -4,26 +4,31 @@ import { Course } from "../models/Course";
 export const createCourse = async (course: Course): Promise<Course> => {
   const client = getTursoClient();
   const result = await client.execute(
-    "INSERT INTO Courses (title, description, creationDate, price, duration, isPublished, thumbnailUrl, instructorId, categoryId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+    `INSERT INTO Courses 
+      (title, description, creationDate, price, duration, isPublished, state, thumbnailUrl, instructorId, categoryId) 
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       course.title,
       course.description,
-      course.creationDate.toISOString(),
+      course.creationDate?.toISOString() || new Date().toISOString(),
       course.price,
       course.duration || 0,
       course.isPublished ? 1 : 0,
+      course.state ? 1 : 0,
       course.thumbnailUrl || null,
       course.instructorId,
       course.categoryId!,
     ]
   );
+
   const id = result.lastInsertRowid;
-  const row = {
+
+  return {
     ...course,
     id: id !== undefined ? Number.parseInt(id.toString()) : undefined,
   };
-  return row as Course;
 };
+
 
 export const getAllCourses = async (): Promise<Course[]> => {
   const client = getTursoClient();

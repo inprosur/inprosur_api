@@ -138,6 +138,7 @@ interface CreateCourseBody {
   categoryId?: number;
   price: number;
   isPublished: boolean;
+  state: boolean;
   duration?: number;
   thumbnailUrl?: string;
 }

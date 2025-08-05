@@ -6,6 +6,7 @@ export interface Course {
   categoryId: number;
   price: number;
   isPublished: boolean;
+  state: boolean;
   duration?: number;
   thumbnailUrl?: string;
   creationDate: Date;

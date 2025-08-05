@@ -18,6 +18,7 @@ export const createCourse = async (
       categoryId,
       price,
       isPublished,
+      state,
       duration,
       thumbnailUrl,
     } = req.body;
@@ -45,6 +46,7 @@ export const createCourse = async (
       categoryId,
       price,
       isPublished,
+      state,
       duration,
       thumbnailUrl,
       creationDate: new Date(),
