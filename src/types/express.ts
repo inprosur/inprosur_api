@@ -183,6 +183,25 @@ interface LoginBody {
   password: string;
 }
 
+interface CreateLessonBody {
+  courseId: number;
+  title: string;
+  description: string;
+  price: number;
+  state: boolean;
+}
+
+interface UpdateLessonBody extends Partial<CreateLessonBody> {}
+
+export interface CreateLessonRequest extends Request {
+  body: CreateLessonBody;
+}
+
+export interface UpdateLessonRequest extends Request {
+  params: { id: string };
+  body: UpdateLessonBody;
+}
+
 export interface SearchRequest extends Request {
   query: {
     term?: string;
