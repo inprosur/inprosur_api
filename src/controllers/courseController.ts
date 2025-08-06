@@ -167,7 +167,10 @@ export const updateCourse = async (
     const courseId = parseInt(req.params.id);
     const updateData = req.body;
 
-    const updatedCourse = await CourseService.updateCourse(courseId, updateData);
+    const updatedCourse = await CourseService.updateCourse(
+      courseId,
+      updateData
+    );
 
     if (!updatedCourse) {
       res.status(404).json({
@@ -225,9 +228,47 @@ export const getCoursesByInstructor = async (
   res: CustomResponse
 ) => {
   try {
-    const userId = req.params.id;    const courses = await CourseService.getCoursesByInstructor(userId);
+    const userId = req.params.id;
+    const courses = await CourseService.getCoursesByInstructor(userId);
     res.status(200).json(courses);
   } catch (error) {
-    res.status(500).json({ message: "Error al obtener cursos por instructor", error });
+    res
+      .status(500)
+      .json({ message: "Error al obtener cursos por instructor", error });
+  }
+};
+
+export const getCourseInstructor = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  try {
+    const courseId = parseInt(req.params.id);
+    if (!courseId) {
+      res.status(400).json({
+        error: "Bad request",
+        message: "Course ID is required.",
+      });
+      return;
+    }
+    const courseInstructor = await CourseService.getCourseInstructor(courseId);
+    if (!courseInstructor) {
+      res.status(404).json({
+        error: "Not found",
+        message: "Course instructor not found.",
+      });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      data: courseInstructor,
+      message: "Course instructor retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error fetching course instructor: ", error);
+    res.status(500).json({
+      error: "Internal server error",
+      message: "Failed to fetch course instructor.",
+    });
   }
 };
