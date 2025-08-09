@@ -41,7 +41,7 @@ export const getLessonsByCourse = async (courseId: number): Promise<Lesson[]> =>
   const client = getTursoClient();
   try {
     const result = await client.execute(
-      "SELECT * FROM Lessons WHERE courseId = ? ORDER BY createdAt DESC",
+      "SELECT * FROM Lessons WHERE courseId = ? ORDER BY createdAt ASC",
       [courseId]
     );
 
