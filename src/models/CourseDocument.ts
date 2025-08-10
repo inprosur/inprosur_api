@@ -5,6 +5,6 @@ export interface CourseDocument {
   fileUrl: string;
   thumbnailUrl?: string;
   price: number;
-  courseId: number;
+  lessonId: number;
   createdAt?: Date;
 }

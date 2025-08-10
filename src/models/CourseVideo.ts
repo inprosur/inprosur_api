@@ -1,6 +1,6 @@
 export interface CourseVideo {
     id?: number;
-    courseId: number;
+    lessonId: number;
     title: string;
     description: string;
     url: string;
