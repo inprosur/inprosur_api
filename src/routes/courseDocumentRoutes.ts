@@ -5,6 +5,6 @@ const router = Router();
 
 router.get("/", CourseDocumentController.getAllCourseDocuments);
 router.get("/:id", CourseDocumentController.getCourseDocumentById);
-router.post("/", CourseDocumentController.createCourseDocument);
+router.post("/newDocument", CourseDocumentController.createCourseDocument);
 
 export default router;

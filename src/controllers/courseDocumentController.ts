@@ -14,20 +14,20 @@ export const getAllCourseDocuments = async (
     if (!documents || documents.length === 0) {
       res.status(404).json({
         error: "No documents found",
-        message: "No course documents found in database.",
+        message: "No lesson documents found in database.",
       });
       return;
     }
     res.status(200).json({
       success: true,
       data: documents,
-      message: "Course documents retrieved successfully.",
+      message: "Lesson documents retrieved successfully.",
     });
   } catch (error) {
     console.error("Error fetching documents:", error);
     res.status(500).json({
       error: "Internal Server Error",
-      message: "Failed to fetch course documents",
+      message: "Failed to fetch lesson documents",
     });
   }
 };
@@ -72,12 +72,12 @@ export const createCourseDocument = async (
   res: CustomResponse
 ) => {
   try {
-    const { title, description, fileUrl, price, courseId } = req.body;
+    const { title, description, fileUrl, price, lessonId } = req.body;
 
-    if (!title || !fileUrl || price === undefined || !courseId) {
+    if (!title || !fileUrl || price === undefined || !lessonId) {
       res.status(400).json({
         error: "Missing required fields",
-        message: "Title, fileUrl, price, and courseId are required",
+        message: "Title, fileUrl, price, and lessonId are required",
       });
       return;
     }
@@ -87,7 +87,7 @@ export const createCourseDocument = async (
       description: description || "",
       fileUrl,
       price,
-      courseId,
+      lessonId,
     });
 
     res.status(201).json({

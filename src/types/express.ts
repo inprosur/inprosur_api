@@ -84,12 +84,12 @@ interface CreateCourseDocumentBody {
   title: string;
   description: string;
   fileUrl: string;
-  courseId: number;
+  lessonId: number;
   price: number;
 }
 
 interface CreateCourseVideoBody {
-  courseId: number;
+  lessonId: number;
   title: string;
   url: string;
   thumbnailUrl: string;

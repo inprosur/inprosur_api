@@ -25,9 +25,9 @@ export const createCourseVideo = async (
 ): Promise<CourseVideo> => {
   const client = getTursoClient();
   const result = await client.execute(
-    "INSERT INTO CourseVideos (courseId, title, description, url, thumbnailUrl, duration, price) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    "INSERT INTO CourseVideos (lessonId, title, description, url, thumbnailUrl, duration, price) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
-      video.courseId,
+      video.lessonId,
       video.title,
       video.description,
       video.url,

@@ -14,20 +14,20 @@ export const getAllCourseVideos = async (
     if (!videos || videos.length === 0) {
       res.status(404).json({
         error: "No videos found",
-        message: "No course videos found in database.",
+        message: "No lesson videos found in database.",
       });
       return;
     }
     res.status(200).json({
       success: true,
       data: videos,
-      message: "Course videos retrieved successfully.",
+      message: "Lessons videos retrieved successfully.",
     });
   } catch (error) {
     console.error("Error fetching videos:", error);
     res.status(500).json({
       error: "Internal Server Error",
-      message: "Failed to fetch course videos",
+      message: "Failed to fetch lessons videos",
     });
   }
 };
@@ -72,19 +72,19 @@ export const createCourseVideo = async (
   res: CustomResponse
 ) => {
   try {
-    const { courseId, title, url, thumbnailUrl, price, description, duration } =
+    const { lessonId, title, url, thumbnailUrl, price, description, duration } =
       req.body;
 
-    if (!courseId || !title || !url || !thumbnailUrl || price === undefined) {
+    if (!lessonId || !title || !url || !thumbnailUrl || price === undefined) {
       res.status(400).json({
         error: "Missing required fields",
-        message: "courseId, title, url, thumbnailUrl, and price are required",
+        message: "lessonId, title, url, thumbnailUrl, and price are required",
       });
       return;
     }
 
     const newVideo = await CourseVideoService.createCourseVideo({
-      courseId,
+      lessonId,
       title,
       description: description || "",
       url,
