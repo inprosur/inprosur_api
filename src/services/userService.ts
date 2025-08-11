@@ -252,7 +252,7 @@ export const getUserStudentByEmail = async (
     createdAt: new Date(row.userCreatedAt as string),
     uId: row.uId as string,
     photo: row.photo as string,
-    status: !!row.status,
+    status: (row.status as number) === 1 ? true : false,
     student: {
       id: row.studentId as number,
       name: row.studentName as string,
