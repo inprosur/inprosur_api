@@ -33,6 +33,7 @@ export const createEnrollment = async (
             studentId, 
             courseId, 
             enrollmentDate,
+            endEnrollmentDate,
             amount, 
             paymentDate,
             status
@@ -41,21 +42,24 @@ export const createEnrollment = async (
       enrollment.studentId,
       enrollment.courseId,
       new Date().toISOString(), // enrollmentDate automático
+      new Date(
+        new Date().setFullYear(new Date().getFullYear() + 1)
+      ).toISOString(), // endEnrollmentDate automático a 1 año
       enrollment.amount,
       new Date().toISOString(), // paymentDate automático
-      enrollment.status || false, // Default: false
+      true, // status por defecto
     ]
   );
   const id = result.lastInsertRowid;
-  return {
-    id: id !== undefined ? Number(id) : 0,
-    ...enrollment,
-    enrollmentDate: new Date(),
-    endEnrollmentDate: new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    ),
-    paymentDate: new Date(),
-  };
+  if (id === undefined) {
+    throw new Error("Failed to create enrollment, no ID returned");
+  }
+  if (getEnrollmentById(Number(id)) === null) {
+    throw new Error("Enrollment not found after creation");
+  } else {
+    const enrollment = await getEnrollmentById(Number(id));
+    return enrollment as Enrollment;
+  }
 };
 
 export const getStundentCourses = async (
