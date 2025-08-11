@@ -22,7 +22,10 @@ export const getEnrollmentById = async (
 };
 
 export const createEnrollment = async (
-  enrollment: Omit<Enrollment, "id" | "enrollmentDate" | "paymentDate">
+  enrollment: Omit<
+    Enrollment,
+    "id" | "enrollmentDate" | "paymentDate" | "endEnrollmentDate"
+  >
 ): Promise<Enrollment> => {
   const client = getTursoClient();
   const result = await client.execute(
@@ -48,6 +51,9 @@ export const createEnrollment = async (
     id: id !== undefined ? Number(id) : 0,
     ...enrollment,
     enrollmentDate: new Date(),
+    endEnrollmentDate: new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    ),
     paymentDate: new Date(),
   };
 };
