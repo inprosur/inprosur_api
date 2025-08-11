@@ -131,3 +131,33 @@ export const deleteLesson = async (id: number): Promise<boolean> => {
     );
   }
 };
+
+export const getAvialableCourseLessons = async (
+  courseId: number
+): Promise<Omit<Lesson, "state" | "createdAt">[]> => {
+  if (!courseId || isNaN(courseId)) {
+    throw new Error("Invalid course ID");
+  }
+
+  const client = getTursoClient();
+  try {
+    const result = await client.execute(
+      "SELECT * FROM Lessons WHERE courseId = ? AND state = 1 ORDER BY createdAt ASC",
+      [courseId]
+    );
+
+    return result.rows.map((row) => ({
+      id: row.id as number,
+      courseId: row.courseId as number,
+      title: row.title as string,
+      description: row.description as string,
+      price: row.price as number,
+    }));
+  } catch (error) {
+    throw new Error(
+      `Failed to fetch available lessons: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
+  }
+};

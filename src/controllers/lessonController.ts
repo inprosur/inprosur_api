@@ -119,3 +119,24 @@ export const deleteLesson = async (
     });
   }
 };
+
+export const getAvialableCourseLessons = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  try {
+    const courseId = parseInt(req.params.id);
+    const lessons = await LessonService.getAvialableCourseLessons(courseId);
+
+    res.status(200).json({
+      success: true,
+      data: lessons,
+      message: "Available lessons retrieved successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to fetch available lessons",
+    });
+  }
+};
