@@ -4,7 +4,7 @@ import * as LessonController from "../controllers/lessonController";
 const router = Router();
 
 router.post("/newLesson", LessonController.createLesson);
-router.get("/course/:id", LessonController.getLessons);
+router.get("/course/:id", LessonController.getLessonsByCourse);
 router.put("/editLesson/:id", LessonController.updateLesson);
 router.delete("/deleteLesson/:id", LessonController.deleteLesson);
 
