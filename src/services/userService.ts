@@ -44,7 +44,18 @@ export const getUserByEmail = async (email: string): Promise<User | null> => {
   ]);
 
   if (result.rows.length === 1) {
-    return result.rows[0] as unknown as User;
+    const row = result.rows[0];
+    const user: User = {
+      id: row.id as number,
+      username: row.username as string,
+      email: row.email as string,
+      password: row.password as string,
+      createdAt: new Date(row.createdAt as string),
+      uId: row.uId as string,
+      photo: row.photo as string,
+      status: (row.status as number) === 1 ? true : false,
+    };
+    return user;
   } else {
     return null;
   }
