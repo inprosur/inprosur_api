@@ -8,3 +8,12 @@ export interface CourseDocument {
   lessonId: number;
   createdAt?: Date;
 }
+
+export interface CourseDocumentUpdate {
+  title?: string;
+  description?: string;
+  fileUrl?: string;
+  thumbnailUrl?: string | null; 
+  price?: number;
+  lessonId?: number;
+}

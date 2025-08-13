@@ -11,6 +11,22 @@ export interface RequestWithIdParams extends Request {
   params: { id: string };
 }
 
+export interface RequestWithLessonId extends Request {
+  query: {
+    lessonId: string;
+  };
+}
+
+export interface CourseVideoUpdate {
+  lessonId?: number;
+  title?: string;
+  description?: string;
+  url?: string;
+  thumbnailUrl?: string;
+  duration?: string;
+  price?: number;
+}
+
 interface RegisterInstructorBody {
   username: string;
   email: string;

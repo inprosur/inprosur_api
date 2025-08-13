@@ -1,5 +1,5 @@
 import { getTursoClient } from "../config/db";
-import { CourseDocument } from "../models/CourseDocument";
+import { CourseDocument, CourseDocumentUpdate } from "../models/CourseDocument";
 
 export const getAllCourseDocuments = async (): Promise<CourseDocument[]> => {
   const client = getTursoClient();
@@ -41,4 +41,65 @@ export const createCourseDocument = async (
     ...doc,
     createdAt: new Date(),
   };
+};
+
+export const updateCourseDocument = async (
+  id: number,
+  doc: CourseDocumentUpdate
+): Promise<boolean> => {
+  const client = getTursoClient();
+
+  // Validar que al menos un campo sea proporcionado
+  if (Object.keys(doc).length === 0) {
+    throw new Error("No fields provided for update");
+  }
+
+  // Construir consulta dinámica
+  const fieldsToUpdate: string[] = [];
+  const values: any[] = [];
+
+  if (doc.title !== undefined) {
+    fieldsToUpdate.push("title = ?");
+    values.push(doc.title);
+  }
+  if (doc.description !== undefined) {
+    fieldsToUpdate.push("description = ?");
+    values.push(doc.description);
+  }
+  if (doc.fileUrl !== undefined) {
+    fieldsToUpdate.push("fileUrl = ?");
+    values.push(doc.fileUrl);
+  }
+  if (doc.thumbnailUrl !== undefined) {
+    fieldsToUpdate.push("thumbnailUrl = ?");
+    values.push(doc.thumbnailUrl);
+  }
+  if (doc.price !== undefined) {
+    fieldsToUpdate.push("price = ?");
+    values.push(doc.price);
+  }
+  if (doc.lessonId !== undefined) {
+    fieldsToUpdate.push("lessonId = ?");
+    values.push(doc.lessonId);
+  }
+
+  if (fieldsToUpdate.length === 0) {
+    throw new Error("No valid fields provided for update");
+  }
+
+  values.push(id); // Para el WHERE id = ?
+
+  const query = `UPDATE CourseDocuments SET ${fieldsToUpdate.join(", ")} WHERE id = ?`;
+  
+  const result = await client.execute(query, values);
+  return result.rowsAffected > 0;
+};
+
+export const deleteCourseDocument = async (id: number): Promise<boolean> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "DELETE FROM CourseDocuments WHERE id = ?",
+    [id]
+  );
+  return result.rowsAffected > 0;
 };
