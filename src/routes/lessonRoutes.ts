@@ -5,6 +5,7 @@ const router = Router();
 
 router.post("/newLesson", LessonController.createLesson);
 router.get("/course/:id", LessonController.getLessonsByCourse);
+router.get("/:id", LessonController.getLessonById);
 router.get(
   "/avialableInCourse/:id",
   LessonController.getAvialableCourseLessons

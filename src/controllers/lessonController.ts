@@ -140,3 +140,32 @@ export const getAvialableCourseLessons = async (
     });
   }
 };
+
+export const getLessonById = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+): Promise<void> => {
+  try {
+    const lessonId = parseInt(req.params.id);
+    const lesson = await LessonService.getLessonById(lessonId);
+    
+    if (!lesson) {
+      res.status(404).json({
+        error: "Not Found",
+        message: "Lesson not found"
+      });
+      return;
+    }
+    
+    res.status(200).json({
+      success: true,
+      data: lesson,
+      message: "Lesson retrieved successfully"
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to fetch lesson"
+    });
+  }
+};
