@@ -2,6 +2,7 @@ import {
   CreateEnrollmentRequest,
   CustomResponse,
   RequestWithIdParams,
+  StudenteEnrolledInCourseRequest,
 } from "../types/express";
 import * as EnrollmentService from "../services/enrollmentService";
 
@@ -141,5 +142,43 @@ export const getStudentCourses = async (
         message: "Failed to fetch courses",
       });
     }
+  }
+};
+
+export const studentEnrolledInCourse = async (
+  req: StudenteEnrolledInCourseRequest,
+  res: CustomResponse
+) => {
+  const { studentId, courseId } = req.query;
+  if (!studentId || !courseId) {
+    res.status(400).json({
+      error: "Bad request",
+      message: "Both studentId and courseId are required.",
+    });
+    return;
+  }
+  if (isNaN(Number(studentId)) || isNaN(Number(courseId))) {
+    res.status(400).json({
+      error: "Invalid parameters",
+      message: "Both studentId and courseId must be numbers.",
+    });
+    return;
+  }
+  try {
+    const isEnrolled = await EnrollmentService.studenteEnrolledInCourse(
+      Number(studentId),
+      Number(courseId)
+    );
+    res.status(200).json({
+      success: true,
+      data: isEnrolled,
+      message: "Enrollment status retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error checking enrollment status:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to check enrollment status.",
+    });
   }
 };
