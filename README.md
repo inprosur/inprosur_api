@@ -1,16 +1,122 @@
-# 📡 API de Proyecto educativo
+# 📡 API de Proyecto Educativo
 
 ## 🚀 Introducción
 
-API con conexión a una base de datos en turso, para sistema de educación con cursos.
+Esta API conecta con una base de datos Turso y gestiona un sistema educativo con cursos, usuarios, roles, estudiantes, instructores, pagos, promociones y más.
 
 ## 🛠️ Tecnologías Utilizadas
 
 - Node.js
 - Express.js
 - TypeScript
-- RESTful Principles
 - Turso (Database)
+- RESTful Principles
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+  api.ts
+  config/
+    db.ts
+  controllers/
+    accessLogController.ts
+    advertisingController.ts
+    categoryController.ts
+    commissionController.ts
+    courseController.ts
+    courseDocumentController.ts
+    courseRatingController.ts
+    courseVideoController.ts
+    degreeController.ts
+    enrollmentController.ts
+    instructorCommissionController.ts
+    instructorController.ts
+    lessonController.ts
+    notificationController.ts
+    paymentHistoryController.ts
+    permissionController.ts
+    promotionController.ts
+    roleController.ts
+    searchController.ts
+    studentController.ts
+    userController.ts
+    userRoleController.ts
+  models/
+    AccessLog.ts
+    Advertising.ts
+    Category.ts
+    Comission.ts
+    Course.ts
+    CourseDocument.ts
+    CourseRating.ts
+    CourseVideo.ts
+    Degree.ts
+    Enrollment.ts
+    Instructor.ts
+    InstructorCommission.ts
+    Lesson.ts
+    Notification.ts
+    PaymentHistory.ts
+    Permission.ts
+    Promotion.ts
+    Role.ts
+    RolePermission.ts
+    Student.ts
+    User.ts
+    UserRole.ts
+  routes/
+    accessLogRoutes.ts
+    advertisingRoutes.ts
+    categoryRoutes.ts
+    commissionRoutes.ts
+    courseDocumentRoutes.ts
+    courseRatingRoutes.ts
+    courseRoutes.ts
+    courseVideoRoutes.ts
+    degreeRoutes.ts
+    enrollmentRoutes.ts
+    instructorCommissionRoutes.ts
+    instructorRoute.ts
+    lessonRoutes.ts
+    notificationRoute.ts
+    paymentHistoryRoutes.ts
+    permissionRoutes.ts
+    promotionRoutes.ts
+    roleRoutes.ts
+    searchRoutes.ts
+    studentRoutes.ts
+    userRoleRoutes.ts
+    userRoutes.ts
+  services/
+    accessLogService.ts
+    advertisingService.ts
+    categoryService.ts
+    commissionService.ts
+    courseDocumentService.ts
+    courseRatingService.ts
+    courseService.ts
+    courseVideoService.ts
+    degreeService.ts
+    enrollmentService.ts
+    instructorCommissionService.ts
+    instructorService.ts
+    lessonsServices.ts
+    notificationService.ts
+    paymentHistoryService.ts
+    permissionService.ts
+    promotionService.ts
+    roleService.ts
+    rolPermissionService.ts
+    searchServices.ts
+    studentService.ts
+    userRolesService.ts
+    userService.ts
+  types/
+    express.ts
+  utils/
+    hashPassword.ts
+```
 
 ## 📌 Ejecución
 
@@ -18,328 +124,139 @@ API con conexión a una base de datos en turso, para sistema de educación con c
 pnpm run dev
 ```
 
-# 🔗Endpoints
+## 🧩 Principales Funcionalidades
 
-### 🎖 Roles data
+- **Usuarios:** Registro, consulta, actualización y roles.
+- **Estudiantes:** Gestión de estudiantes y sus cursos.
+- **Instructores:** Registro y comisiones.
+- **Cursos:** Creación, consulta, documentos, videos y categorías.
+- **Lecciones:** Gestión de lecciones por curso.
+- **Roles y Permisos:** Control de acceso y permisos por usuario.
+- **Promociones:** Gestión de promociones y descuentos.
+- **Pagos:** Historial y gestión de pagos.
+- **Publicidad:** Gestión de anuncios.
+- **Logs de acceso:** Registro y consulta de accesos.
+- **Búsqueda:** Endpoint para buscar contenido en cursos, videos y documentos.
 
-#### Agregar un nuevo rol
+## 🔗 Endpoints Principales
 
-➕**POST** `/api/roles/newRole`
+### Roles
+- `POST /api/roles/newRole` — Agregar nuevo rol
+- `GET /api/roles` — Listar roles
+- `GET /api/roles/:id` — Rol por ID
 
-#### Obtener todos los roles
+### Usuarios
+- `GET /api/users` — Listar usuarios
+- `GET /api/users/:id` — Usuario por ID
+- `POST /api/users/newUser` — Crear usuario
+- `GET /api/users/email/:email` — Usuario por email
+- `PATCH /api/users/:id` — Actualizar usuario
 
-🔍**GET** `/api/roles`
+### Permisos
+- `GET /api/permissions` — Listar permisos
+- `GET /api/permissions/:id` — Permiso por ID
+- `POST /api/permissions/newPermission` — Crear permiso
 
-#### Obtener role por su ID
+### User Roles
+- `POST /api/user-roles/newUserRole` — Asignar rol a usuario
 
-🔍**GET** `/api/roles/:id`
+### Instructores
+- `POST /api/instructors/newInstructor` — Crear instructor
+- `GET /api/instructors` — Listar instructores
+- `GET /api/instructors/:id` — Instructor por ID
 
----
+### Comisiones
+- `POST /api/comissions/newCommission` — Crear comisión
 
-### 🧑 Users data
+### Estudiantes
+- `POST /api/students/newStudent` — Crear estudiante
+- `GET /api/students/user?userId={userId}` — Estudiante por userId
+- `GET /api/students` — Listar estudiantes
+- `GET /api/students/:id` — Estudiante por ID
 
-#### Obtener todos los usuarios
+### Cursos
+- `POST /api/courses/newCourse` — Crear curso
+- `GET /api/courses` — Listar cursos
+- `GET /api/courses/:id` — Curso por ID
 
-🔍**GET** `/api/users`
+### Grados Académicos
+- `GET /api/degrees` — Listar grados
+- `GET /api/degrees/:id` — Grado por ID
+- `POST /api/degrees/newDegree` — Crear grado
 
-#### Obtener usuario por su ID
+### Categorías y Subcategorías
+- `GET /api/categories` — Listar categorías
+- `GET /api/categories/:id` — Categoría por ID
+- `POST /api/categories` — Crear categoría
+- `GET /api/subcategories` — Listar subcategorías
+- `GET /api/subcategories/:id` — Subcategoría por ID
+- `POST /api/subcategories` — Crear subcategoría
 
-🔍**GET** `/api/users/:id`
+### Promociones
+- `GET /api/promotions` — Listar promociones
+- `GET /api/promotions/:id` — Promoción por ID
+- `POST /api/promotions` — Crear promoción
 
-#### Agregar un nuevo usuario
+### Documentos y Videos de Curso
+- `GET /api/course-documents` — Listar documentos
+- `GET /api/course-documents/:id` — Documento por ID
+- `POST /api/course-documents` — Crear documento
+- `GET /api/course-videos` — Listar videos
+- `GET /api/course-videos/:id` — Video por ID
+- `POST /api/course-videos` — Crear video
 
-➕**POST** `/api/users/newUser`
+### Instructor Commissions
+- `GET /api/instructor-commissions` — Listar comisiones de instructor
+- `GET /api/instructor-commissions/:id` — Comisión por ID
+- `POST /api/instructor-commissions` — Crear comisión
 
-#### Obtener usuario por email
+### Historial de Pagos
+- `GET /api/payment-history` — Listar historial de pagos
+- `GET /api/payment-history/:id` — Historial por ID
+- `POST /api/payment-history` — Crear historial
 
-🔍**GET** `/api/users/email/:email`
+### Calificaciones de Curso
+- `GET /api/course-ratings` — Listar calificaciones
+- `GET /api/course-ratings/rating/:id` — Calificación por ID
+- `POST /api/course-ratings` — Crear calificación
 
-#### Actualizar usuario
+### Inscripciones
+- `GET /api/enrollments` — Listar inscripciones
+- `GET /api/enrollments/:id` — Inscripción por ID
+- `POST /api/enrollments` — Crear inscripción
+- `GET /api/enrollments/studentCourses` — Cursos de un estudiante
 
-📝**PATCH** `/api/users/:id`
+### Logs de Acceso
+- `GET /api/access-logs` — Listar logs
+- `GET /api/access-logs/:id` — Log por ID
+- `POST /api/access-logs/newAccessLog` — Crear log
 
----
+### Publicidad
+- `GET /api/advertising` — Listar publicidades
+- `POST /api/advertising` — Crear publicidad
 
-### 🛑 Permissions data
-
-#### Obtener todos los permisos
-
-🔍**GET** `/api/permissions`
-
-#### Obtener permiso por ID
-
-🔍**GET** `/api/permissions/:id`
-
-#### Agregar un nuevo permiso
-
-➕**POST** `/api/permissions/newPermission`
-
----
-
-### 👤 User Roles
-
-#### Agregar un nuevo user-role
-
-➕**POST** `/api/user-roles/newUserRole`
-
----
-
-### 👨‍🏫 Instructors
-
-#### Agregar un nuevo instructor
-
-➕**POST** `/api/instructors/newInstructor`
-
-#### Obtener todos los instructores
-
-🔍**GET** `/api/instructors`
-
-#### Obtener instructor por ID
-
-🔍**GET** `/api/instructors/:id`
-
----
-
-### 💸 Comisiones
-
-#### Agregar una nueva comisión
-
-➕**POST** `/api/comissions/newCommission`
-
----
-
-### 🎓 Students
-
-#### Agregar un nuevo estudiante
-
-➕**POST** `/api/students/newStudent`
-
-#### Obtener estudiante por userId
-
-🔍**GET** `/api/students/user?userId={userId}`
-
-#### Obtener todos los estudiantes
-
-🔍**GET** `/api/students`
-
-#### Obtener estudiante por ID
-
-🔍**GET** `/api/students/:id`
-
----
-
-### 📚 Cursos
-
-#### Agregar un nuevo curso
-
-➕**POST** `/api/courses/newCourse`
-
-#### Obtener todos los cursos
-
-🔍**GET** `/api/courses`
-
-#### Obtener curso por ID
-
-🔍**GET** `/api/courses/:id`
+### Búsqueda de Contenido
+- `GET /api/search/content` — Buscar en cursos, videos y documentos
 
 ---
 
-### 🎓 Grados académicos
+## 📚 Modelos Principales
 
-#### Obtener todos los grados académicos
+- User, Student, Instructor, Course, Lesson, Role, Permission, Enrollment, PaymentHistory, Promotion, Category, Subcategory, CourseDocument, CourseVideo, AccessLog, Advertising, Commission, Degree, Notification, InstructorCommission, CourseRating, UserRole, RolePermission
 
-🔍**GET** `/api/degrees`
+## 🧑‍💻 Servicios y Utilidades
 
-#### Obtener grado académico por ID
-
-🔍**GET** `/api/degrees/:id`
-
-#### Crear grado académico
-
-➕**POST** `/api/degrees/newDegree`
+- Servicios para cada entidad (CRUD y lógica de negocio)
+- Utilidades para hashing de contraseñas y configuración de base de datos
 
 ---
 
-### 📚 Categorías
+## 📝 Notas
 
-#### Obtener todas las categorías
-
-🔍**GET** `/api/categories`
-
-#### Obtener categoría por ID
-
-🔍**GET** `/api/categories/:id`
-
-#### Crear categoría
-
-➕**POST** `/api/categories`
+- Todos los endpoints siguen principios REST.
+- La autenticación y autorización se gestionan mediante roles y permisos.
+- La base de datos Turso almacena toda la información de la plataforma educativa.
 
 ---
 
-### 📚 Subcategorías
-
-#### Obtener todas las subcategorías
-
-🔍**GET** `/api/subcategories`
-
-#### Obtener subcategoría por ID
-
-🔍**GET** `/api/subcategories/:id`
-
-#### Crear subcategoría
-
-➕**POST** `/api/subcategories`
-
----
-
-### 🎟️ Promociones
-
-#### Obtener todas las promociones
-
-🔍**GET** `/api/promotions`
-
-#### Obtener promoción por ID
-
-🔍**GET** `/api/promotions/:id`
-
-#### Crear promoción
-
-➕**POST** `/api/promotions`
-
----
-
-### 📄 Documentos de curso
-
-#### Obtener todos los documentos
-
-🔍**GET** `/api/course-documents`
-
-#### Obtener documento por ID
-
-🔍**GET** `/api/course-documents/:id`
-
-#### Crear documento
-
-➕**POST** `/api/course-documents`
-
----
-
-### 🎬 Videos de curso
-
-#### Obtener todos los videos
-
-🔍**GET** `/api/course-videos`
-
-#### Obtener video por ID
-
-🔍**GET** `/api/course-videos/:id`
-
-#### Crear video
-
-➕**POST** `/api/course-videos`
-
----
-
-### 💰 Instructor Commissions
-
-#### Obtener todas las comisiones de instructor
-
-🔍**GET** `/api/instructor-commissions`
-
-#### Obtener comisión de instructor por ID
-
-🔍**GET** `/api/instructor-commissions/:id`
-
-#### Crear comisión de instructor
-
-➕**POST** `/api/instructor-commissions`
-
----
-
-### 🧾 Historial de pagos
-
-#### Obtener todo el historial de pagos
-
-🔍**GET** `/api/payment-history`
-
-#### Obtener historial de pago por ID
-
-🔍**GET** `/api/payment-history/:id`
-
-#### Crear historial de pago
-
-➕**POST** `/api/payment-history`
-
----
-
-### ⭐ Calificaciones de curso
-
-#### Obtener todas las calificaciones
-
-🔍**GET** `/api/course-ratings`
-
-#### Obtener calificación por ID
-
-🔍**GET** `/api/course-ratings/rating/:id`
-
-#### Crear calificación
-
-➕**POST** `/api/course-ratings`
-
----
-
-### 📥 Inscripciones
-
-#### Obtener todas las inscripciones
-
-🔍**GET** `/api/enrollments`
-
-#### Obtener inscripción por ID
-
-🔍**GET** `/api/enrollments/:id`
-
-#### Crear inscripción
-
-➕**POST** `/api/enrollments`
-
-#### Obtener cursos de un estudiante
-
-🔍**GET** `/api/enrollments/studentCourses`
-
----
-
-### 🗒️ Access Logs
-
-#### Obtener todos los logs de acceso
-
-🔍**GET** `/api/access-logs`
-
-#### Obtener log de acceso por ID
-
-🔍**GET** `/api/access-logs/:id`
-
-#### Crear log de acceso
-
-➕**POST** `/api/access-logs/newAccessLog`
-
----
-
-### 📢 Publicidad
-
-#### Obtener todas las publicidades
-
-🔍**GET** `/api/advertising`
-
-#### Agregar nueva Publicidad
-
-## ➕**POST** `/api/advertising`
-
----
-
-### 🔎 Búsqueda de contenido
-
-#### Buscar contenido en cursos, videos y documentos
-
-🔍**GET** `/api/search/content`
-
----
+¿Tienes dudas sobre algún endpoint o modelo? ¡Revisa la carpeta `/src` para ver la implementación!
