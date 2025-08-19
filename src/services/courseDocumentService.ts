@@ -25,11 +25,12 @@ export const createCourseDocument = async (
 ): Promise<CourseDocument> => {
   const client = getTursoClient();
   const result = await client.execute(
-    "INSERT INTO CourseDocuments (title, description, fileurl, price, lessonid, createdat) VALUES (?, ?, ?, ?, ?, ?)",
+    "INSERT INTO CourseDocuments (title, description, fileurl, thumbnailUrl, price, lessonid, createdat) VALUES (?, ?, ?, ?, ?, ?, ?)",
     [
       doc.title,
       doc.description,
       doc.fileUrl,
+      doc.thumbnailUrl,
       doc.price,
       doc.lessonId,
       new Date().toISOString(),

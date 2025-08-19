@@ -3,7 +3,7 @@ export interface CourseDocument {
   title: string;
   description: string;
   fileUrl: string;
-  thumbnailUrl?: string;
+  thumbnailUrl: string;
   price: number;
   lessonId: number;
   createdAt?: Date;
