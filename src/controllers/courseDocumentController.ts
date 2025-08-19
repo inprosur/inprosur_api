@@ -73,7 +73,7 @@ export const createCourseDocument = async (
   res: CustomResponse
 ) => {
   try {
-    const { title, description, fileUrl, price, lessonId } = req.body;
+    const { title, description, fileUrl, thumbnailUrl, price, lessonId } = req.body;
 
     if (!title || !fileUrl || price === undefined || !lessonId) {
       res.status(400).json({
@@ -87,6 +87,7 @@ export const createCourseDocument = async (
       title,
       description: description || "",
       fileUrl,
+      thumbnailUrl,
       price,
       lessonId,
     });

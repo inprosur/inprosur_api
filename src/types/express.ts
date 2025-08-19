@@ -100,6 +100,7 @@ interface CreateCourseDocumentBody {
   title: string;
   description: string;
   fileUrl: string;
+  thumbnailUrl: string;
   lessonId: number;
   price: number;
 }
