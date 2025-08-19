@@ -227,6 +227,13 @@ export interface SearchRequest extends Request {
   };
 }
 
+export interface StudenteEnrolledInCourseRequest extends Request {
+  query: {
+    studentId: string;
+    courseId: string;
+  };
+}
+
 export interface UpdateCourseRequest extends Request {
   params: { id: string };
   body: UpdateCourseBody;
