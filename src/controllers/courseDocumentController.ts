@@ -2,6 +2,7 @@ import {
   CourseDocumentRequest,
   CustomResponse,
   RequestWithIdParams,
+  RequestWithLessonId,
 } from "../types/express";
 import * as CourseDocumentService from "../services/courseDocumentService";
 import { CourseDocumentUpdate } from "../models/CourseDocument";
@@ -202,6 +203,45 @@ export const deleteCourseDocument = async (
     res.status(500).json({
       error: "Internal Server Error",
       message: "Failed to delete document",
+    });
+  }
+};
+
+export const getDocumentsByLesson = async (
+  req: RequestWithLessonId,
+  res: CustomResponse
+) => {
+  const lessonId = parseInt(req.query.lessonId);
+  
+  if (isNaN(lessonId)) {
+    res.status(400).json({
+      error: "Invalid lesson ID",
+      message: "Lesson ID must be a number",
+    });
+    return;
+  }
+
+  try {
+    const documents = await CourseDocumentService.getDocumentsByLesson(lessonId);
+    
+    if (!documents || documents.length === 0) {
+      res.status(404).json({
+        error: "No documents found",
+        message: "No documents found for this lesson",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      data: documents,
+      message: "Documents retrieved successfully",
+    });
+  } catch (error) {
+    console.error("Error fetching documents by lesson:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to fetch documents by lesson",
     });
   }
 };

@@ -104,3 +104,13 @@ export const deleteCourseDocument = async (id: number): Promise<boolean> => {
   );
   return result.rowsAffected > 0;
 };
+
+export const getDocumentsByLesson = async (lessonId: number): Promise<CourseDocument[]> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "SELECT * FROM CourseDocuments WHERE lessonId = ?",
+    [lessonId]
+  );
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  return rows as CourseDocument[];
+};

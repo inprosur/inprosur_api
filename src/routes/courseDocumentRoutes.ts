@@ -4,6 +4,7 @@ import * as CourseDocumentController from "../controllers/courseDocumentControll
 const router = Router();
 
 router.get("/", CourseDocumentController.getAllCourseDocuments);
+router.get("/by-lesson", CourseDocumentController.getDocumentsByLesson);
 router.get("/:id", CourseDocumentController.getCourseDocumentById);
 router.post("/newDocument", CourseDocumentController.createCourseDocument);
 router.put("/updateDocument/:id", CourseDocumentController.updateCourseDocument);
