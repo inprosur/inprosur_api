@@ -8,6 +8,10 @@ router.get(
   "/studentEnrolledInCourse",
   EnrollmentController.studentEnrolledInCourse
 );
+router.get(
+  "/studentHasEnrollments/:id",
+  EnrollmentController.studentHasEnrollments
+);
 router.get("/:id", EnrollmentController.getEnrollmentById);
 router.post("/", EnrollmentController.createEnrollment);
 router.get("/studentCourses", EnrollmentController.getStudentCourses);

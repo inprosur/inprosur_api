@@ -86,3 +86,15 @@ export const studenteEnrolledInCourse = async (
   const rows = Array.isArray(result) ? result[0] : result.rows;
   return rows[0].count > 0;
 };
+
+export const studentHasEnrollments = async (
+  studentId: number
+): Promise<boolean> => {
+  const client = getTursoClient();
+  const result = await client.execute(
+    "SELECT COUNT(*) as count FROM enrollments WHERE studentId = ?",
+    [studentId]
+  );
+  const rows = Array.isArray(result) ? result[0] : result.rows;
+  return rows[0] > 0;
+};
