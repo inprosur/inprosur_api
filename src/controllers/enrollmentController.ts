@@ -123,7 +123,7 @@ export const getStudentCourses = async (
   } else {
     try {
       const courses = await EnrollmentService.getStundentCourses(enrollmentId);
-      if (!courses || courses.length === 0) {
+      if (!courses) {
         res.status(404).json({
           error: "Courses not founds",
           message: "No courses found in the database",
@@ -183,7 +183,10 @@ export const studentEnrolledInCourse = async (
   }
 };
 
-export const studentHasEnrollments = async (req: RequestWithIdParams, res: CustomResponse) => {
+export const studentHasEnrollments = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
   const studentId = parseInt(req.params.id);
   if (isNaN(studentId)) {
     res.status(400).json({
@@ -193,7 +196,9 @@ export const studentHasEnrollments = async (req: RequestWithIdParams, res: Custo
     return;
   }
   try {
-    const hasEnrollments = await EnrollmentService.studentHasEnrollments(studentId);
+    const hasEnrollments = await EnrollmentService.studentHasEnrollments(
+      studentId
+    );
     res.status(200).json({
       success: true,
       data: hasEnrollments,
