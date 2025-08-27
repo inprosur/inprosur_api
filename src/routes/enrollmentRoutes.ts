@@ -8,8 +8,12 @@ router.get(
   "/studentEnrolledInCourse",
   EnrollmentController.studentEnrolledInCourse
 );
+router.get(
+  "/studentHasEnrollments/:id",
+  EnrollmentController.studentHasEnrollments
+);
+router.get("/studentCourses/:id", EnrollmentController.getStudentCourses);
 router.get("/:id", EnrollmentController.getEnrollmentById);
 router.post("/", EnrollmentController.createEnrollment);
-router.get("/studentCourses", EnrollmentController.getStudentCourses);
 
 export default router;

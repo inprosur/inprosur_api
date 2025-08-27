@@ -123,7 +123,7 @@ export const getStudentCourses = async (
   } else {
     try {
       const courses = await EnrollmentService.getStundentCourses(enrollmentId);
-      if (!courses || courses.length === 0) {
+      if (!courses) {
         res.status(404).json({
           error: "Courses not founds",
           message: "No courses found in the database",
@@ -179,6 +179,36 @@ export const studentEnrolledInCourse = async (
     res.status(500).json({
       error: "Internal Server Error",
       message: "Failed to check enrollment status.",
+    });
+  }
+};
+
+export const studentHasEnrollments = async (
+  req: RequestWithIdParams,
+  res: CustomResponse
+) => {
+  const studentId = parseInt(req.params.id);
+  if (isNaN(studentId)) {
+    res.status(400).json({
+      error: "Invalid studentId",
+      message: "Student ID must be a number",
+    });
+    return;
+  }
+  try {
+    const hasEnrollments = await EnrollmentService.studentHasEnrollments(
+      studentId
+    );
+    res.status(200).json({
+      success: true,
+      data: hasEnrollments,
+      message: "Student enrollment status retrieved successfully.",
+    });
+  } catch (error) {
+    console.error("Error checking student enrollments:", error);
+    res.status(500).json({
+      error: "Internal Server Error",
+      message: "Failed to check student enrollments.",
     });
   }
 };
