@@ -6,6 +6,7 @@ export interface CourseDocument {
   thumbnailUrl: string;
   price: number;
   lessonId: number;
+  display_order: number;
   createdAt?: Date;
 }
 
@@ -16,4 +17,5 @@ export interface CourseDocumentUpdate {
   thumbnailUrl?: string | null; 
   price?: number;
   lessonId?: number;
+  display_order?: number;
 }

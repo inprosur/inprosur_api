@@ -7,6 +7,7 @@ export interface CourseVideo {
     thumbnailUrl: string;
     duration: string;
     price: number;
+    display_order: number;
 }
 
 export interface CourseVideoUpdate {
@@ -17,4 +18,5 @@ export interface CourseVideoUpdate {
   thumbnailUrl?: string;
   duration?: string;
   price?: number;
+  display_order?: number;
 }
