@@ -23,6 +23,7 @@ import accessLogRoutes from "./routes/accessLogRoutes";
 import advertisingRoutes from "./routes/advertisingRoutes";
 import searchRoutes from "./routes/searchRoutes";
 import notificationRoutes from "./routes/notificationRoute";
+import combinedContentRoutes from "./routes/combinedContentRoutes";
 
 dotenv.config();
 const app = express();
@@ -61,5 +62,6 @@ app.use("/api/access-logs", accessLogRoutes);
 app.use("/api/advertising", advertisingRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/notifications", notificationRoutes);
+app.use("/api/combined-content", combinedContentRoutes);
 
 export default app;
